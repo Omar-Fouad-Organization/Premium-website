@@ -14,7 +14,8 @@ import {
   Image as ImageIcon,
   Search,
   Images,
-  Users
+  Users,
+  MapPin
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -50,6 +51,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/admin/dashboard" },
     { icon: Settings, label: "Site Settings", path: "/admin/settings" },
+    { icon: MapPin, label: "Location & Map", path: "/admin/location" },
     { icon: Search, label: "SEO Settings", path: "/admin/seo" },
     { icon: ImageIcon, label: "Logo & Branding", path: "/admin/logo" },
     { icon: Palette, label: "Design & Colors", path: "/admin/design" },
