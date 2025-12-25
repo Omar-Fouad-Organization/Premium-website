@@ -6,19 +6,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Users as UsersIcon, UserPlus, Trash2, Mail, Calendar, Shield } from "lucide-react";
+import { Users as UsersIcon, UserPlus, Trash2, Mail, Calendar, Shield, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
-interface User {
+interface AdminUser {
   id: string;
   email: string;
   created_at: string;
-  last_sign_in_at: string | null;
   role: string;
 }
 
 const AdminUsers = () => {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
   const { toast } = useToast();
@@ -35,40 +35,21 @@ const AdminUsers = () => {
   const loadUsers = async () => {
     setLoading(true);
     
-    // Get current user to check if they're admin
-    const { data: { user: currentUser } } = await supabase.auth.getUser();
-    
-    if (!currentUser) {
-      toast({
-        title: "Error",
-        description: "You must be logged in to view users",
-        variant: "destructive",
-      });
-      setLoading(false);
-      return;
-    }
-
-    // Use Supabase Admin API to list users
-    // Note: This requires the service role key, so we'll use a workaround
-    // We'll query the auth.users table through a database function
-    
-    // For now, we'll use the REST API endpoint
-    const { data, error } = await supabase.auth.admin.listUsers();
+    // Query the admin_users table
+    const { data, error } = await supabase
+      .from("admin_users_premium_20251225")
+      .select("*")
+      .order("created_at", { ascending: false });
 
     if (error) {
+      console.error("Error loading users:", error);
       toast({
         title: "Error loading users",
         description: error.message,
         variant: "destructive",
       });
     } else {
-      setUsers(data.users.map(u => ({
-        id: u.id,
-        email: u.email || '',
-        created_at: u.created_at,
-        last_sign_in_at: u.last_sign_in_at,
-        role: u.role || 'authenticated'
-      })));
+      setUsers(data || []);
     }
     setLoading(false);
   };
@@ -94,26 +75,53 @@ const AdminUsers = () => {
 
     setAdding(true);
 
-    const { data, error } = await supabase.auth.admin.createUser({
+    // Create user in Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email: newUser.email,
       password: newUser.password,
-      email_confirm: true,
+      options: {
+        emailRedirectTo: `${window.location.origin}/#/admin/login`,
+      }
     });
 
-    if (error) {
+    if (authError) {
       toast({
         title: "Error creating user",
-        description: error.message,
+        description: authError.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Success",
-        description: `Admin user ${newUser.email} created successfully`,
-      });
-      setNewUser({ email: "", password: "" });
-      loadUsers();
+      setAdding(false);
+      return;
     }
+
+    if (authData.user) {
+      // Store user info in our admin_users table
+      const { error: dbError } = await supabase
+        .from("admin_users_premium_20251225")
+        .insert([
+          {
+            id: authData.user.id,
+            email: newUser.email,
+            role: "admin",
+          }
+        ]);
+
+      if (dbError) {
+        toast({
+          title: "Error saving user",
+          description: dbError.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: `Admin user ${newUser.email} created successfully`,
+        });
+        setNewUser({ email: "", password: "" });
+        loadUsers();
+      }
+    }
+
     setAdding(false);
   };
 
@@ -122,25 +130,28 @@ const AdminUsers = () => {
       return;
     }
 
-    const { error } = await supabase.auth.admin.deleteUser(userId);
+    // Delete from our admin_users table
+    const { error: dbError } = await supabase
+      .from("admin_users_premium_20251225")
+      .delete()
+      .eq("id", userId);
 
-    if (error) {
+    if (dbError) {
       toast({
         title: "Error deleting user",
-        description: error.message,
+        description: dbError.message,
         variant: "destructive",
       });
     } else {
       toast({
         title: "Success",
-        description: `User ${email} deleted successfully`,
+        description: `User ${email} removed from admin list`,
       });
       loadUsers();
     }
   };
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "Never";
+  const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
@@ -169,6 +180,16 @@ const AdminUsers = () => {
             Manage admin users who can access the dashboard
           </p>
         </div>
+
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            Admin users created here will receive an email confirmation. They can login to the dashboard at{" "}
+            <code className="text-xs bg-muted px-1 py-0.5 rounded">
+              {window.location.origin}/#/admin/login
+            </code>
+          </AlertDescription>
+        </Alert>
 
         {/* Add New User */}
         <Card>
@@ -201,7 +222,7 @@ const AdminUsers = () => {
             </div>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-sm text-blue-800">
-                <strong>Note:</strong> The new user will be able to access the admin dashboard immediately with the provided credentials.
+                <strong>Note:</strong> The new user will receive a confirmation email and can access the admin dashboard after confirming their email.
               </p>
             </div>
             <Button onClick={handleAddUser} disabled={adding}>
@@ -221,9 +242,13 @@ const AdminUsers = () => {
           </CardHeader>
           <CardContent>
             {users.length === 0 ? (
-              <p className="text-center text-muted-foreground py-8">
-                No admin users found
-              </p>
+              <div className="text-center py-12">
+                <UsersIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground">No admin users found</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Create your first admin user above
+                </p>
+              </div>
             ) : (
               <div className="space-y-4">
                 {users.map((user) => (
@@ -250,7 +275,12 @@ const AdminUsers = () => {
                             </div>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                               <Mail className="h-4 w-4" />
-                              <span>Last login: {formatDate(user.last_sign_in_at)}</span>
+                              <a 
+                                href={`mailto:${user.email}`}
+                                className="hover:text-primary"
+                              >
+                                {user.email}
+                              </a>
                             </div>
                           </div>
 
