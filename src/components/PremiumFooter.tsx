@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const PremiumFooter = () => {
@@ -10,34 +8,43 @@ const PremiumFooter = () => {
     contact_address: "Cairo International Exhibition Center, El Nasr Road, Nasr City, Cairo, Egypt",
     contact_phone: "+20 123 456 7890",
     contact_email: "info@greenlifeexpo.com",
-    social_facebook: "https://facebook.com",
-    social_instagram: "https://instagram.com",
-    social_linkedin: "https://linkedin.com",
+    social_facebook: "",
+    social_instagram: "",
+    social_linkedin: "",
   });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadSettings();
   }, []);
 
   const loadSettings = async () => {
-    const { data, error } = await supabase
-      .from("site_settings_premium_20251225")
-      .select("setting_key, setting_value")
-      .in("setting_key", [
-        "contact_address",
-        "contact_phone",
-        "contact_email",
-        "social_facebook",
-        "social_instagram",
-        "social_linkedin",
-      ]);
+    try {
+      const { data, error } = await supabase
+        .from("site_settings_premium_20251225")
+        .select("setting_key, setting_value")
+        .in("setting_key", [
+          "contact_address",
+          "contact_phone",
+          "contact_email",
+          "social_facebook",
+          "social_instagram",
+          "social_linkedin",
+        ]);
 
-    if (!error && data) {
-      const settingsObj: any = {};
-      data.forEach((item) => {
-        settingsObj[item.setting_key] = item.setting_value;
-      });
-      setSettings((prev) => ({ ...prev, ...settingsObj }));
+      if (error) {
+        console.error("Error loading footer settings:", error);
+      } else if (data) {
+        const settingsObj: any = {};
+        data.forEach((item) => {
+          settingsObj[item.setting_key] = item.setting_value || "";
+        });
+        setSettings((prev) => ({ ...prev, ...settingsObj }));
+      }
+    } catch (err) {
+      console.error("Error in loadSettings:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -154,7 +161,7 @@ const PremiumFooter = () => {
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Phone className="h-5 w-5 flex-shrink-0 text-primary-foreground/60" />
-                <a href={`tel:${settings.contact_phone}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <a href={`tel:${settings.contact_phone.replace(/\s/g, '')}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   {settings.contact_phone}
                 </a>
               </li>
