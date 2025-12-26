@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import PremiumIndex from "./pages/PremiumIndex";
 import PremiumAbout from "./pages/PremiumAbout";
 import PremiumExhibitors from "./pages/PremiumExhibitors";
@@ -25,6 +26,7 @@ import AdminPackages from "./pages/admin/Packages";
 import AdminFAQs from "./pages/admin/FAQs";
 import AdminSubmissions from "./pages/admin/Submissions";
 import AdminUsers from "./pages/admin/Users";
+import AdminLanguage from "./pages/admin/Language";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,7 +34,8 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
+      <LanguageProvider>
+        <TooltipProvider>
         <Toaster />
         <Sonner />
         <HashRouter>
@@ -61,12 +64,14 @@ const App = () => (
             <Route path="/admin/faqs" element={<AdminFAQs />} />
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/language" element={<AdminLanguage />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </HashRouter>
-      </TooltipProvider>
+        </TooltipProvider>
+      </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
 );

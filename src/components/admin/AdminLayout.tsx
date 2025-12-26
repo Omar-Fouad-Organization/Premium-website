@@ -15,7 +15,8 @@ import {
   Search,
   Images,
   Users,
-  MapPin
+  MapPin,
+  Languages
 } from "lucide-react";
 
 interface AdminLayoutProps {
@@ -61,6 +62,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
     { icon: HelpCircle, label: "FAQs", path: "/admin/faqs" },
     { icon: Mail, label: "Submissions", path: "/admin/submissions" },
     { icon: Users, label: "User Management", path: "/admin/users" },
+    { icon: Languages, label: "Language & Translations", path: "/admin/language" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
