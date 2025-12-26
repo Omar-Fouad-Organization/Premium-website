@@ -9,13 +9,54 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const countries = [
+  { name: "Egypt", code: "+20", nameAr: "مصر" },
+  { name: "Saudi Arabia", code: "+966", nameAr: "السعودية" },
+  { name: "United Arab Emirates", code: "+971", nameAr: "الإمارات" },
+  { name: "Kuwait", code: "+965", nameAr: "الكويت" },
+  { name: "Qatar", code: "+974", nameAr: "قطر" },
+  { name: "Bahrain", code: "+973", nameAr: "البحرين" },
+  { name: "Oman", code: "+968", nameAr: "عمان" },
+  { name: "Jordan", code: "+962", nameAr: "الأردن" },
+  { name: "Lebanon", code: "+961", nameAr: "لبنان" },
+  { name: "Palestine", code: "+970", nameAr: "فلسطين" },
+  { name: "Iraq", code: "+964", nameAr: "العراق" },
+  { name: "Syria", code: "+963", nameAr: "سوريا" },
+  { name: "Morocco", code: "+212", nameAr: "المغرب" },
+  { name: "Algeria", code: "+213", nameAr: "الجزائر" },
+  { name: "Tunisia", code: "+216", nameAr: "تونس" },
+  { name: "Libya", code: "+218", nameAr: "ليبيا" },
+  { name: "Sudan", code: "+249", nameAr: "السودان" },
+  { name: "Yemen", code: "+967", nameAr: "اليمن" },
+  { name: "United States", code: "+1", nameAr: "الولايات المتحدة" },
+  { name: "United Kingdom", code: "+44", nameAr: "المملكة المتحدة" },
+  { name: "Germany", code: "+49", nameAr: "ألمانيا" },
+  { name: "France", code: "+33", nameAr: "فرنسا" },
+  { name: "Italy", code: "+39", nameAr: "إيطاليا" },
+  { name: "Spain", code: "+34", nameAr: "إسبانيا" },
+  { name: "Turkey", code: "+90", nameAr: "تركيا" },
+  { name: "China", code: "+86", nameAr: "الصين" },
+  { name: "India", code: "+91", nameAr: "الهند" },
+  { name: "Pakistan", code: "+92", nameAr: "باكستان" },
+  { name: "Bangladesh", code: "+880", nameAr: "بنغلاديش" },
+  { name: "Other", code: "+", nameAr: "أخرى" },
+];
 
 const PremiumContact = () => {
+  const { get, loading } = usePageContent("contact");
+  const { t, isRTL } = useLanguage();
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     company: "",
+    title: "",
+    country: "",
+    country_code: "+20",
     inquiry_type: "",
     message: "",
   });
@@ -33,6 +74,9 @@ const PremiumContact = () => {
           email: formData.email,
           phone: formData.phone,
           company: formData.company,
+          title: formData.title,
+          country: formData.country,
+          country_code: formData.country_code,
           inquiry_type: formData.inquiry_type,
           message: formData.message,
         },
@@ -143,25 +187,75 @@ const PremiumContact = () => {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  {/* Company Name */}
+                  <div className="space-y-2">
+                    <Label htmlFor="company">{get("form_company_label", "Company Name")}</Label>
+                    <Input
+                      id="company"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                      placeholder={get("form_company_placeholder", "Your Company")}
+                    />
+                  </div>
+
+                  {/* Title Field */}
+                  <div className="space-y-2">
+                    <Label htmlFor="title">{get("form_title_label", "Title")}</Label>
+                    <Input
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      placeholder={get("form_title_placeholder", "e.g., CEO, Manager, Director")}
+                    />
+                  </div>
+
+                  {/* Country Field */}
+                  <div className="space-y-2">
+                    <Label htmlFor="country">{get("form_country_label", "Country")}</Label>
+                    <Select
+                      value={formData.country}
+                      onValueChange={(value) => {
+                        const selectedCountry = countries.find(c => c.name === value);
+                        setFormData({ 
+                          ...formData, 
+                          country: value,
+                          country_code: selectedCountry?.code || "+20"
+                        });
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={get("form_country_placeholder", "Select your country")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countries.map((country) => (
+                          <SelectItem key={country.code} value={country.name}>
+                            {isRTL ? country.nameAr : country.name} ({country.code})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Phone with Country Code */}
+                  <div className="grid md:grid-cols-4 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="country_code">{get("form_country_code_label", "Code")}</Label>
                       <Input
-                        id="phone"
+                        id="country_code"
+                        value={formData.country_code}
+                        onChange={(e) => setFormData({ ...formData, country_code: e.target.value })}
+                        placeholder="+20"
+                        className="text-center"
+                      />
+                    </div>
+                    <div className="space-y-2 md:col-span-3">
+                      <Label htmlFor="phone_number">{get("form_phone_label", "Phone Number")}</Label>
+                      <Input
+                        id="phone_number"
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+20 123 456 7890"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="company">Company Name</Label>
-                      <Input
-                        id="company"
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        placeholder="Your Company"
+                        placeholder={get("form_phone_placeholder", "123 456 7890")}
                       />
                     </div>
                   </div>

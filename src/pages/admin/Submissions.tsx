@@ -14,6 +14,9 @@ interface ContactSubmission {
   email: string;
   phone: string | null;
   company: string | null;
+  title: string | null;
+  country: string | null;
+  country_code: string | null;
   inquiry_type: string;
   message: string;
   is_read: boolean;
@@ -221,6 +224,25 @@ const AdminSubmissions = () => {
                             <div className="flex items-center gap-2 mb-2 text-sm">
                               <Building className="h-4 w-4 text-muted-foreground" />
                               <span>{submission.company}</span>
+                            </div>
+                          )}
+
+                          {submission.title && (
+                            <div className="flex items-center gap-2 mb-2 text-sm">
+                              <Tag className="h-4 w-4 text-muted-foreground" />
+                              <span className="font-medium">Title:</span>
+                              <span>{submission.title}</span>
+                            </div>
+                          )}
+
+                          {submission.country && (
+                            <div className="flex items-center gap-2 mb-2 text-sm">
+                              <MapPin className="h-4 w-4 text-muted-foreground" />
+                              <span className="font-medium">Country:</span>
+                              <span>{submission.country}</span>
+                              {submission.country_code && (
+                                <span className="text-muted-foreground">({submission.country_code})</span>
+                              )}
                             </div>
                           )}
 
