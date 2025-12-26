@@ -1,9 +1,46 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/integrations/supabase/client";
 
 const PremiumFooter = () => {
+  const [settings, setSettings] = useState({
+    contact_address: "Cairo International Exhibition Center, El Nasr Road, Nasr City, Cairo, Egypt",
+    contact_phone: "+20 123 456 7890",
+    contact_email: "info@greenlifeexpo.com",
+    social_facebook: "https://facebook.com",
+    social_instagram: "https://instagram.com",
+    social_linkedin: "https://linkedin.com",
+  });
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const loadSettings = async () => {
+    const { data, error } = await supabase
+      .from("site_settings_premium_20251225")
+      .select("setting_key, setting_value")
+      .in("setting_key", [
+        "contact_address",
+        "contact_phone",
+        "contact_email",
+        "social_facebook",
+        "social_instagram",
+        "social_linkedin",
+      ]);
+
+    if (!error && data) {
+      const settingsObj: any = {};
+      data.forEach((item) => {
+        settingsObj[item.setting_key] = item.setting_value;
+      });
+      setSettings((prev) => ({ ...prev, ...settingsObj }));
+    }
+  };
+
   return (
     <footer className="bg-primary text-primary-foreground">
       {/* Main Footer */}
@@ -20,33 +57,39 @@ const PremiumFooter = () => {
               Egypt's leading platform for sustainable living, organic products, and green innovation.
             </p>
             <div className="flex gap-4">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
+              {settings.social_facebook && (
+                <a
+                  href={settings.social_facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                  aria-label="Facebook"
+                >
+                  <Facebook className="h-5 w-5" />
+                </a>
+              )}
+              {settings.social_instagram && (
+                <a
+                  href={settings.social_instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                  aria-label="Instagram"
+                >
+                  <Instagram className="h-5 w-5" />
+                </a>
+              )}
+              {settings.social_linkedin && (
+                <a
+                  href={settings.social_linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-primary-foreground/10 hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -106,20 +149,19 @@ const PremiumFooter = () => {
               <li className="flex items-start gap-3 text-sm">
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0 text-primary-foreground/60" />
                 <span className="text-primary-foreground/80">
-                  Cairo International Convention Center<br />
-                  El Nasr Road, Nasr City, Cairo, Egypt
+                  {settings.contact_address}
                 </span>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Phone className="h-5 w-5 flex-shrink-0 text-primary-foreground/60" />
-                <a href="tel:+201234567890" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  +20 123 456 7890
+                <a href={`tel:${settings.contact_phone}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  {settings.contact_phone}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm">
                 <Mail className="h-5 w-5 flex-shrink-0 text-primary-foreground/60" />
-                <a href="mailto:info@greenlifeexpo.com" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  info@greenlifeexpo.com
+                <a href={`mailto:${settings.contact_email}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                  {settings.contact_email}
                 </a>
               </li>
             </ul>
