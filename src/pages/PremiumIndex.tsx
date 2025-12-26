@@ -3,8 +3,13 @@ import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, TrendingUp, Award, Globe, CheckCircle, Calendar, MapPin } from "lucide-react";
+import { usePageContent } from "@/hooks/usePageContent";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const PremiumIndex = () => {
+  const { get, loading } = usePageContent("home");
+  const { t } = useLanguage();
+  
   const sectors = [
     {
       title: "Organic Food & Beverages",
@@ -83,22 +88,22 @@ const PremiumIndex = () => {
               </div>
               
               <h1 className="text-premium-heading">
-                Egypt's Leading Go Green & Healthy Living Expo
+                {get("hero_title", "Egypt's Leading Go Green & Healthy Living Expo")}
               </h1>
               
               <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
-                The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East.
+                {get("hero_subtitle", "The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East.")}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" asChild className="btn-premium btn-premium-primary group">
                   <Link to="/exhibitors">
-                    Exhibit With Us
+                    {get("hero_cta_primary", "Exhibit With Us")}
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-                  <Link to="/sponsors">Become a Sponsor</Link>
+                  <Link to="/sponsors">{get("hero_cta_secondary", "Become a Sponsor")}</Link>
                 </Button>
               </div>
 
