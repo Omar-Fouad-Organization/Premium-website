@@ -26,7 +26,7 @@ const PremiumHeader = () => {
     { name: t("nav_exhibitors", "Exhibitors"), path: "/exhibitors" },
     { name: t("nav_sponsors", "Sponsors"), path: "/sponsors" },
     { name: t("nav_visitors", "Visitors"), path: "/visitors" },
-    { name: t("nav_content", "Content & Talks"), path: "/content" },
+    { name: t("nav_blog", "Blog"), path: "/blog" },
     { name: t("nav_contact", "Contact"), path: "/contact" },
   ];
 

@@ -11,6 +11,7 @@ import PremiumExhibitors from "./pages/PremiumExhibitors";
 import PremiumSponsors from "./pages/PremiumSponsors";
 import PremiumSectors from "./pages/PremiumSectors";
 import PremiumContent from "./pages/PremiumContent";
+import PremiumBlog from "./pages/PremiumBlog";
 import PremiumVisitors from "./pages/PremiumVisitors";
 import PremiumContact from "./pages/PremiumContact";
 import AdminLogin from "./pages/admin/Login";
@@ -27,6 +28,7 @@ import AdminFAQs from "./pages/admin/FAQs";
 import AdminSubmissions from "./pages/admin/Submissions";
 import AdminUsers from "./pages/admin/Users";
 import AdminLanguage from "./pages/admin/Language";
+import AdminBlogs from "./pages/admin/Blogs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +49,7 @@ const App = () => (
             <Route path="/sponsors" element={<PremiumSponsors />} />
             <Route path="/sectors" element={<PremiumSectors />} />
             <Route path="/content" element={<PremiumContent />} />
+            <Route path="/blog" element={<PremiumBlog />} />
             <Route path="/visitors" element={<PremiumVisitors />} />
             <Route path="/contact" element={<PremiumContact />} />
             
@@ -65,6 +68,7 @@ const App = () => (
             <Route path="/admin/submissions" element={<AdminSubmissions />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/language" element={<AdminLanguage />} />
+            <Route path="/admin/blogs" element={<AdminBlogs />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
