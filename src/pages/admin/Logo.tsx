@@ -81,13 +81,32 @@ const AdminLogo = () => {
 
       const publicUrl = urlData.publicUrl;
 
-      // Update database
+      // Get the first row ID
+      const { data: settingsData, error: fetchError } = await supabase
+        .from("site_settings_premium_20251225")
+        .select("id")
+        .limit(1)
+        .single();
+
+      if (fetchError) {
+        console.error("Fetch error:", fetchError);
+        throw new Error("Failed to fetch settings ID");
+      }
+
+      if (!settingsData?.id) {
+        throw new Error("No settings record found");
+      }
+
+      // Update database with logo URL
       const { error: updateError } = await supabase
         .from("site_settings_premium_20251225")
         .update({ logo_url: publicUrl })
-        .eq("id", (await supabase.from("site_settings_premium_20251225").select("id").limit(1).single()).data?.id);
+        .eq("id", settingsData.id);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        console.error("Update error:", updateError);
+        throw updateError;
+      }
 
       setLogoUrl(publicUrl);
       toast({
@@ -153,13 +172,32 @@ const AdminLogo = () => {
 
       const publicUrl = urlData.publicUrl;
 
-      // Update database
+      // Get the first row ID
+      const { data: settingsData, error: fetchError } = await supabase
+        .from("site_settings_premium_20251225")
+        .select("id")
+        .limit(1)
+        .single();
+
+      if (fetchError) {
+        console.error("Fetch error:", fetchError);
+        throw new Error("Failed to fetch settings ID");
+      }
+
+      if (!settingsData?.id) {
+        throw new Error("No settings record found");
+      }
+
+      // Update database with favicon URL
       const { error: updateError } = await supabase
         .from("site_settings_premium_20251225")
         .update({ favicon_url: publicUrl })
-        .eq("id", (await supabase.from("site_settings_premium_20251225").select("id").limit(1).single()).data?.id);
+        .eq("id", settingsData.id);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        console.error("Update error:", updateError);
+        throw updateError;
+      }
 
       setFaviconUrl(publicUrl);
       
