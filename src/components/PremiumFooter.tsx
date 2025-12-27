@@ -69,11 +69,11 @@ const PremiumFooter = () => {
       <div className="container-premium py-20 md:py-24">
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 ${isRTL ? 'text-right' : 'text-left'}`}>
           {/* Brand Column */}
-          <div className="lg:col-span-4 space-y-8">
+          <div className="lg:col-span-4 space-y-4">
             <img
               src={logoUrl}
               alt="Green Life Expo"
-              className={`h-32 md:h-36 w-auto max-w-[420px] md:max-w-[570px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
+              className={`h-40 md:h-48 w-auto max-w-[500px] md:max-w-[700px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
             />
             <p className="text-primary-foreground/80 leading-relaxed max-w-sm">
               {t("footer_description", "Egypt's leading platform for sustainable living, organic products, and green innovation.")}
