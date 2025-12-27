@@ -3,10 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const PremiumHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [logoUrl, setLogoUrl] = useState("/images/green_life_expo_logo_variations_20251225134629_1.webp");
   const location = useLocation();
   const { language, setLanguage, t, isRTL } = useLanguage();
 
@@ -18,6 +20,22 @@ const PremiumHeader = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    loadLogo();
+  }, []);
+
+  const loadLogo = async () => {
+    const { data } = await supabase
+      .from("site_settings_premium_20251225")
+      .select("logo_url")
+      .limit(1)
+      .single();
+
+    if (data?.logo_url) {
+      setLogoUrl(data.logo_url);
+    }
+  };
 
   const navItems = [
     { name: t("nav_home", "Home"), path: "/" },
@@ -50,7 +68,7 @@ const PremiumHeader = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
-              src="/images/green_life_expo_logo_variations_20251225134629_1.webp"
+              src={logoUrl}
               alt="Green Life Expo"
               className="h-14 w-auto"
             />

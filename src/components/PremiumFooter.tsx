@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const PremiumFooter = () => {
   const { t, isRTL } = useLanguage();
+  const [logoUrl, setLogoUrl] = useState("/images/green_life_expo_logo_variations_20251225134629_1.webp");
   const [settings, setSettings] = useState({
     contact_address: "Cairo International Exhibition Center, El Nasr Road, Nasr City, Cairo, Egypt",
     contact_phone: "+20 123 456 7890",
@@ -22,6 +23,18 @@ const PremiumFooter = () => {
 
   const loadSettings = async () => {
     try {
+      // Load logo
+      const { data: logoData } = await supabase
+        .from("site_settings_premium_20251225")
+        .select("logo_url")
+        .limit(1)
+        .single();
+
+      if (logoData?.logo_url) {
+        setLogoUrl(logoData.logo_url);
+      }
+
+      // Load other settings
       const { data, error } = await supabase
         .from("site_settings_premium_20251225")
         .select("setting_key, setting_value")
@@ -58,7 +71,7 @@ const PremiumFooter = () => {
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-6">
             <img
-              src="/images/green_life_expo_logo_variations_20251225134629_1.webp"
+              src={logoUrl}
               alt="Green Life Expo"
               className={`h-14 w-auto brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
             />
