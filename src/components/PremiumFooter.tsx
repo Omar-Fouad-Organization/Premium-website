@@ -73,7 +73,7 @@ const PremiumFooter = () => {
             <img
               src={logoUrl}
               alt="Green Life Expo"
-              className={`h-20 md:h-24 w-auto max-w-[280px] md:max-w-[380px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
+              className={`h-32 md:h-36 w-auto max-w-[420px] md:max-w-[570px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
             />
             <p className="text-primary-foreground/80 leading-relaxed max-w-sm">
               {t("footer_description", "Egypt's leading platform for sustainable living, organic products, and green innovation.")}
