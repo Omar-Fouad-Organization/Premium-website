@@ -64,13 +64,13 @@ const PremiumHeader = () => {
       }`}
     >
       <div className="container-premium">
-        <div className={`flex items-center justify-between h-20 md:h-24 py-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex items-center justify-between h-24 md:h-28 py-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
               src={logoUrl}
               alt="Green Life Expo"
-              className="h-16 md:h-20 w-auto max-w-[200px] md:max-w-[280px] object-contain"
+              className="h-20 md:h-24 w-auto max-w-[250px] md:max-w-[350px] object-contain"
             />
           </Link>
 

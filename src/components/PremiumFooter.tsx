@@ -66,14 +66,14 @@ const PremiumFooter = () => {
   return (
     <footer className="bg-primary text-primary-foreground">
       {/* Main Footer */}
-      <div className="container-premium py-16">
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 ${isRTL ? 'text-right' : 'text-left'}`}>
+      <div className="container-premium py-20 md:py-24">
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 ${isRTL ? 'text-right' : 'text-left'}`}>
           {/* Brand Column */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-4 space-y-8">
             <img
               src={logoUrl}
               alt="Green Life Expo"
-              className={`h-16 md:h-20 w-auto max-w-[250px] md:max-w-[320px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
+              className={`h-20 md:h-24 w-auto max-w-[280px] md:max-w-[380px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
             />
             <p className="text-primary-foreground/80 leading-relaxed max-w-sm">
               {t("footer_description", "Egypt's leading platform for sustainable living, organic products, and green innovation.")}
@@ -117,8 +117,8 @@ const PremiumFooter = () => {
 
           {/* Quick Links */}
           <div className="lg:col-span-2">
-            <h3 className="font-semibold text-lg mb-6">{t("footer_participate", "Participate")}</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold text-lg mb-8">{t("footer_participate", "Participate")}</h3>
+            <ul className="space-y-4">
               <li>
                 <Link to="/exhibitors" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm">
                   {t("nav_exhibitors", "Exhibit With Us")}
@@ -144,8 +144,8 @@ const PremiumFooter = () => {
 
           {/* Explore */}
           <div className="lg:col-span-2">
-            <h3 className="font-semibold text-lg mb-6">{t("footer_explore", "Explore")}</h3>
-            <ul className="space-y-3">
+            <h3 className="font-semibold text-lg mb-8">{t("footer_explore", "Explore")}</h3>
+            <ul className="space-y-4">
               <li>
                 <Link to="/about" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm">
                   {t("nav_about", "About Us")}
@@ -166,8 +166,8 @@ const PremiumFooter = () => {
 
           {/* Contact */}
           <div className="lg:col-span-4">
-            <h3 className="font-semibold text-lg mb-6">{t("footer_get_in_touch", "Get in Touch")}</h3>
-            <ul className="space-y-4">
+            <h3 className="font-semibold text-lg mb-8">{t("footer_get_in_touch", "Get in Touch")}</h3>
+            <ul className="space-y-5">
               <li className={`flex items-start gap-3 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0 text-primary-foreground/60" />
                 <span className="text-primary-foreground/80">
