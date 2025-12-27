@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, TrendingUp, Building } from "lucide-react";
+import { ArrowRight, Users, TrendingUp, Building, Leaf, Heart, Home, Sparkles, Zap, Shirt } from "lucide-react";
 
 const PremiumSectors = () => {
   const sectors = [
     {
-      icon: "🌾",
+      icon: Leaf,
+      iconColor: "text-green-600",
+      iconBg: "bg-green-50",
       title: "Organic Food & Beverages",
       description: "Premium organic products, healthy nutrition, and sustainable food solutions",
       whoExhibits: "Organic farms, food processors, healthy beverage brands, nutrition companies, organic retailers",
@@ -16,7 +18,9 @@ const PremiumSectors = () => {
       image: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=600&auto=format&fit=crop&q=80",
     },
     {
-      icon: "💚",
+      icon: Heart,
+      iconColor: "text-red-600",
+      iconBg: "bg-red-50",
       title: "Health & Wellness",
       description: "Natural health products, fitness solutions, and holistic wellness services",
       whoExhibits: "Natural supplement brands, fitness equipment, wellness centers, holistic practitioners, health tech",
@@ -25,7 +29,9 @@ const PremiumSectors = () => {
       image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&auto=format&fit=crop&q=80",
     },
     {
-      icon: "🌱",
+      icon: Home,
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50",
       title: "Sustainable Living",
       description: "Eco-friendly products, green technologies, and sustainable lifestyle solutions",
       whoExhibits: "Eco-product manufacturers, green tech companies, sustainable brands, zero-waste solutions",
@@ -34,7 +40,9 @@ const PremiumSectors = () => {
       image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80",
     },
     {
-      icon: "✨",
+      icon: Sparkles,
+      iconColor: "text-purple-600",
+      iconBg: "bg-purple-50",
       title: "Natural Beauty & Personal Care",
       description: "Organic cosmetics, natural skincare, and eco-conscious personal care",
       whoExhibits: "Natural cosmetics brands, organic skincare, eco-beauty products, sustainable packaging",
@@ -43,7 +51,9 @@ const PremiumSectors = () => {
       image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&auto=format&fit=crop&q=80",
     },
     {
-      icon: "⚡",
+      icon: Zap,
+      iconColor: "text-yellow-600",
+      iconBg: "bg-yellow-50",
       title: "Green Technology & Energy",
       description: "Renewable energy, clean tech innovations, and environmental solutions",
       whoExhibits: "Solar companies, clean tech startups, energy efficiency solutions, environmental tech",
@@ -52,7 +62,9 @@ const PremiumSectors = () => {
       image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&auto=format&fit=crop&q=80",
     },
     {
-      icon: "👕",
+      icon: Shirt,
+      iconColor: "text-pink-600",
+      iconBg: "bg-pink-50",
       title: "Eco-Fashion & Textiles",
       description: "Sustainable fashion, organic textiles, and ethical clothing brands",
       whoExhibits: "Sustainable fashion brands, organic textile manufacturers, ethical clothing, upcycled fashion",
@@ -88,7 +100,7 @@ const PremiumSectors = () => {
             {sectors.map((sector, index) => (
               <div
                 key={index}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
+                className={`group grid lg:grid-cols-2 gap-12 items-center ${
                   index % 2 === 1 ? "lg:flex-row-reverse" : ""
                 }`}
               >
@@ -103,7 +115,9 @@ const PremiumSectors = () => {
                 </div>
 
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <div className="text-5xl mb-4">{sector.icon}</div>
+                  <div className={`w-16 h-16 rounded-2xl ${sector.iconBg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <sector.icon className={`h-8 w-8 ${sector.iconColor}`} />
+                  </div>
                   <h2 className="text-3xl font-semibold mb-4">{sector.title}</h2>
                   <p className="text-lg text-muted-foreground mb-8">{sector.description}</p>
 
