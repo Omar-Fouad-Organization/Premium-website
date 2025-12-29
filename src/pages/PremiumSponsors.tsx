@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Award, Globe, TrendingUp, Users, Mic, Camera, CheckCircle, Star } from "lucide-react";
+import { ArrowRight, Award, Globe, TrendingUp, Users, Mic, Camera, CheckCircle, Star, BookOpen, Trophy, Sparkles, Lightbulb, Monitor, Smartphone } from "lucide-react";
 
 const PremiumSponsors = () => {
   const scrollToPackages = () => {
@@ -109,32 +109,44 @@ const PremiumSponsors = () => {
     {
       title: "Content Hub Sponsorship",
       description: "Own the knowledge center with branded content, expert talks, and educational workshops",
-      icon: "📚",
+      icon: BookOpen,
+      color: "text-blue-500",
+      bgColor: "bg-blue-50",
     },
     {
       title: "Sustainability Awards",
       description: "Present prestigious awards recognizing green innovation and environmental leadership",
-      icon: "🏆",
+      icon: Trophy,
+      color: "text-yellow-500",
+      bgColor: "bg-yellow-50",
     },
     {
       title: "VIP Lounge Experience",
       description: "Create an exclusive branded environment for high-value networking and hospitality",
-      icon: "✨",
+      icon: Sparkles,
+      color: "text-purple-500",
+      bgColor: "bg-purple-50",
     },
     {
       title: "Innovation Showcase",
       description: "Highlight cutting-edge sustainable technologies in a dedicated innovation zone",
-      icon: "💡",
+      icon: Lightbulb,
+      color: "text-orange-500",
+      bgColor: "bg-orange-50",
     },
     {
       title: "Media Center Partnership",
       description: "Control the narrative with branded media facilities and press conference spaces",
-      icon: "📺",
+      icon: Monitor,
+      color: "text-green-500",
+      bgColor: "bg-green-50",
     },
     {
       title: "Digital Platform Integration",
       description: "Dominate digital touchpoints including app, website, and virtual engagement",
-      icon: "📱",
+      icon: Smartphone,
+      color: "text-indigo-500",
+      bgColor: "bg-indigo-50",
     },
   ];
 
@@ -304,15 +316,20 @@ const PremiumSponsors = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {customOpportunities.map((opportunity, index) => (
-              <div key={index} className="card-premium hover-lift group cursor-pointer">
-                <div className="text-5xl mb-4">{opportunity.icon}</div>
-                <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                  {opportunity.title}
-                </h3>
-                <p className="text-muted-foreground">{opportunity.description}</p>
-              </div>
-            ))}
+            {customOpportunities.map((opportunity, index) => {
+              const IconComponent = opportunity.icon;
+              return (
+                <div key={index} className="card-premium hover-lift group cursor-pointer">
+                  <div className={`w-16 h-16 rounded-2xl ${opportunity.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                    <IconComponent className={`h-8 w-8 ${opportunity.color}`} />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
+                    {opportunity.title}
+                  </h3>
+                  <p className="text-muted-foreground">{opportunity.description}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
