@@ -104,7 +104,7 @@ const PremiumExhibitors = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-                <Link to="/contact">
+                <Link to="/contact?scrollToForm=true">
                   Reserve Your Space
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -307,7 +307,7 @@ const PremiumExhibitors = () => {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button size="lg" variant="secondary" asChild className="btn-premium bg-white text-primary hover:bg-white/90">
-                <Link to="/contact">
+                <Link to="/contact?scrollToForm=true">
                   Reserve Your Space
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

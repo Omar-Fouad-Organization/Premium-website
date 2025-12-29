@@ -48,6 +48,22 @@ const countries = [
 const PremiumContact = () => {
   const { get, loading } = usePageContent("contact");
   const { t, isRTL } = useLanguage();
+
+  // Scroll to form on page load if coming from a redirect
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('scrollToForm') === 'true') {
+      setTimeout(() => {
+        const formSection = document.getElementById('contact-form');
+        if (formSection) {
+          formSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 100);
+    }
+  }, []);
   
   const [contactSettings, setContactSettings] = useState({
     contact_email: "info@greenlifeexpo.com",
@@ -209,7 +225,7 @@ const PremiumContact = () => {
       </section>
 
       {/* Contact Form & Info */}
-      <section className="section-premium bg-white">
+      <section id="contact-form" className="section-premium bg-white">
         <div className="container-premium">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Form */}

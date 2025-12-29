@@ -178,7 +178,7 @@ const PremiumSectors = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="btn-premium border-2 border-white text-white hover:bg-white hover:text-primary">
-                <Link to="/contact">Contact Us</Link>
+                <Link to="/contact?scrollToForm=true">Contact Us</Link>
               </Button>
             </div>
           </div>

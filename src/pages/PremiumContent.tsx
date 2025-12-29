@@ -233,7 +233,7 @@ const PremiumContent = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-                <Link to="/contact">Become a Speaker</Link>
+                <Link to="/contact?scrollToForm=true">Become a Speaker</Link>
               </Button>
             </div>
           </div>

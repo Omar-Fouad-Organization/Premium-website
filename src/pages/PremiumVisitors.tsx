@@ -113,7 +113,7 @@ const PremiumVisitors = () => {
                 {registrationEnabled ? (
                   <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-                      <Link to="/contact">
+                      <Link to="/contact?scrollToForm=true">
                         Register Now
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </Link>
@@ -290,7 +290,7 @@ const PremiumVisitors = () => {
             </p>
             
             <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-              <Link to="/contact">
+              <Link to="/contact?scrollToForm=true">
                 Register for Free
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>

@@ -168,7 +168,7 @@ const PremiumSponsors = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-                <Link to="/contact">
+                <Link to="/contact?scrollToForm=true">
                   Explore Partnership
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -271,7 +271,7 @@ const PremiumSponsors = () => {
                       : "bg-primary/10 text-primary hover:bg-primary hover:text-white"
                   }`}
                 >
-                  <Link to="/contact">Request Proposal</Link>
+                  <Link to="/contact?scrollToForm=true">Request Proposal</Link>
                 </Button>
               </div>
             ))}
@@ -282,7 +282,7 @@ const PremiumSponsors = () => {
               All packages are customizable to meet your specific objectives
             </p>
             <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-              <Link to="/contact">
+              <Link to="/contact?scrollToForm=true">
                 Discuss Custom Package
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -444,7 +444,7 @@ const PremiumSponsors = () => {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button size="lg" variant="secondary" asChild className="btn-premium bg-white text-primary hover:bg-white/90">
-                <Link to="/contact">
+                <Link to="/contact?scrollToForm=true">
                   Request Partnership Proposal
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
