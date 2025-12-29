@@ -13,6 +13,7 @@ import PremiumSponsors from "./pages/PremiumSponsors";
 import PremiumSectors from "./pages/PremiumSectors";
 import PremiumContent from "./pages/PremiumContent";
 import PremiumBlog from "./pages/PremiumBlog";
+import BlogDetail from "./pages/BlogDetail";
 import PremiumVisitors from "./pages/PremiumVisitors";
 import PremiumContact from "./pages/PremiumContact";
 import AdminLogin from "./pages/admin/Login";
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/sectors" element={<PremiumSectors />} />
             <Route path="/content" element={<PremiumContent />} />
             <Route path="/blog" element={<PremiumBlog />} />
+            <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/visitors" element={<PremiumVisitors />} />
             <Route path="/contact" element={<PremiumContact />} />
             
