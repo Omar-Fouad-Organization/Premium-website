@@ -187,34 +187,36 @@ const AdminSubmissions = () => {
     switch (type) {
       case "contact":
         data = contactSubmissions.map(sub => ({
-          Name: sub.name,
-          Email: sub.email,
-          Phone: sub.phone || "",
-          Company: sub.company || "",
-          Title: sub.title || "",
-          Country: sub.country || "",
+          "Name": sub.name || "",
+          "Email": sub.email || "",
+          "Phone": sub.phone || "",
+          "Company": sub.company || "",
+          "Title": sub.title || "",
+          "Country": sub.country || "",
           "Country Code": sub.country_code || "",
-          "Inquiry Type": sub.inquiry_type,
-          Message: sub.message,
+          "Inquiry Type": sub.inquiry_type || "",
+          "Message": sub.message || "",
           "Read Status": sub.is_read ? "Read" : "Unread",
-          "Submitted At": new Date(sub.created_at).toLocaleString()
+          "Submitted Date": new Date(sub.created_at).toLocaleDateString(),
+          "Submitted Time": new Date(sub.created_at).toLocaleTimeString()
         }));
         filename = "contact_submissions.csv";
         break;
 
       case "visitors":
         data = visitorRegistrations.map(sub => ({
-          Name: sub.name,
-          Email: sub.email,
-          Phone: sub.phone || "",
-          Company: sub.company || "",
+          "Name": sub.name || "",
+          "Email": sub.email || "",
+          "Phone": sub.phone || "",
+          "Company": sub.company || "",
           "Job Title": sub.job_title || "",
-          Country: sub.country || "",
-          Interests: Array.isArray(sub.interests) ? sub.interests.join(", ") : "",
+          "Country": sub.country || "",
+          "Interests": Array.isArray(sub.interests) ? sub.interests.join("; ") : "",
           "Visit Date": sub.visit_date || "",
           "How Heard": sub.how_heard || "",
           "Read Status": sub.is_read ? "Read" : "Unread",
-          "Registered At": new Date(sub.created_at).toLocaleString()
+          "Registration Date": new Date(sub.created_at).toLocaleDateString(),
+          "Registration Time": new Date(sub.created_at).toLocaleTimeString()
         }));
         filename = "visitor_registrations.csv";
         break;
@@ -223,15 +225,17 @@ const AdminSubmissions = () => {
         data = contactSubmissions
           .filter(sub => sub.inquiry_type === "exhibitor")
           .map(sub => ({
-            Name: sub.name,
-            Email: sub.email,
-            Phone: sub.phone || "",
-            Company: sub.company || "",
-            Title: sub.title || "",
-            Country: sub.country || "",
-            Message: sub.message,
+            "Name": sub.name || "",
+            "Email": sub.email || "",
+            "Phone": sub.phone || "",
+            "Company": sub.company || "",
+            "Title": sub.title || "",
+            "Country": sub.country || "",
+            "Country Code": sub.country_code || "",
+            "Message": sub.message || "",
             "Read Status": sub.is_read ? "Read" : "Unread",
-            "Submitted At": new Date(sub.created_at).toLocaleString()
+            "Inquiry Date": new Date(sub.created_at).toLocaleDateString(),
+            "Inquiry Time": new Date(sub.created_at).toLocaleTimeString()
           }));
         filename = "exhibitor_inquiries.csv";
         break;
@@ -240,15 +244,17 @@ const AdminSubmissions = () => {
         data = contactSubmissions
           .filter(sub => sub.inquiry_type === "sponsor")
           .map(sub => ({
-            Name: sub.name,
-            Email: sub.email,
-            Phone: sub.phone || "",
-            Company: sub.company || "",
-            Title: sub.title || "",
-            Country: sub.country || "",
-            Message: sub.message,
+            "Name": sub.name || "",
+            "Email": sub.email || "",
+            "Phone": sub.phone || "",
+            "Company": sub.company || "",
+            "Title": sub.title || "",
+            "Country": sub.country || "",
+            "Country Code": sub.country_code || "",
+            "Message": sub.message || "",
             "Read Status": sub.is_read ? "Read" : "Unread",
-            "Submitted At": new Date(sub.created_at).toLocaleString()
+            "Inquiry Date": new Date(sub.created_at).toLocaleDateString(),
+            "Inquiry Time": new Date(sub.created_at).toLocaleTimeString()
           }));
         filename = "sponsor_inquiries.csv";
         break;
@@ -263,21 +269,50 @@ const AdminSubmissions = () => {
       return;
     }
 
-    // Convert to CSV
+    // Create Excel-compatible CSV with proper formatting
     const headers = Object.keys(data[0]);
-    const csvContent = [
-      headers.join(","),
-      ...data.map(row => 
-        headers.map(header => {
-          const value = row[header] || "";
-          // Escape commas and quotes in CSV
-          return `"${value.toString().replace(/"/g, '""')}"`;
-        }).join(",")
-      )
-    ].join("\n");
+    
+    // Create CSV content with BOM for proper Excel encoding
+    const BOM = "\uFEFF";
+    const csvRows = [];
+    
+    // Add headers
+    csvRows.push(headers.join(","));
+    
+    // Add data rows
+    data.forEach(row => {
+      const values = headers.map(header => {
+        let value = row[header] || "";
+        
+        // Clean and format the value
+        value = value.toString().trim();
+        
+        // Handle special characters and ensure proper CSV formatting
+        if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
+          // Escape quotes by doubling them
+          value = value.replace(/"/g, '""');
+          // Wrap in quotes
+          value = `"${value}"`;
+        } else if (value === "") {
+          // Empty values should be empty, not quoted
+          value = "";
+        } else {
+          // For clean values, still wrap in quotes for Excel compatibility
+          value = `"${value}"`;
+        }
+        
+        return value;
+      });
+      csvRows.push(values.join(","));
+    });
+    
+    const csvContent = BOM + csvRows.join("\n");
 
-    // Download file
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    // Download file with proper MIME type for Excel
+    const blob = new Blob([csvContent], { 
+      type: "text/csv;charset=utf-8;" 
+    });
+    
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
@@ -286,6 +321,9 @@ const AdminSubmissions = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    // Clean up
+    URL.revokeObjectURL(url);
 
     toast({
       title: "Success",
