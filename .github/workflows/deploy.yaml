@@ -1,0 +1,25 @@
+name: Deploy Greenlife Expo to cPanel
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Upload to cPanel via SFTP
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          key: ${{ secrets.SFTP_KEY }}
+          port: ${{ secrets.SFTP_PORT }}
+          source: "."
+          target: "/home/${{ secrets.SFTP_USER }}/public_html/greenlife-expo.com"
+          strip_components: 0
