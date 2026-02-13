@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useSEO } from "@/contexts/SEOContext";
 import { Save, Search, Share2 } from "lucide-react";
 
 interface SEOSetting {
@@ -21,6 +22,7 @@ const AdminSEO = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const { toast } = useToast();
+  const { refreshSEOData } = useSEO();
 
   useEffect(() => {
     loadSEOSettings();
@@ -78,6 +80,9 @@ const AdminSEO = () => {
       title: "Success",
       description: "SEO settings updated successfully",
     });
+
+    // Refresh SEO context to apply changes immediately
+    refreshSEOData();
 
     setSaving(false);
   };

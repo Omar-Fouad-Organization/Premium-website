@@ -5,10 +5,20 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, TrendingUp, Award, Globe, CheckCircle, Calendar, MapPin, Leaf, Heart, Home, Sparkles, Zap, Shirt } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { usePageSEO } from "@/hooks/usePageSEO";
+import { usePhotos } from "@/hooks/usePhotos";
 
 const PremiumIndex = () => {
   const { get, loading } = usePageContent("home");
   const { t } = useLanguage();
+  const { getPhotoUrl, getPhotoAlt, loading: photosLoading, refetch: refreshPhotos } = usePhotos('home');
+  
+  // Apply SEO for homepage
+  usePageSEO({
+    title: "Green Life Expo - Egypt's Leading Go Green & Healthy Living Expo",
+    description: "Egypt's premier exhibition for sustainable living, organic products, and green innovation. Join us for the ultimate green lifestyle experience.",
+    keywords: "green life expo, sustainable living, organic products, healthy lifestyle, egypt expo, green innovation"
+  });
   
   const sectors = [
     {
@@ -133,8 +143,8 @@ const PremiumIndex = () => {
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80"
-                  alt="Green Life Expo"
+                  src={getPhotoUrl('hero', 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80')}
+                  alt={getPhotoAlt('hero', 'Green Life Expo')}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -271,8 +281,8 @@ const PremiumIndex = () => {
             <div className="relative">
               <div className="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=80"
-                  alt="Exhibition Floor"
+                  src={getPhotoUrl('features', 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=80')}
+                  alt={getPhotoAlt('features', 'Exhibition Floor')}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -288,8 +298,8 @@ const PremiumIndex = () => {
             <div className="order-2 lg:order-1">
               <div className="aspect-video rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&auto=format&fit=crop&q=80"
-                  alt="Expert Talks"
+                  src={getPhotoUrl('features', 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&auto=format&fit=crop&q=80')}
+                  alt={getPhotoAlt('features', 'Expert Talks')}
                   className="w-full h-full object-cover"
                 />
               </div>

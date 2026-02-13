@@ -26,6 +26,8 @@ const AdminPartners = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingPartner, setEditingPartner] = useState<Partner | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
   const { toast } = useToast();
 
   const [formData, setFormData] = useState({
@@ -60,8 +62,49 @@ const AdminPartners = () => {
     setLoading(false);
   };
 
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    
+    if (!formData.name.trim()) {
+      errors.name = "Partner name is required";
+    }
+    
+    if (!formData.logo_url.trim()) {
+      errors.logo_url = "Partner logo is required";
+    } else {
+      // Validate logo URL format
+      const logoUrl = formData.logo_url.trim();
+      if (!logoUrl.startsWith('/') && !logoUrl.match(/^https?:\/\/.+/)) {
+        errors.logo_url = "Logo URL must be a valid URL or start with /";
+      }
+    }
+    
+    if (formData.website_url && !formData.website_url.match(/^https?:\/\/.+/)) {
+      errors.website_url = "Please enter a valid URL (starting with http:// or https://)";
+    }
+    
+    if (formData.display_order < 0) {
+      errors.display_order = "Display order must be 0 or greater";
+    }
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) {
+      toast({
+        title: "Validation Error",
+        description: "Please fix the errors below",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setSaving(true);
     
     try {
       if (editingPartner) {
@@ -100,6 +143,8 @@ const AdminPartners = () => {
         description: error.message,
         variant: "destructive",
       });
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -209,6 +254,8 @@ const AdminPartners = () => {
       is_active: true,
     });
     setEditingPartner(null);
+    setFormErrors({});
+    setSaving(false);
   };
 
   const handleDialogClose = () => {
@@ -257,10 +304,19 @@ const AdminPartners = () => {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (formErrors.name) {
+                        setFormErrors({ ...formErrors, name: "" });
+                      }
+                    }}
                     placeholder="Partner Company Name"
+                    className={formErrors.name ? "border-red-500" : ""}
                     required
                   />
+                  {formErrors.name && (
+                    <p className="text-sm text-red-500">{formErrors.name}</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -329,10 +385,26 @@ const AdminPartners = () => {
                 </div>
 
                 <div className="flex gap-2 pt-4">
-                  <Button type="submit" className="flex-1">
-                    {editingPartner ? "Update Partner" : "Add Partner"}
+                  <Button 
+                    type="submit" 
+                    className="flex-1" 
+                    disabled={saving || uploading}
+                  >
+                    {saving ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        {editingPartner ? "Updating..." : "Adding..."}
+                      </>
+                    ) : (
+                      editingPartner ? "Save Changes" : "Add Partner"
+                    )}
                   </Button>
-                  <Button type="button" variant="outline" onClick={handleDialogClose}>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={handleDialogClose}
+                    disabled={saving}
+                  >
                     Cancel
                   </Button>
                 </div>

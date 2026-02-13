@@ -141,6 +141,7 @@ const AdminPhotos = () => {
         variant: "destructive",
       });
     } else {
+      console.log('✅ Photo added successfully:', newPhoto);
       toast({
         title: "Success",
         description: "Photo added successfully",

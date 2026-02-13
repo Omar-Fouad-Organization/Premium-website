@@ -4,6 +4,23 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+// Helper function to validate image URLs
+const isValidImageUrl = (url: string): boolean => {
+  if (!url || typeof url !== 'string') return false;
+  
+  // Check if it's a valid URL format
+  try {
+    // Handle relative URLs
+    if (url.startsWith('/')) return true;
+    
+    // Handle absolute URLs
+    const urlObj = new URL(url);
+    return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
 const PremiumFooter = () => {
   const { t, isRTL } = useLanguage();
   const [logoUrl, setLogoUrl] = useState("/images/green_life_expo_logo_variations_20251225134629_1.webp");
@@ -214,7 +231,9 @@ const PremiumFooter = () => {
                 {t("footer_partners", "Our Partners")}
               </h3>
               <div className={`flex flex-wrap items-center justify-center gap-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                {partners.map((partner) => (
+                {partners
+                  .filter(partner => partner.is_active && isValidImageUrl(partner.logo_url))
+                  .map((partner) => (
                   <div key={partner.id} className="flex-shrink-0">
                     {partner.website_url ? (
                       <a
@@ -228,6 +247,10 @@ const PremiumFooter = () => {
                           src={partner.logo_url}
                           alt={partner.name}
                           className="h-12 w-auto max-w-[120px] object-contain filter brightness-0 invert opacity-70 hover:opacity-90 transition-opacity"
+                          onError={(e) => {
+                            console.error('Failed to load partner logo:', partner.logo_url);
+                            e.currentTarget.style.display = 'none';
+                          }}
                         />
                       </a>
                     ) : (
@@ -235,6 +258,10 @@ const PremiumFooter = () => {
                         src={partner.logo_url}
                         alt={partner.name}
                         className="h-12 w-auto max-w-[120px] object-contain filter brightness-0 invert opacity-70"
+                        onError={(e) => {
+                          console.error('Failed to load partner logo:', partner.logo_url);
+                          e.currentTarget.style.display = 'none';
+                        }}
                       />
                     )}
                   </div>

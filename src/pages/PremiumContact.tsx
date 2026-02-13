@@ -173,6 +173,9 @@ const PremiumContact = () => {
         email: "",
         phone: "",
         company: "",
+        title: "",
+        country: "",
+        country_code: "+20",
         inquiry_type: "",
         message: "",
       });

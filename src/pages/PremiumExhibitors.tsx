@@ -3,8 +3,10 @@ import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Target, TrendingUp, Users, Award, Globe, Zap, CheckCircle, BarChart } from "lucide-react";
+import { usePhotos } from "@/hooks/usePhotos";
 
 const PremiumExhibitors = () => {
+  const { getPhotoUrl, getPhotoAlt } = usePhotos('exhibitors');
   const benefits = [
     {
       icon: Target,
@@ -226,8 +228,8 @@ const PremiumExhibitors = () => {
             <div className="relative">
               <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=80"
-                  alt="Exhibition Space"
+                  src={getPhotoUrl('hero', 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=80')}
+                  alt={getPhotoAlt('hero', 'Exhibition Space')}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -243,8 +245,8 @@ const PremiumExhibitors = () => {
             <div className="order-2 lg:order-1">
               <div className="aspect-video rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&auto=format&fit=crop&q=80"
-                  alt="Business Networking"
+                  src={getPhotoUrl('gallery', 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&auto=format&fit=crop&q=80')}
+                  alt={getPhotoAlt('gallery', 'Business Networking')}
                   className="w-full h-full object-cover"
                 />
               </div>

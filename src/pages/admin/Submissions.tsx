@@ -277,36 +277,34 @@ const AdminSubmissions = () => {
     const csvRows = [];
     
     // Add headers
-    csvRows.push(headers.join(","));
+    // Add headers with proper quoting for Excel
+    csvRows.push(headers.map(header => `"${header}"`).join(","));
     
-    // Add data rows
+    // Add data rows with consistent column separation
     data.forEach(row => {
       const values = headers.map(header => {
-        let value = row[header] || "";
+        let value = row[header];
         
-        // Clean and format the value
-        value = value.toString().trim();
-        
-        // Handle special characters and ensure proper CSV formatting
-        if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
-          // Escape quotes by doubling them
-          value = value.replace(/"/g, '""');
-          // Wrap in quotes
-          value = `"${value}"`;
-        } else if (value === "") {
-          // Empty values should be empty, not quoted
-          value = "";
-        } else {
-          // For clean values, still wrap in quotes for Excel compatibility
-          value = `"${value}"`;
+        // Handle null, undefined, or empty values
+        if (value === null || value === undefined) {
+          return '""';
         }
         
-        return value;
+        // Convert to string and clean
+        value = value.toString().trim();
+        
+        // Escape internal quotes by doubling them
+        value = value.replace(/"/g, '""');
+        
+        // Always wrap in quotes for consistent Excel column separation
+        return `"${value}"`;
       });
+      
       csvRows.push(values.join(","));
     });
     
-    const csvContent = BOM + csvRows.join("\n");
+    // Use Windows line endings for better Excel compatibility
+    const csvContent = BOM + csvRows.join("\r\n");
 
     // Download file with proper MIME type for Excel
     const blob = new Blob([csvContent], { 

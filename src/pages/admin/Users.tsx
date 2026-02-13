@@ -75,51 +75,66 @@ const AdminUsers = () => {
 
     setAdding(true);
 
-    // Create user in Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: newUser.email,
-      password: newUser.password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/#/admin/login`,
-      }
-    });
-
-    if (authError) {
-      toast({
-        title: "Error creating user",
-        description: authError.message,
-        variant: "destructive",
+    try {
+      // Use edge function to create user without email verification
+      const { data, error } = await supabase.functions.invoke('create_admin_user_20251230_1605', {
+        body: {
+          email: newUser.email,
+          password: newUser.password
+        }
       });
-      setAdding(false);
-      return;
-    }
 
-    if (authData.user) {
-      // Store user info in our admin_users table
-      const { error: dbError } = await supabase
-        .from("admin_users_premium_20251225")
-        .insert([
-          {
-            id: authData.user.id,
-            email: newUser.email,
-            role: "admin",
-          }
-        ]);
-
-      if (dbError) {
+      if (error) {
+        console.error('Edge function error:', error);
         toast({
-          title: "Error saving user",
-          description: dbError.message,
+          title: "Error creating user",
+          description: error.message || 'Failed to create user',
           variant: "destructive",
         });
-      } else {
+        setAdding(false);
+        return;
+      }
+
+      if (data?.error) {
+        toast({
+          title: "Error creating user",
+          description: data.error,
+          variant: "destructive",
+        });
+        setAdding(false);
+        return;
+      }
+
+      if (data?.success) {
         toast({
           title: "Success",
-          description: `Admin user ${newUser.email} created successfully`,
+          description: data.message || `Admin user ${newUser.email} created successfully and can login immediately`,
         });
+        
+        if (data.warning) {
+          toast({
+            title: "Warning",
+            description: data.warning,
+            variant: "destructive",
+          });
+        }
+        
         setNewUser({ email: "", password: "" });
         loadUsers();
+      } else {
+        toast({
+          title: "Error",
+          description: "Unexpected response from server",
+          variant: "destructive",
+        });
       }
+    } catch (err) {
+      console.error('Error creating user:', err);
+      toast({
+        title: "Error creating user",
+        description: "An unexpected error occurred",
+        variant: "destructive",
+      });
     }
 
     setAdding(false);
@@ -184,7 +199,7 @@ const AdminUsers = () => {
         <Alert>
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
-            Admin users created here will receive an email confirmation. They can login to the dashboard at{" "}
+            Admin users created here can login immediately without email verification. They can access the dashboard at{" "}
             <code className="text-xs bg-muted px-1 py-0.5 rounded">
               {window.location.origin}/#/admin/login
             </code>
@@ -220,9 +235,9 @@ const AdminUsers = () => {
                 />
               </div>
             </div>
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-sm text-blue-800">
-                <strong>Note:</strong> The new user will receive a confirmation email and can access the admin dashboard after confirming their email.
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <p className="text-sm text-green-800">
+                <strong>✅ No Email Verification Required:</strong> The new user can login immediately after creation without needing to confirm their email.
               </p>
             </div>
             <Button onClick={handleAddUser} disabled={adding}>

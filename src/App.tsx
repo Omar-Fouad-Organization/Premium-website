@@ -2,9 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { SEOProvider } from "@/contexts/SEOContext";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import AdminRedirect from "@/components/AdminRedirect";
+import AdminTest from "@/components/AdminTest";
 import FaviconLoader from "@/components/FaviconLoader";
 import PremiumIndex from "./pages/PremiumIndex";
 import PremiumAbout from "./pages/PremiumAbout";
@@ -32,15 +36,18 @@ import AdminUsers from "./pages/admin/Users";
 import AdminLanguage from "./pages/admin/Language";
 import AdminBlogs from "./pages/admin/Blogs";
 import AdminPartners from "./pages/admin/Partners";
+import PhotoTest from "./pages/PhotoTest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <LanguageProvider>
-        <TooltipProvider>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <LanguageProvider>
+          <SEOProvider>
+            <TooltipProvider>
         <FaviconLoader />
         <Toaster />
         <Sonner />
@@ -59,6 +66,7 @@ const App = () => (
             <Route path="/contact" element={<PremiumContact />} />
             
             {/* Admin Routes */}
+            <Route path="/admin" element={<AdminRedirect />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
@@ -76,14 +84,24 @@ const App = () => (
             <Route path="/admin/blogs" element={<AdminBlogs />} />
             <Route path="/admin/partners" element={<AdminPartners />} />
             
+            {/* Test Routes */}
+            <Route path="/photo-test" element={<PhotoTest />} />
+            
+            {/* Admin redirects for common paths */}
+            <Route path="/admin/" element={<Navigate to="/admin/login" replace />} />
+            <Route path="/dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/login" element={<Navigate to="/admin/login" replace />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </HashRouter>
         </TooltipProvider>
+        </SEOProvider>
       </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

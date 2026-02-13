@@ -2,9 +2,19 @@ import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Target, Eye, TrendingUp, Globe, Users, Award } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
+import { usePageSEO } from "@/hooks/usePageSEO";
+import { usePhotos } from "@/hooks/usePhotos";
 
 const PremiumAbout = () => {
   const { get, loading } = usePageContent("about");
+  const { getPhotoUrl, getPhotoAlt } = usePhotos('about');
+  
+  // Apply SEO for about page
+  usePageSEO({
+    title: "About Green Life Expo - Egypt's Premier Sustainable Living Exhibition",
+    description: "Learn about Green Life Expo, Egypt's leading platform for sustainable living, organic products, and green innovation. Discover our mission and vision.",
+    keywords: "about green life expo, sustainable exhibition egypt, green innovation platform, organic products expo"
+  });
   
   const values = [
     {
@@ -105,8 +115,8 @@ const PremiumAbout = () => {
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&auto=format&fit=crop&q=80"
-                  alt="Green Innovation"
+                  src={getPhotoUrl('hero', 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&auto=format&fit=crop&q=80')}
+                  alt={getPhotoAlt('hero', 'Green Innovation')}
                   className="w-full h-full object-cover"
                 />
               </div>
