@@ -112,7 +112,7 @@ const PremiumExhibitors = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-                <a href="#packages">View Packages</a>
+                <Link to="/contact">View Packages</Link>
               </Button>
             </div>
           </div>
