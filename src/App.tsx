@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,7 @@ import { SEOProvider } from "@/contexts/SEOContext";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import AdminRedirect from "@/components/AdminRedirect";
 import AdminTest from "@/components/AdminTest";
+import LoadingPage from "@/components/LoadingPage";
 import FaviconLoader from "@/components/FaviconLoader";
 import PremiumIndex from "./pages/PremiumIndex";
 import PremiumAbout from "./pages/PremiumAbout";
@@ -41,7 +43,18 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return <LoadingPage onLoadingComplete={handleLoadingComplete} />;
+  }
+
+  return (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -102,6 +115,7 @@ const App = () => (
     </AuthProvider>
   </QueryClientProvider>
   </ErrorBoundary>
-);
+  );
+};
 
 export default App;

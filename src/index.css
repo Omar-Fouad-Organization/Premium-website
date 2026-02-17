@@ -284,4 +284,4 @@ All colors MUST be HSL.
   .scrollbar-thumb-white\/30::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.3);
   }
-}
+}\n  /* Loading Page Animations */\n  @keyframes spin-slow {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n\n  .animate-spin-slow {\n    animation: spin-slow 3s linear infinite;\n  }
