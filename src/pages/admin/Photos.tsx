@@ -49,6 +49,55 @@ const AdminPhotos = () => {
     { value: "contact", label: "Contact" },
   ];
 
+  const sections = {
+    home: [
+      { value: "hero", label: "Hero Section" },
+      { value: "features", label: "Features Section" },
+      { value: "sectors", label: "Sectors Section" },
+      { value: "stats", label: "Statistics Section" },
+      { value: "testimonials", label: "Testimonials Section" }
+    ],
+    about: [
+      { value: "hero", label: "Hero Section" },
+      { value: "mission", label: "Mission Section" },
+      { value: "vision", label: "Vision Section" },
+      { value: "values", label: "Values Section" },
+      { value: "team", label: "Team Section" }
+    ],
+    exhibitors: [
+      { value: "hero", label: "Hero Section" },
+      { value: "benefits", label: "Benefits Section" },
+      { value: "gallery", label: "Gallery Section" },
+      { value: "packages", label: "Packages Section" },
+      { value: "testimonials", label: "Testimonials Section" }
+    ],
+    visitors: [
+      { value: "hero", label: "Hero Section" },
+      { value: "gallery", label: "Gallery Section" },
+      { value: "highlights", label: "Highlights Section" },
+      { value: "schedule", label: "Schedule Section" }
+    ],
+    sponsors: [
+      { value: "hero", label: "Hero Section" },
+      { value: "benefits", label: "Benefits Section" },
+      { value: "packages", label: "Packages Section" }
+    ],
+    sectors: [
+      { value: "hero", label: "Hero Section" },
+      { value: "overview", label: "Overview Section" }
+    ],
+    content: [
+      { value: "hero", label: "Hero Section" },
+      { value: "speakers", label: "Speakers Section" },
+      { value: "schedule", label: "Schedule Section" }
+    ],
+    contact: [
+      { value: "hero", label: "Hero Section" },
+      { value: "office", label: "Office Section" },
+      { value: "map", label: "Map Section" }
+    ]
+  };
+
   useEffect(() => {
     loadPhotos();
   }, []);
@@ -291,12 +340,22 @@ const AdminPhotos = () => {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Section Name</Label>
-                <Input
+                <Label>Section Name *</Label>
+                <Select
                   value={newPhoto.section_name}
-                  onChange={(e) => setNewPhoto({ ...newPhoto, section_name: e.target.value })}
-                  placeholder="e.g., hero, gallery, features"
-                />
+                  onValueChange={(value) => setNewPhoto({ ...newPhoto, section_name: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select section" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sections[newPhoto.page_location as keyof typeof sections]?.map((section) => (
+                      <SelectItem key={section.value} value={section.value}>
+                        {section.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label>Display Order</Label>
@@ -467,12 +526,23 @@ const AdminPhotos = () => {
                 </div>
                 <div className="space-y-2">
                   <Label>Section Name</Label>
-                  <Input
+                  <Select
                     value={editingPhoto.section_name}
-                    onChange={(e) =>
-                      setEditingPhoto({ ...editingPhoto, section_name: e.target.value })
+                    onValueChange={(value) =>
+                      setEditingPhoto({ ...editingPhoto, section_name: value })
                     }
-                  />
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select section" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sections[editingPhoto.page_location as keyof typeof sections]?.map((section) => (
+                        <SelectItem key={section.value} value={section.value}>
+                          {section.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label>Display Order</Label>
