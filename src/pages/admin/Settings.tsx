@@ -52,6 +52,39 @@ const AdminSettings = () => {
     );
   };
 
+  const handleSaveCategory = async (category: string) => {
+    setSaving(true);
+
+    const categorySettings = settings.filter(s => s.category === category);
+    
+    for (const setting of categorySettings) {
+      const { error } = await supabase
+        .from("site_settings_premium_20251225")
+        .update({ 
+          setting_value: setting.setting_value, 
+          updated_at: new Date().toISOString() 
+        })
+        .eq("id", setting.id);
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: `Failed to update ${category} settings`,
+          variant: "destructive",
+        });
+        setSaving(false);
+        return;
+      }
+    }
+
+    toast({
+      title: "Success",
+      description: `${category.charAt(0).toUpperCase() + category.slice(1)} settings updated successfully`,
+    });
+
+    setSaving(false);
+  };
+
   const handleSave = async () => {
     setSaving(true);
 
@@ -80,7 +113,7 @@ const AdminSettings = () => {
 
     toast({
       title: "Success",
-      description: "Settings updated successfully",
+      description: "All settings updated successfully",
     });
 
     setSaving(false);
@@ -142,6 +175,12 @@ const AdminSettings = () => {
                     />
                   </div>
                 ))}
+                <div className="pt-4 border-t">
+                  <Button onClick={() => handleSaveCategory('general')} disabled={saving}>
+                    <Save className="h-4 w-4 mr-2" />
+                    {saving ? "Saving..." : "Save General Settings"}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -173,6 +212,12 @@ const AdminSettings = () => {
                     )}
                   </div>
                 ))}
+                <div className="pt-4 border-t">
+                  <Button onClick={() => handleSaveCategory('hero')} disabled={saving}>
+                    <Save className="h-4 w-4 mr-2" />
+                    {saving ? "Saving..." : "Save Hero Settings"}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -195,6 +240,12 @@ const AdminSettings = () => {
                     />
                   </div>
                 ))}
+                <div className="pt-4 border-t">
+                  <Button onClick={() => handleSaveCategory('stats')} disabled={saving}>
+                    <Save className="h-4 w-4 mr-2" />
+                    {saving ? "Saving..." : "Save Statistics Settings"}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
@@ -226,6 +277,12 @@ const AdminSettings = () => {
                     )}
                   </div>
                 ))}
+                <div className="pt-4 border-t">
+                  <Button onClick={() => handleSaveCategory('contact')} disabled={saving}>
+                    <Save className="h-4 w-4 mr-2" />
+                    {saving ? "Saving..." : "Save Contact Settings"}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

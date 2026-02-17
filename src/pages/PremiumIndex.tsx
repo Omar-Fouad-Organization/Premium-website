@@ -4,12 +4,14 @@ import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, TrendingUp, Award, Globe, CheckCircle, Calendar, MapPin, Leaf, Heart, Home, Sparkles, Zap, Shirt } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePageSEO } from "@/hooks/usePageSEO";
 import { usePhotos } from "@/hooks/usePhotos";
 
 const PremiumIndex = () => {
   const { get, loading } = usePageContent("home");
+  const { get: getSetting, loading: settingsLoading } = useSiteSettings();
   const { t } = useLanguage();
   const { getPhotoUrl, getPhotoAlt, loading: photosLoading, refetch: refreshPhotos } = usePhotos('home');
   
@@ -89,10 +91,10 @@ const PremiumIndex = () => {
   ];
 
   const stats = [
-    { number: "500+", label: "Exhibitors" },
-    { number: "10,000+", label: "Visitors" },
-    { number: "50+", label: "Expert Speakers" },
-    { number: "3", label: "Days of Innovation" },
+    { number: getSetting("stats_exhibitors", "500+"), label: "Exhibitors" },
+    { number: getSetting("stats_visitors", "25,000+"), label: "Visitors" },
+    { number: getSetting("stats_speakers", "50+"), label: "Expert Speakers" },
+    { number: getSetting("stats_countries", "15+"), label: "Countries" },
   ];
 
   return (
@@ -106,26 +108,26 @@ const PremiumIndex = () => {
             <div className="space-y-8 animate-slide-up">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
                 <Calendar className="h-4 w-4" />
-                <span>March 15-17, 2025 • Cairo, Egypt</span>
+                <span>{getSetting("hero_date", "March 15-17, 2025")} • {getSetting("hero_location", "Cairo, Egypt")}</span>
               </div>
               
               <h1 className="text-premium-heading">
-                {get("hero_title", "Egypt's Leading Go Green & Healthy Living Expo")}
+                {getSetting("hero_title", get("hero_title", "Egypt's Leading Go Green & Healthy Living Expo"))}
               </h1>
               
               <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
-                {get("hero_subtitle", "The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East.")}
+                {getSetting("hero_subtitle", get("hero_subtitle", "The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East."))}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" asChild className="btn-premium btn-premium-primary group">
                   <Link to="/exhibitors">
-                    {get("hero_cta_primary", "Exhibit With Us")}
+                    {getSetting("hero_cta_primary", get("hero_cta_primary", "Exhibit With Us"))}
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-                  <Link to="/sponsors">{get("hero_cta_secondary", "Become a Sponsor")}</Link>
+                  <Link to="/sponsors">{getSetting("hero_cta_secondary", get("hero_cta_secondary", "Become a Sponsor"))}</Link>
                 </Button>
               </div>
 
