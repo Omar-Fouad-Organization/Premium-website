@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { api } from '@/integrations/api/client';
 import { useLanguage } from './LanguageContext';
 
 interface SEOData {
@@ -44,8 +44,8 @@ export const SEOProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const loadSEOData = async () => {
     try {
-      const { data, error } = await supabase
-        .from('site_settings_premium_20251225')
+      const { data, error } = await api
+        .from('site_settings')
         .select('setting_key, setting_value')
         .eq('category', 'seo');
 
@@ -94,27 +94,27 @@ export const SEOProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Update or create meta tags
     updateMetaTag('description', data.meta_description);
     updateMetaTag('keywords', data.meta_keywords);
-    
+
     // Open Graph tags
     updateMetaTag('og:title', data.og_title, 'property');
     updateMetaTag('og:description', data.og_description, 'property');
     updateMetaTag('og:image', data.og_image, 'property');
     updateMetaTag('og:url', data.canonical_url, 'property');
     updateMetaTag('og:type', 'website', 'property');
-    
+
     // Twitter Card tags
     updateMetaTag('twitter:card', 'summary_large_image', 'name');
     updateMetaTag('twitter:title', data.twitter_title, 'name');
     updateMetaTag('twitter:description', data.twitter_description, 'name');
     updateMetaTag('twitter:image', data.twitter_image, 'name');
-    
+
     // Canonical URL
     updateLinkTag('canonical', data.canonical_url);
   };
 
   const updateMetaTag = (name: string, content: string, attribute: string = 'name') => {
     let element = document.querySelector(`meta[${attribute}="${name}"]`) as HTMLMetaElement;
-    
+
     if (element) {
       element.content = content;
     } else {
@@ -127,7 +127,7 @@ export const SEOProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const updateLinkTag = (rel: string, href: string) => {
     let element = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement;
-    
+
     if (element) {
       element.href = href;
     } else {

@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
 import { usePageContent } from "@/hooks/usePageContent";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -55,15 +55,15 @@ const PremiumContact = () => {
     if (urlParams.get('scrollToForm') === 'true') {
       // Scroll to the very top of the page
       const scrollToTop = () => {
-        window.scrollTo({ 
-          top: 0, 
-          behavior: 'smooth' 
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
         });
       };
-      
+
       // Try immediately
       scrollToTop();
-      
+
       // Clear the URL parameter after scrolling
       setTimeout(() => {
         const newUrl = window.location.pathname + window.location.hash;
@@ -71,13 +71,13 @@ const PremiumContact = () => {
       }, 1000);
     }
   }, []);
-  
+
   const [contactSettings, setContactSettings] = useState({
     contact_email: "info@greenlifeexpo.com",
     contact_phone: "+20 123 456 7890",
     contact_address: "Cairo International Convention Center, El Nasr Road, Nasr City, Cairo, Egypt",
   });
-  
+
   const [mapSettings, setMapSettings] = useState({
     map_embed_url: "",
     event_location: "Cairo International Convention Center",
@@ -85,7 +85,7 @@ const PremiumContact = () => {
     map_longitude: "31.2357",
     map_zoom: "15",
   });
-  
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -107,8 +107,8 @@ const PremiumContact = () => {
   const loadContactSettings = async () => {
     try {
       // Load contact settings
-      const { data, error } = await supabase
-        .from("site_settings_premium_20251225")
+      const { data, error } = await api
+        .from("site_settings")
         .select("setting_key, setting_value")
         .in("setting_key", ["contact_email", "contact_phone", "contact_address"]);
 
@@ -123,8 +123,8 @@ const PremiumContact = () => {
       }
 
       // Load map settings
-      const { data: mapData, error: mapError } = await supabase
-        .from("site_settings_premium_20251225")
+      const { data: mapData, error: mapError } = await api
+        .from("site_settings")
         .select("setting_key, setting_value")
         .in("setting_key", ["map_embed_url", "event_location", "map_latitude", "map_longitude", "map_zoom"]);
 
@@ -147,7 +147,7 @@ const PremiumContact = () => {
     setSubmitting(true);
 
     try {
-      const { error } = await supabase.from("contact_submissions_premium_20251225").insert([
+      const { error } = await api.from("contact_submissions").insert([
         {
           name: formData.name,
           email: formData.email,
@@ -226,7 +226,7 @@ const PremiumContact = () => {
             <h1 className="text-premium-heading mb-6">
               Let's Start a Conversation
             </h1>
-            
+
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
               Whether you're interested in exhibiting, sponsoring, or visiting, our team is here to help you make the most of Green Life Expo.
             </p>
@@ -242,7 +242,7 @@ const PremiumContact = () => {
             <div className="lg:col-span-2">
               <div className="card-premium">
                 <h2 className="text-2xl font-semibold mb-6">Send Us a Message</h2>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -298,8 +298,8 @@ const PremiumContact = () => {
                       value={formData.country}
                       onValueChange={(value) => {
                         const selectedCountry = countries.find(c => c.name === value);
-                        setFormData({ 
-                          ...formData, 
+                        setFormData({
+                          ...formData,
                           country: value,
                           country_code: selectedCountry?.code || "+20"
                         });

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Save, Palette } from "lucide-react";
 
@@ -26,8 +26,8 @@ const AdminDesign = () => {
   }, []);
 
   const loadColors = async () => {
-    const { data, error } = await supabase
-      .from("site_settings_premium_20251225")
+    const { data, error } = await api
+      .from("site_settings")
       .select("*")
       .eq("category", "colors");
 
@@ -51,11 +51,11 @@ const AdminDesign = () => {
     setSaving(true);
 
     for (const color of colors) {
-      const { error } = await supabase
-        .from("site_settings_premium_20251225")
-        .update({ 
-          setting_value: color.setting_value, 
-          updated_at: new Date().toISOString() 
+      const { error } = await api
+        .from("site_settings")
+        .update({
+          setting_value: color.setting_value,
+          updated_at: new Date().toISOString()
         })
         .eq("id", color.id);
 

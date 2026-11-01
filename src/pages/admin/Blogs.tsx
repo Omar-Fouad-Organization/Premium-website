@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, Save, X, BookOpen, Eye } from "lucide-react";
 
@@ -56,8 +56,8 @@ const AdminBlogs = () => {
   }, []);
 
   const loadBlogs = async () => {
-    const { data, error } = await supabase
-      .from("blogs_premium_20251226")
+    const { data, error } = await api
+      .from("blogs")
       .select("*")
       .order("created_at", { ascending: false });
 
@@ -99,8 +99,8 @@ const AdminBlogs = () => {
 
     if (currentBlog.id) {
       // Update existing blog
-      const { error } = await supabase
-        .from("blogs_premium_20251226")
+      const { error } = await api
+        .from("blogs")
         .update(blogData)
         .eq("id", currentBlog.id);
 
@@ -120,8 +120,8 @@ const AdminBlogs = () => {
       }
     } else {
       // Create new blog
-      const { error } = await supabase
-        .from("blogs_premium_20251226")
+      const { error } = await api
+        .from("blogs")
         .insert([blogData]);
 
       if (error) {
@@ -149,8 +149,8 @@ const AdminBlogs = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this blog?")) return;
 
-    const { error } = await supabase
-      .from("blogs_premium_20251226")
+    const { error } = await api
+      .from("blogs")
       .delete()
       .eq("id", id);
 

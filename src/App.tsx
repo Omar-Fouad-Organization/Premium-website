@@ -40,6 +40,7 @@ import AdminBlogs from "./pages/admin/Blogs";
 import AdminPartners from "./pages/admin/Partners";
 import PhotoTest from "./pages/PhotoTest";
 import NotFound from "./pages/NotFound";
+import { isLocalDemoAvailable } from "@/lib/localDemo";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,11 @@ const App = () => {
   const handleLoadingComplete = () => {
     setIsLoading(false);
   };
+
+  // Isolated preview: never mount authentication or live-data providers.
+  if (isLocalDemoAvailable() && window.location.hash === "#/admin/demo") {
+    return <HashRouter><Routes><Route path="/admin/demo" element={<AdminDashboard demo />} /><Route path="*" element={<Navigate to="/admin/login" replace />} /></Routes></HashRouter>;
+  }
 
   if (isLoading) {
     return <LoadingPage onLoadingComplete={handleLoadingComplete} />;
@@ -77,7 +83,7 @@ const App = () => {
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/visitors" element={<PremiumVisitors />} />
             <Route path="/contact" element={<PremiumContact />} />
-            
+
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminRedirect />} />
             <Route path="/admin/login" element={<AdminLogin />} />
@@ -96,15 +102,15 @@ const App = () => {
             <Route path="/admin/language" element={<AdminLanguage />} />
             <Route path="/admin/blogs" element={<AdminBlogs />} />
             <Route path="/admin/partners" element={<AdminPartners />} />
-            
+
             {/* Test Routes */}
             <Route path="/photo-test" element={<PhotoTest />} />
-            
+
             {/* Admin redirects for common paths */}
             <Route path="/admin/" element={<Navigate to="/admin/login" replace />} />
             <Route path="/dashboard" element={<Navigate to="/admin/dashboard" replace />} />
             <Route path="/login" element={<Navigate to="/admin/login" replace />} />
-            
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

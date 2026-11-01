@@ -3,7 +3,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, Image as ImageIcon, Check } from "lucide-react";
 
@@ -20,15 +20,14 @@ const AdminLogo = () => {
   }, []);
 
   const loadLogos = async () => {
-    const { data } = await supabase
-      .from("site_settings_premium_20251225")
-      .select("logo_url, favicon_url")
-      .limit(1)
-      .single();
+    const { data } = await api
+      .from("site_settings")
+      .select("setting_key, setting_value")
+      .in("setting_key", ["logo_url", "favicon_url"]);
 
     if (data) {
-      setLogoUrl(data.logo_url || "");
-      setFaviconUrl(data.favicon_url || "");
+      setLogoUrl(data.find((item) => item.setting_key === "logo_url")?.setting_value || "");
+      setFaviconUrl(data.find((item) => item.setting_key === "favicon_url")?.setting_value || "");
     }
     setLoading(false);
   };
@@ -60,12 +59,12 @@ const AdminLogo = () => {
     setUploadingLogo(true);
 
     try {
-      // Upload to Supabase Storage
+      // Upload to Laravel storage
       const fileExt = file.name.split(".").pop();
       const fileName = `logo-${Date.now()}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await api.storage
         .from("premium_logos")
         .upload(filePath, file, {
           cacheControl: "3600",
@@ -75,33 +74,15 @@ const AdminLogo = () => {
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: urlData } = supabase.storage
+      const { data: urlData } = api.storage
         .from("premium_logos")
         .getPublicUrl(filePath);
 
       const publicUrl = urlData.publicUrl;
 
-      // Get the first row ID
-      const { data: settingsData, error: fetchError } = await supabase
-        .from("site_settings_premium_20251225")
-        .select("id")
-        .limit(1)
-        .single();
-
-      if (fetchError) {
-        console.error("Fetch error:", fetchError);
-        throw new Error("Failed to fetch settings ID");
-      }
-
-      if (!settingsData?.id) {
-        throw new Error("No settings record found");
-      }
-
-      // Update database with logo URL
-      const { error: updateError } = await supabase
-        .from("site_settings_premium_20251225")
-        .update({ logo_url: publicUrl })
-        .eq("id", settingsData.id);
+      const { error: updateError } = await api.from("site_settings").upsert({
+        setting_key: "logo_url", setting_value: publicUrl, category: "branding", setting_type: "image",
+      }, { onConflict: "setting_key" });
 
       if (updateError) {
         console.error("Update error:", updateError);
@@ -151,12 +132,12 @@ const AdminLogo = () => {
     setUploadingFavicon(true);
 
     try {
-      // Upload to Supabase Storage
+      // Upload to Laravel storage
       const fileExt = file.name.split(".").pop();
       const fileName = `favicon-${Date.now()}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await api.storage
         .from("premium_logos")
         .upload(filePath, file, {
           cacheControl: "3600",
@@ -166,33 +147,15 @@ const AdminLogo = () => {
       if (uploadError) throw uploadError;
 
       // Get public URL
-      const { data: urlData } = supabase.storage
+      const { data: urlData } = api.storage
         .from("premium_logos")
         .getPublicUrl(filePath);
 
       const publicUrl = urlData.publicUrl;
 
-      // Get the first row ID
-      const { data: settingsData, error: fetchError } = await supabase
-        .from("site_settings_premium_20251225")
-        .select("id")
-        .limit(1)
-        .single();
-
-      if (fetchError) {
-        console.error("Fetch error:", fetchError);
-        throw new Error("Failed to fetch settings ID");
-      }
-
-      if (!settingsData?.id) {
-        throw new Error("No settings record found");
-      }
-
-      // Update database with favicon URL
-      const { error: updateError } = await supabase
-        .from("site_settings_premium_20251225")
-        .update({ favicon_url: publicUrl })
-        .eq("id", settingsData.id);
+      const { error: updateError } = await api.from("site_settings").upsert({
+        setting_key: "favicon_url", setting_value: publicUrl, category: "branding", setting_type: "image",
+      }, { onConflict: "setting_key" });
 
       if (updateError) {
         console.error("Update error:", updateError);
@@ -200,10 +163,10 @@ const AdminLogo = () => {
       }
 
       setFaviconUrl(publicUrl);
-      
+
       // Update favicon in document
       updateFaviconInDocument(publicUrl);
-      
+
       toast({
         title: "Success",
         description: "Favicon uploaded successfully",
@@ -264,7 +227,7 @@ const AdminLogo = () => {
               <p className="text-sm text-muted-foreground">
                 Upload your logo image (PNG, JPG, SVG, or WebP). Recommended size: 400x100px. Max file size: 5MB.
               </p>
-              
+
               <div className="flex items-center gap-4">
                 <input
                   type="file"
@@ -326,7 +289,7 @@ const AdminLogo = () => {
               <p className="text-sm text-muted-foreground">
                 Upload your favicon (the small icon that appears in browser tabs). Recommended size: 32x32px or 64x64px. Max file size: 1MB.
               </p>
-              
+
               <div className="flex items-center gap-4">
                 <input
                   type="file"

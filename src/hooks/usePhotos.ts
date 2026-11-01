@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { api } from '@/integrations/api/client';
 
 interface Photo {
   id: string;
@@ -20,14 +20,14 @@ export const usePhotos = (pageLocation?: string, sectionName?: string) => {
   useEffect(() => {
     loadPhotos();
   }, [pageLocation, sectionName]);
-  
+
   // Add interval to refresh photos every 30 seconds for testing
   useEffect(() => {
     const interval = setInterval(() => {
       console.log('🔄 Auto-refreshing photos...');
       loadPhotos();
     }, 30000);
-    
+
     return () => clearInterval(interval);
   }, [pageLocation, sectionName]);
 
@@ -35,11 +35,11 @@ export const usePhotos = (pageLocation?: string, sectionName?: string) => {
     try {
       setLoading(true);
       setError(null);
-      
+
       console.log('🔍 Loading photos for:', { pageLocation, sectionName });
 
-      let query = supabase
-        .from('photos_premium_20251225')
+      let query = api
+        .from('photos')
         .select('*')
         .eq('is_active', true)
         .order('display_order', { ascending: true });

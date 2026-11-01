@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 
 const FaviconLoader = () => {
   useEffect(() => {
@@ -8,14 +8,15 @@ const FaviconLoader = () => {
 
   const loadFavicon = async () => {
     try {
-      const { data } = await supabase
-        .from("site_settings_premium_20251225")
-        .select("favicon_url")
+      const { data } = await api
+        .from("site_settings")
+        .select("setting_value")
+      .eq("setting_key", "favicon_url")
         .limit(1)
         .single();
 
-      if (data?.favicon_url) {
-        updateFavicon(data.favicon_url);
+      if (data?.setting_value) {
+        updateFavicon(data.setting_value);
       }
     } catch (error) {
       console.error("Error loading favicon:", error);

@@ -4,7 +4,7 @@ import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, MapPin, Clock, Ticket, Users, Mic, ShoppingBag, CheckCircle, XCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -19,17 +19,17 @@ const PremiumVisitors = () => {
   }, [language]);
 
   const loadRegistrationSettings = async () => {
-    const { data, error } = await supabase
-      .from("site_settings_premium_20251225")
-      .select("visitor_registration_enabled, visitor_registration_closed_message, visitor_registration_closed_message_ar")
-      .limit(1)
-      .single();
+    const { data, error } = await api
+      .from("site_settings")
+      .select("setting_key, setting_value")
+      .in("setting_key", ["visitor_registration_enabled", "visitor_registration_closed_message", "visitor_registration_closed_message_ar"]);
 
     if (data) {
-      setRegistrationEnabled(data.visitor_registration_enabled ?? true);
-      const message = language === "ar" 
-        ? data.visitor_registration_closed_message_ar 
-        : data.visitor_registration_closed_message;
+      const settings = Object.fromEntries(data.map((item) => [item.setting_key, item.setting_value]));
+      setRegistrationEnabled(settings.visitor_registration_enabled === "true");
+      const message = language === "ar"
+        ? settings.visitor_registration_closed_message_ar
+        : settings.visitor_registration_closed_message;
       setClosedMessage(message || "Visitor registration is currently closed. Please check back later.");
     }
     setLoading(false);
@@ -102,7 +102,7 @@ const PremiumVisitors = () => {
             <h1 className="text-premium-heading mb-6">
               Plan Your Visit to Green Life Expo
             </h1>
-            
+
             <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
               Join thousands of sustainability enthusiasts, business professionals, and conscious consumers for three days of discovery, learning, and connection.
             </p>
@@ -288,7 +288,7 @@ const PremiumVisitors = () => {
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
               Register now and be part of Egypt's premier green living event. Entry is free for all visitors.
             </p>
-            
+
             <Button size="lg" asChild className="btn-premium btn-premium-primary group">
               <Link to="/contact?scrollToForm=true">
                 Register for Free

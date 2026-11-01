@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lock, Sparkles } from "lucide-react";
+import { isLocalDemoAvailable } from "@/lib/localDemo";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
@@ -92,6 +93,11 @@ const AdminLogin = () => {
               )}
             </Button>
           </form>
+          {isLocalDemoAvailable() && (
+            <Button asChild variant="outline" className="w-full mt-4">
+              <a href="/#/admin/demo" onClick={(event) => { event.preventDefault(); window.location.hash = "/admin/demo"; window.location.reload(); }}>Preview local demo</a>
+            </Button>
+          )}
 
           <div className="mt-6 pt-6 border-t text-center">
             <p className="text-sm text-muted-foreground">

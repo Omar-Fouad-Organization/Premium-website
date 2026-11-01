@@ -1,9 +1,10 @@
+import BrandLogo from "@/components/BrandLogo";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 
 const PremiumHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,14 +27,15 @@ const PremiumHeader = () => {
   }, []);
 
   const loadLogo = async () => {
-    const { data } = await supabase
-      .from("site_settings_premium_20251225")
-      .select("logo_url")
+    const { data } = await api
+      .from("site_settings")
+      .select("setting_value")
+      .eq("setting_key", "logo_url")
       .limit(1)
       .single();
 
-    if (data?.logo_url) {
-      setLogoUrl(data.logo_url);
+    if (data?.setting_value) {
+      setLogoUrl(data.setting_value);
     }
   };
 
@@ -67,11 +69,7 @@ const PremiumHeader = () => {
         <div className={`flex items-center justify-between h-24 md:h-28 py-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <img
-              src={logoUrl}
-              alt="Green Life Expo"
-              className="h-20 md:h-24 w-auto max-w-[250px] md:max-w-[350px] object-contain"
-            />
+            <BrandLogo src={logoUrl} className="h-20 md:h-24" />
           </Link>
 
           {/* Desktop Navigation */}

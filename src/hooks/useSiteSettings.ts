@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SiteSetting {
@@ -21,8 +21,8 @@ export const useSiteSettings = (category?: string) => {
   }, [category, language]);
 
   const loadSettings = async () => {
-    let query = supabase
-      .from("site_settings_premium_20251225")
+    let query = api
+      .from("site_settings")
       .select("*");
 
     if (category) {
@@ -37,7 +37,7 @@ export const useSiteSettings = (category?: string) => {
         // For multilingual support, check if there's a language-specific version
         const langKey = language === "ar" ? `${item.setting_key}_ar` : item.setting_key;
         const langSetting = data.find(s => s.setting_key === langKey);
-        
+
         settingsMap[item.setting_key] = langSetting?.setting_value || item.setting_value || '';
       });
       setSettings(settingsMap);

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Save } from "lucide-react";
 
@@ -29,8 +29,8 @@ const AdminSettings = () => {
   }, []);
 
   const loadSettings = async () => {
-    const { data, error } = await supabase
-      .from("site_settings_premium_20251225")
+    const { data, error } = await api
+      .from("site_settings")
       .select("*")
       .order("category", { ascending: true });
 
@@ -56,13 +56,13 @@ const AdminSettings = () => {
     setSaving(true);
 
     const categorySettings = settings.filter(s => s.category === category);
-    
+
     for (const setting of categorySettings) {
-      const { error } = await supabase
-        .from("site_settings_premium_20251225")
-        .update({ 
-          setting_value: setting.setting_value, 
-          updated_at: new Date().toISOString() 
+      const { error } = await api
+        .from("site_settings")
+        .update({
+          setting_value: setting.setting_value,
+          updated_at: new Date().toISOString()
         })
         .eq("id", setting.id);
 
@@ -95,8 +95,8 @@ const AdminSettings = () => {
     }));
 
     for (const update of updates) {
-      const { error } = await supabase
-        .from("site_settings_premium_20251225")
+      const { error } = await api
+        .from("site_settings")
         .update({ setting_value: update.setting_value, updated_at: update.updated_at })
         .eq("id", update.id);
 

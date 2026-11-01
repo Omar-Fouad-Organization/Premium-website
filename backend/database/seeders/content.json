@@ -1,0 +1,1529 @@
+{
+  "site_settings": [
+    {
+      "setting_key": "site_title",
+      "setting_value": "Green Life Expo",
+      "setting_type": "text",
+      "category": "general",
+      "description": "Website title"
+    },
+    {
+      "setting_key": "site_tagline",
+      "setting_value": "Egypt's Leading Go Green & Healthy Living Expo",
+      "setting_type": "text",
+      "category": "general",
+      "description": "Website tagline"
+    },
+    {
+      "setting_key": "hero_headline",
+      "setting_value": "Egypt's Leading Go Green & Healthy Living Expo",
+      "setting_type": "text",
+      "category": "hero",
+      "description": "Main headline"
+    },
+    {
+      "setting_key": "hero_subtitle",
+      "setting_value": "The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East.",
+      "setting_type": "text",
+      "category": "hero",
+      "description": "Hero subtitle"
+    },
+    {
+      "setting_key": "event_date",
+      "setting_value": "Dates to be announced",
+      "setting_type": "text",
+      "category": "hero"
+    },
+    {
+      "setting_key": "event_location",
+      "setting_value": "Cairo International Convention Center, New Cairo, Egypt",
+      "setting_type": "text",
+      "category": "location",
+      "description": "Event Location"
+    },
+    {
+      "setting_key": "stat_exhibitors",
+      "setting_value": "500+",
+      "setting_type": "text",
+      "category": "stats",
+      "description": "Number of exhibitors"
+    },
+    {
+      "setting_key": "stat_visitors",
+      "setting_value": "10,000+",
+      "setting_type": "text",
+      "category": "stats",
+      "description": "Number of visitors"
+    },
+    {
+      "setting_key": "stat_speakers",
+      "setting_value": "50+",
+      "setting_type": "text",
+      "category": "stats",
+      "description": "Number of expert speakers"
+    },
+    {
+      "setting_key": "stat_days",
+      "setting_value": "3",
+      "setting_type": "text",
+      "category": "stats",
+      "description": "Number of days"
+    },
+    {
+      "setting_key": "contact_email",
+      "setting_value": "info@greenlifeexpo.com",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Contact email"
+    },
+    {
+      "setting_key": "contact_phone",
+      "setting_value": "+20 123 456 7890",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Contact phone"
+    },
+    {
+      "setting_key": "contact_address",
+      "setting_value": "Cairo International Convention Center, El Nasr Road, Nasr City, Cairo, Egypt",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Physical address"
+    },
+    {
+      "setting_key": "facebook_url",
+      "setting_value": "https://facebook.com",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Facebook URL"
+    },
+    {
+      "setting_key": "instagram_url",
+      "setting_value": "https://instagram.com",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Instagram URL"
+    },
+    {
+      "setting_key": "linkedin_url",
+      "setting_value": "https://linkedin.com",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "LinkedIn URL"
+    },
+    {
+      "setting_key": "meta_title",
+      "setting_value": "Green Life Expo - Egypt's Leading Go Green & Healthy Living Expo",
+      "setting_type": "text",
+      "category": "seo",
+      "description": "Website meta title (SEO)"
+    },
+    {
+      "setting_key": "meta_description",
+      "setting_value": "Join Egypt's premier green living exhibition. Discover organic products, sustainable solutions, and healthy lifestyles at Green Life Expo.",
+      "setting_type": "text",
+      "category": "seo",
+      "description": "Website meta description (SEO)"
+    },
+    {
+      "setting_key": "meta_keywords",
+      "setting_value": "green expo, organic products, sustainable living, healthy lifestyle, Egypt exhibition, eco-friendly",
+      "setting_type": "text",
+      "category": "seo",
+      "description": "Website meta keywords (SEO)"
+    },
+    {
+      "setting_key": "og_title",
+      "setting_value": "Green Life Expo - Egypt's Leading Go Green & Healthy Living Expo",
+      "setting_type": "text",
+      "category": "seo",
+      "description": "Open Graph title (social media)"
+    },
+    {
+      "setting_key": "og_description",
+      "setting_value": "Join Egypt's premier green living exhibition. Discover organic products, sustainable solutions, and healthy lifestyles.",
+      "setting_type": "text",
+      "category": "seo",
+      "description": "Open Graph description (social media)"
+    },
+    {
+      "setting_key": "og_image",
+      "setting_value": "/images/green_life_expo_logo_variations_20251225134629_1.webp",
+      "setting_type": "text",
+      "category": "seo",
+      "description": "Open Graph image URL (social media)"
+    },
+    {
+      "setting_key": "logo_url",
+      "setting_value": "/images/green_life_expo_logo_variations_20251225134629_1.webp",
+      "setting_type": "text",
+      "category": "branding"
+    },
+    {
+      "setting_key": "logo_alt_text",
+      "setting_value": "Green Life Expo Logo",
+      "setting_type": "text",
+      "category": "branding",
+      "description": "Logo alt text for accessibility"
+    },
+    {
+      "setting_key": "favicon_url",
+      "setting_value": "/favicon.ico",
+      "setting_type": "text",
+      "category": "branding"
+    },
+    {
+      "setting_key": "color_primary",
+      "setting_value": "95 55% 20%",
+      "setting_type": "color",
+      "category": "design",
+      "description": "Primary brand color (Deep Natural Green)"
+    },
+    {
+      "setting_key": "color_secondary",
+      "setting_value": "145 35% 75%",
+      "setting_type": "color",
+      "category": "design",
+      "description": "Secondary color (Soft Light Green)"
+    },
+    {
+      "setting_key": "color_accent",
+      "setting_value": "43 45% 58%",
+      "setting_type": "color",
+      "category": "design",
+      "description": "Accent color (Premium Gold)"
+    },
+    {
+      "setting_key": "color_background",
+      "setting_value": "0 0% 100%",
+      "setting_type": "color",
+      "category": "design",
+      "description": "Background color (Pure White)"
+    },
+    {
+      "setting_key": "site_language",
+      "setting_value": "en",
+      "setting_type": "text",
+      "category": "general"
+    },
+    {
+      "setting_key": "enable_language_switcher",
+      "setting_value": "true",
+      "setting_type": "text",
+      "category": "general",
+      "description": "Show language switcher on website"
+    },
+    {
+      "setting_key": "social_facebook",
+      "setting_value": "https://facebook.com/greenlifeexpo",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Facebook page URL"
+    },
+    {
+      "setting_key": "social_instagram",
+      "setting_value": "https://instagram.com/greenlifeexpo",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Instagram profile URL"
+    },
+    {
+      "setting_key": "social_linkedin",
+      "setting_value": "https://linkedin.com/company/greenlifeexpo",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "LinkedIn company page URL"
+    },
+    {
+      "setting_key": "social_twitter",
+      "setting_value": "https://twitter.com/greenlifeexpo",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "Twitter/X profile URL"
+    },
+    {
+      "setting_key": "social_youtube",
+      "setting_value": "https://youtube.com/@greenlifeexpo",
+      "setting_type": "text",
+      "category": "contact",
+      "description": "YouTube channel URL"
+    },
+    {
+      "setting_key": "primary_color",
+      "setting_value": "#2A7038",
+      "setting_type": "color",
+      "category": "colors",
+      "description": "Primary Brand Color"
+    },
+    {
+      "setting_key": "secondary_color",
+      "setting_value": "#68B87B",
+      "setting_type": "color",
+      "category": "colors",
+      "description": "Secondary Brand Color"
+    },
+    {
+      "setting_key": "accent_color",
+      "setting_value": "#D4AF37",
+      "setting_type": "color",
+      "category": "colors",
+      "description": "Accent Color"
+    },
+    {
+      "setting_key": "background_color",
+      "setting_value": "#FFFFFF",
+      "setting_type": "color",
+      "category": "colors",
+      "description": "Background Color"
+    },
+    {
+      "setting_key": "text_color",
+      "setting_value": "#323232",
+      "setting_type": "color",
+      "category": "colors",
+      "description": "Text Color"
+    },
+    {
+      "setting_key": "muted_color",
+      "setting_value": "#F8F6F0",
+      "setting_type": "color",
+      "category": "colors",
+      "description": "Muted Background Color"
+    },
+    {
+      "setting_key": "map_latitude",
+      "setting_value": "30.0444",
+      "setting_type": "text",
+      "category": "location",
+      "description": "Map Latitude"
+    },
+    {
+      "setting_key": "map_longitude",
+      "setting_value": "31.2357",
+      "setting_type": "text",
+      "category": "location",
+      "description": "Map Longitude"
+    },
+    {
+      "setting_key": "map_zoom",
+      "setting_value": "15",
+      "setting_type": "text",
+      "category": "location",
+      "description": "Map Zoom Level"
+    },
+    {
+      "setting_key": "map_marker_title",
+      "setting_value": "Green Life Expo - Cairo International Convention Center",
+      "setting_type": "text",
+      "category": "location",
+      "description": "Map Marker Title"
+    },
+    {
+      "setting_key": "map_embed_url",
+      "setting_value": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.123456789!2d31.2357!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDAyJzM5LjgiTiAzMcKwMTQnMDguNSJF!5e0!3m2!1sen!2seg!4v1234567890123",
+      "setting_type": "text",
+      "category": "location",
+      "description": "Google Maps Embed URL"
+    },
+    {
+      "setting_key": "hero_date",
+      "setting_value": "Dates to be announced",
+      "setting_type": "text",
+      "category": "hero"
+    },
+    {
+      "setting_key": "hero_location",
+      "setting_value": "Cairo, Egypt",
+      "setting_type": "text",
+      "category": "hero"
+    },
+    {
+      "setting_key": "visitor_registration_enabled",
+      "setting_value": "true",
+      "setting_type": "text",
+      "category": "general"
+    },
+    {
+      "setting_key": "visitor_registration_closed_message",
+      "setting_value": "Registration is currently closed.",
+      "setting_type": "text",
+      "category": "general"
+    },
+    {
+      "setting_key": "visitor_registration_closed_message_ar",
+      "setting_value": "التسجيل مغلق حالياً.",
+      "setting_type": "text",
+      "category": "general"
+    }
+  ],
+  "page_content": [
+    {
+      "page_name": "home",
+      "section_name": "hero",
+      "content_key": "title",
+      "content_value": "Egypt's Leading Go Green & Healthy Living Expo",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "home",
+      "section_name": "hero",
+      "content_key": "subtitle",
+      "content_value": "The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "home",
+      "section_name": "value_prop",
+      "content_key": "title",
+      "content_value": "Where Green Living Meets Business Growth",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "home",
+      "section_name": "value_prop",
+      "content_key": "description",
+      "content_value": "Green Life Expo is not just an event—it's the definitive platform for sustainable businesses to connect, grow, and lead the green economy transformation in Egypt and beyond.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "about",
+      "section_name": "hero",
+      "content_key": "title",
+      "content_value": "Building Egypt's Green Economy Platform",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "about",
+      "section_name": "hero",
+      "content_key": "subtitle",
+      "content_value": "Green Life Expo exists to bridge the gap between sustainable innovation and market adoption, creating a thriving ecosystem where green businesses flourish.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "about",
+      "section_name": "vision",
+      "content_key": "title",
+      "content_value": "Our Vision",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "about",
+      "section_name": "vision",
+      "content_key": "description",
+      "content_value": "To establish Egypt as the Middle East's leading platform for sustainable living, where green innovation meets market opportunity.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "about",
+      "section_name": "mission",
+      "content_key": "title",
+      "content_value": "Our Mission",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "about",
+      "section_name": "mission",
+      "content_key": "description",
+      "content_value": "To create a comprehensive platform that connects sustainable businesses with conscious consumers, facilitates knowledge exchange, and drives green innovation.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "hero",
+      "content_key": "title",
+      "content_value": "Exhibit at Egypt's Premier Green Living Platform",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "hero",
+      "content_key": "subtitle",
+      "content_value": "Position your brand at the forefront of Egypt's green economy. Connect with qualified buyers, generate high-value leads, and establish your market leadership.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "hero",
+      "content_key": "title",
+      "content_value": "Partner with Egypt's Leading Sustainability Platform",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "hero",
+      "content_key": "subtitle",
+      "content_value": "Align your brand with the green economy movement. Demonstrate leadership, enhance ESG credentials, and connect with millions of sustainability-conscious stakeholders.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "hero",
+      "content_key": "title",
+      "content_value": "Plan Your Visit to Green Life Expo",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "hero",
+      "content_key": "subtitle",
+      "content_value": "Join thousands of sustainability enthusiasts, business professionals, and conscious consumers for three days of discovery, learning, and connection.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "contact",
+      "section_name": "hero",
+      "content_key": "title",
+      "content_value": "Let's Start a Conversation",
+      "content_type": "text",
+      "display_order": 1
+    },
+    {
+      "page_name": "contact",
+      "section_name": "hero",
+      "content_key": "subtitle",
+      "content_value": "Whether you're interested in exhibiting, sponsoring, or visiting, our team is here to help you make the most of Green Life Expo.",
+      "content_type": "text",
+      "display_order": 2
+    },
+    {
+      "page_name": "about",
+      "section_name": "hero",
+      "content_key": "about_page_title",
+      "content_value": "About Green Life Expo",
+      "content_value_ar": "عن معرض الحياة الخضراء",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "hero",
+      "content_key": "about_page_subtitle",
+      "content_value": "Leading the way in sustainable living and green innovation across the Middle East",
+      "content_value_ar": "نقود الطريق في الحياة المستدامة والابتكار الأخضر في الشرق الأوسط",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "vision",
+      "content_key": "vision_section_title",
+      "content_value": "Our Vision",
+      "content_value_ar": "رؤيتنا",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "vision",
+      "content_key": "vision_description",
+      "content_value": "To be the Middle East's premier platform for sustainable living, connecting innovators, businesses, and conscious consumers in a thriving green economy.",
+      "content_value_ar": "أن نكون المنصة الرائدة في الشرق الأوسط للحياة المستدامة، نربط المبتكرين والشركات والمستهلكين الواعين في اقتصاد أخضر مزدهر.",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "about",
+      "section_name": "mission",
+      "content_key": "mission_section_title",
+      "content_value": "Our Mission",
+      "content_value_ar": "مهمتنا",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "mission",
+      "content_key": "mission_description",
+      "content_value": "To promote sustainable practices, organic products, and healthy lifestyles through education, innovation, and community engagement, creating lasting positive impact.",
+      "content_value_ar": "تعزيز الممارسات المستدامة والمنتجات العضوية وأنماط الحياة الصحية من خلال التعليم والابتكار والمشاركة المجتمعية، وخلق تأثير إيجابي دائم.",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "values_section_title",
+      "content_value": "Our Values",
+      "content_value_ar": "قيمنا",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "value_1_title",
+      "content_value": "Sustainability First",
+      "content_value_ar": "الاستدامة أولاً",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "value_1_desc",
+      "content_value": "Environmental responsibility guides every decision",
+      "content_value_ar": "المسؤولية البيئية توجه كل قرار",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "value_2_title",
+      "content_value": "Innovation",
+      "content_value_ar": "الابتكار",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "value_2_desc",
+      "content_value": "Embracing new solutions for a greener future",
+      "content_value_ar": "احتضان حلول جديدة لمستقبل أكثر خضرة",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "value_3_title",
+      "content_value": "Community",
+      "content_value_ar": "المجتمع",
+      "content_type": "text"
+    },
+    {
+      "page_name": "about",
+      "section_name": "values",
+      "content_key": "value_3_desc",
+      "content_value": "Building connections that drive positive change",
+      "content_value_ar": "بناء روابط تدفع التغيير الإيجابي",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "hero",
+      "content_key": "exhibitors_page_title",
+      "content_value": "Exhibit With Us",
+      "content_value_ar": "اعرض معنا",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "hero",
+      "content_key": "exhibitors_page_subtitle",
+      "content_value": "Showcase your sustainable products and innovations to thousands of engaged visitors and industry professionals",
+      "content_value_ar": "اعرض منتجاتك وابتكاراتك المستدامة لآلاف الزوار المهتمين والمحترفين في الصناعة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "why",
+      "content_key": "why_exhibit_title",
+      "content_value": "Why Exhibit at Green Life Expo?",
+      "content_value_ar": "لماذا تعرض في معرض الحياة الخضراء؟",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_1_title",
+      "content_value": "Targeted Audience",
+      "content_value_ar": "جمهور مستهدف",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_1_description",
+      "content_value": "Connect with eco-conscious consumers, buyers, and business partners actively seeking sustainable solutions",
+      "content_value_ar": "تواصل مع المستهلكين الواعين بيئياً والمشترين وشركاء الأعمال الذين يبحثون بنشاط عن حلول مستدامة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_2_title",
+      "content_value": "Brand Visibility",
+      "content_value_ar": "ظهور العلامة التجارية",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_2_description",
+      "content_value": "Increase your brand awareness and establish yourself as a leader in the sustainability sector",
+      "content_value_ar": "زد من وعي علامتك التجارية وأثبت نفسك كقائد في قطاع الاستدامة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_3_title",
+      "content_value": "Networking Opportunities",
+      "content_value_ar": "فرص التواصل",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_3_description",
+      "content_value": "Build valuable partnerships and connections with industry leaders and potential clients",
+      "content_value_ar": "بناء شراكات وعلاقات قيمة مع قادة الصناعة والعملاء المحتملين",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_4_title",
+      "content_value": "Media Exposure",
+      "content_value_ar": "التعرض الإعلامي",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "benefits",
+      "content_key": "benefit_4_description",
+      "content_value": "Gain extensive media coverage and PR opportunities to amplify your message",
+      "content_value_ar": "احصل على تغطية إعلامية واسعة وفرص علاقات عامة لتضخيم رسالتك",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "cta",
+      "content_key": "exhibitors_cta_title",
+      "content_value": "Ready to Exhibit?",
+      "content_value_ar": "مستعد للعرض؟",
+      "content_type": "text"
+    },
+    {
+      "page_name": "exhibitors",
+      "section_name": "cta",
+      "content_key": "exhibitors_cta_button",
+      "content_value": "Download Exhibitor Package",
+      "content_value_ar": "تحميل حزمة العارض",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "hero",
+      "content_key": "sponsors_page_title",
+      "content_value": "Become a Sponsor",
+      "content_value_ar": "كن راعياً",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "hero",
+      "content_key": "sponsors_page_subtitle",
+      "content_value": "Partner with Egypt's premier sustainability event and amplify your brand's impact in the green economy",
+      "content_value_ar": "شارك في حدث الاستدامة الأول في مصر وضاعف تأثير علامتك التجارية في الاقتصاد الأخضر",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "why",
+      "content_key": "why_sponsor_title",
+      "content_value": "Why Sponsor Green Life Expo?",
+      "content_value_ar": "لماذا ترعى معرض الحياة الخضراء؟",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_1_title",
+      "content_value": "Premium Brand Exposure",
+      "content_value_ar": "تعرض مميز للعلامة التجارية",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_1_desc",
+      "content_value": "Maximize visibility through prominent branding across all event touchpoints",
+      "content_value_ar": "زيادة الظهور من خلال العلامة التجارية البارزة في جميع نقاط الاتصال بالحدث",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_2_title",
+      "content_value": "Thought Leadership",
+      "content_value_ar": "قيادة الفكر",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_2_desc",
+      "content_value": "Position your brand as an industry leader through speaking opportunities",
+      "content_value_ar": "ضع علامتك التجارية كقائد في الصناعة من خلال فرص التحدث",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_3_title",
+      "content_value": "Networking Access",
+      "content_value_ar": "الوصول إلى الشبكات",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_3_desc",
+      "content_value": "Exclusive access to VIP networking events and decision-makers",
+      "content_value_ar": "وصول حصري إلى فعاليات التواصل VIP وصناع القرار",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_4_title",
+      "content_value": "ROI-Focused",
+      "content_value_ar": "التركيز على العائد على الاستثمار",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sponsors",
+      "section_name": "benefits",
+      "content_key": "sponsor_benefit_4_desc",
+      "content_value": "Measurable results through lead generation and partnership opportunities",
+      "content_value_ar": "نتائج قابلة للقياس من خلال توليد العملاء المحتملين وفرص الشراكة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "sectors",
+      "section_name": "hero",
+      "content_key": "sectors_page_title",
+      "content_value": "Exhibition Sectors",
+      "content_value_ar": "قطاعات المعرض",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sectors",
+      "section_name": "hero",
+      "content_key": "sectors_page_subtitle",
+      "content_value": "Explore diverse categories of sustainable products and services across multiple industries",
+      "content_value_ar": "استكشف فئات متنوعة من المنتجات والخدمات المستدامة عبر صناعات متعددة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "sectors",
+      "section_name": "intro",
+      "content_key": "sectors_intro_title",
+      "content_value": "Curated Sectors for Maximum Impact",
+      "content_value_ar": "قطاعات منتقاة لأقصى تأثير",
+      "content_type": "text"
+    },
+    {
+      "page_name": "sectors",
+      "section_name": "intro",
+      "content_key": "sectors_intro_desc",
+      "content_value": "Each sector is carefully designed to create meaningful connections between exhibitors and their target audiences",
+      "content_value_ar": "كل قطاع مصمم بعناية لخلق روابط ذات مغزى بين العارضين وجمهورهم المستهدف",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "content",
+      "section_name": "hero",
+      "content_key": "content_page_title",
+      "content_value": "Content & Talks",
+      "content_value_ar": "المحتوى والمحاضرات",
+      "content_type": "text"
+    },
+    {
+      "page_name": "content",
+      "section_name": "hero",
+      "content_key": "content_page_subtitle",
+      "content_value": "Learn from industry experts and thought leaders shaping the future of sustainability",
+      "content_value_ar": "تعلم من خبراء الصناعة وقادة الفكر الذين يشكلون مستقبل الاستدامة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "content",
+      "section_name": "program",
+      "content_key": "program_title",
+      "content_value": "Expert-Led Program",
+      "content_value_ar": "برنامج يقوده الخبراء",
+      "content_type": "text"
+    },
+    {
+      "page_name": "content",
+      "section_name": "program",
+      "content_key": "program_desc",
+      "content_value": "Access exclusive content, expert panels, and workshops designed to drive innovation and knowledge sharing",
+      "content_value_ar": "الوصول إلى محتوى حصري ولجان خبراء وورش عمل مصممة لدفع الابتكار ومشاركة المعرفة",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "content",
+      "section_name": "topics",
+      "content_key": "topics_title",
+      "content_value": "Key Topics",
+      "content_value_ar": "المواضيع الرئيسية",
+      "content_type": "text"
+    },
+    {
+      "page_name": "content",
+      "section_name": "topics",
+      "content_key": "topic_1",
+      "content_value": "Sustainability Trends & Market Opportunities",
+      "content_value_ar": "اتجاهات الاستدامة وفرص السوق",
+      "content_type": "text"
+    },
+    {
+      "page_name": "content",
+      "section_name": "topics",
+      "content_key": "topic_2",
+      "content_value": "Green Technology & Innovation",
+      "content_value_ar": "التكنولوجيا الخضراء والابتكار",
+      "content_type": "text"
+    },
+    {
+      "page_name": "content",
+      "section_name": "topics",
+      "content_key": "topic_3",
+      "content_value": "Circular Economy & Waste Management",
+      "content_value_ar": "الاقتصاد الدائري وإدارة النفايات",
+      "content_type": "text"
+    },
+    {
+      "page_name": "content",
+      "section_name": "topics",
+      "content_key": "topic_4",
+      "content_value": "Organic Agriculture & Food Security",
+      "content_value_ar": "الزراعة العضوية والأمن الغذائي",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "hero",
+      "content_key": "visitors_page_title",
+      "content_value": "Visit the Expo",
+      "content_value_ar": "زر المعرض",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "hero",
+      "content_key": "visitors_page_subtitle",
+      "content_value": "Discover sustainable living solutions and connect with green innovators transforming our future",
+      "content_value_ar": "اكتشف حلول الحياة المستدامة وتواصل مع المبتكرين الخضر الذين يحولون مستقبلنا",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "what",
+      "content_key": "what_to_expect_title",
+      "content_value": "What to Expect",
+      "content_value_ar": "ماذا تتوقع",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "what",
+      "content_key": "expect_1",
+      "content_value": "500+ exhibitors showcasing sustainable products",
+      "content_value_ar": "500+ عارض يعرضون منتجات مستدامة",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "what",
+      "content_key": "expect_2",
+      "content_value": "Expert talks and workshops",
+      "content_value_ar": "محاضرات وورش عمل من الخبراء",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "what",
+      "content_key": "expect_3",
+      "content_value": "Networking opportunities",
+      "content_value_ar": "فرص التواصل",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "what",
+      "content_key": "expect_4",
+      "content_value": "Live demonstrations and product launches",
+      "content_value_ar": "عروض حية وإطلاق منتجات",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "register",
+      "content_key": "register_title",
+      "content_value": "Register as a Visitor",
+      "content_value_ar": "سجل كزائر",
+      "content_type": "text"
+    },
+    {
+      "page_name": "visitors",
+      "section_name": "register",
+      "content_key": "register_button",
+      "content_value": "Register Now - Free Entry",
+      "content_value_ar": "سجل الآن - دخول مجاني",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "hero",
+      "content_key": "contact_page_title",
+      "content_value": "Contact Us",
+      "content_value_ar": "اتصل بنا",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "hero",
+      "content_key": "contact_page_subtitle",
+      "content_value": "Get in touch with our team for inquiries, partnerships, or support",
+      "content_value_ar": "تواصل مع فريقنا للاستفسارات أو الشراكات أو الدعم",
+      "content_type": "textarea"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "info",
+      "content_key": "contact_info_title",
+      "content_value": "Contact Information",
+      "content_value_ar": "معلومات الاتصال",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_title",
+      "content_value": "Send us a Message",
+      "content_value_ar": "أرسل لنا رسالة",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_name_placeholder",
+      "content_value": "Your Name",
+      "content_value_ar": "اسمك",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_email_placeholder",
+      "content_value": "Your Email",
+      "content_value_ar": "بريدك الإلكتروني",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_phone_placeholder",
+      "content_value": "Your Phone",
+      "content_value_ar": "هاتفك",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_company_placeholder",
+      "content_value": "Company Name",
+      "content_value_ar": "اسم الشركة",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_message_placeholder",
+      "content_value": "Your Message",
+      "content_value_ar": "رسالتك",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "form_inquiry_type",
+      "content_value": "Inquiry Type",
+      "content_value_ar": "نوع الاستفسار",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "inquiry_general",
+      "content_value": "General Inquiry",
+      "content_value_ar": "استفسار عام",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "inquiry_exhibitor",
+      "content_value": "Exhibitor Information",
+      "content_value_ar": "معلومات العارض",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "inquiry_sponsor",
+      "content_value": "Sponsorship",
+      "content_value_ar": "الرعاية",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "inquiry_visitor",
+      "content_value": "Visitor Information",
+      "content_value_ar": "معلومات الزائر",
+      "content_type": "text"
+    },
+    {
+      "page_name": "contact",
+      "section_name": "form",
+      "content_key": "inquiry_media",
+      "content_value": "Media & Press",
+      "content_value_ar": "الإعلام والصحافة",
+      "content_type": "text"
+    }
+  ],
+  "packages": [
+    {
+      "package_type": "exhibitor",
+      "package_name": "Standard Booth",
+      "price": "Custom",
+      "features": [
+        "9 sqm exhibition space",
+        "Company listing in catalog",
+        "2 exhibitor passes",
+        "Basic booth furniture",
+        "WiFi access"
+      ],
+      "is_popular": false,
+      "display_order": 1
+    },
+    {
+      "package_type": "exhibitor",
+      "package_name": "Premium Booth",
+      "price": "Custom",
+      "features": [
+        "18 sqm exhibition space",
+        "Premium location",
+        "4 exhibitor passes",
+        "Premium booth design",
+        "WiFi access",
+        "Marketing support"
+      ],
+      "is_popular": true,
+      "display_order": 2
+    },
+    {
+      "package_type": "exhibitor",
+      "package_name": "Elite Booth",
+      "price": "Custom",
+      "features": [
+        "36 sqm exhibition space",
+        "Corner location",
+        "6 exhibitor passes",
+        "Custom booth design",
+        "WiFi access",
+        "Full marketing package",
+        "Speaking opportunity"
+      ],
+      "is_popular": false,
+      "display_order": 3
+    },
+    {
+      "package_type": "sponsor",
+      "package_name": "Silver Partner",
+      "price": "Custom",
+      "features": [
+        "Logo on website",
+        "Logo in event materials",
+        "2 VIP passes",
+        "Social media mentions",
+        "Networking opportunities"
+      ],
+      "is_popular": false,
+      "display_order": 1
+    },
+    {
+      "package_type": "sponsor",
+      "package_name": "Gold Partner",
+      "price": "Custom",
+      "features": [
+        "Prominent logo placement",
+        "Speaking opportunity",
+        "4 VIP passes",
+        "Booth space included",
+        "Media coverage",
+        "Custom activations"
+      ],
+      "is_popular": true,
+      "display_order": 2
+    },
+    {
+      "package_type": "sponsor",
+      "package_name": "Platinum Partner",
+      "price": "Custom",
+      "features": [
+        "Exclusive naming rights",
+        "Keynote opportunity",
+        "8 VIP passes",
+        "Premium booth space",
+        "Full media package",
+        "Custom brand experiences",
+        "Year-round partnership"
+      ],
+      "is_popular": false,
+      "display_order": 3
+    }
+  ],
+  "faqs": [
+    {
+      "question": "When is the next Green Life Expo?",
+      "answer": "Dates to be announced. Event details will be published here when confirmed.",
+      "category": "general",
+      "display_order": 1
+    },
+    {
+      "question": "How can I exhibit at the expo?",
+      "answer": "To exhibit, please contact our exhibition team through the contact form or email exhibitors@greenlifeexpo.com. We offer various booth packages to suit different needs.",
+      "category": "exhibitors",
+      "display_order": 2
+    },
+    {
+      "question": "What are the sponsorship opportunities?",
+      "answer": "We offer multiple sponsorship levels including Platinum, Gold, and Silver partnerships. Each level provides different benefits and visibility. Contact our partnership team for a custom proposal.",
+      "category": "sponsors",
+      "display_order": 3
+    },
+    {
+      "question": "Is visitor registration free?",
+      "answer": "Yes! Visitor registration is completely free. Simply register online to receive your free entry pass.",
+      "category": "visitors",
+      "display_order": 4
+    },
+    {
+      "question": "What sectors are featured at the expo?",
+      "answer": "We feature six main sectors: Organic Food & Beverages, Health & Wellness, Sustainable Living, Natural Beauty & Personal Care, Green Technology & Energy, and Eco-Fashion & Textiles.",
+      "category": "general",
+      "display_order": 5
+    }
+  ],
+  "translations": [
+    {
+      "translation_key": "nav_home",
+      "english_text": "Home",
+      "arabic_text": "الرئيسية",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_about",
+      "english_text": "About",
+      "arabic_text": "عن المعرض",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_exhibitors",
+      "english_text": "Exhibitors",
+      "arabic_text": "العارضون",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_sponsors",
+      "english_text": "Sponsors",
+      "arabic_text": "الرعاة",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_sectors",
+      "english_text": "Sectors",
+      "arabic_text": "القطاعات",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_content",
+      "english_text": "Content & Talks",
+      "arabic_text": "المحتوى والمحاضرات",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_visitors",
+      "english_text": "Visitors",
+      "arabic_text": "الزوار",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "nav_contact",
+      "english_text": "Contact",
+      "arabic_text": "اتصل بنا",
+      "category": "navigation"
+    },
+    {
+      "translation_key": "hero_headline",
+      "english_text": "Egypt's Leading Go Green & Healthy Living Expo",
+      "arabic_text": "معرض مصر الرائد للحياة الخضراء والصحية",
+      "category": "hero"
+    },
+    {
+      "translation_key": "hero_subtitle",
+      "english_text": "A curated exhibition bringing together organic products, healthy lifestyles, and sustainable solutions under one platform.",
+      "arabic_text": "معرض منتقى يجمع المنتجات العضوية وأنماط الحياة الصحية والحلول المستدامة تحت منصة واحدة.",
+      "category": "hero"
+    },
+    {
+      "translation_key": "hero_cta_exhibit",
+      "english_text": "Exhibit With Us",
+      "arabic_text": "اعرض معنا",
+      "category": "hero"
+    },
+    {
+      "translation_key": "hero_cta_sponsor",
+      "english_text": "Become a Sponsor",
+      "arabic_text": "كن راعياً",
+      "category": "hero"
+    },
+    {
+      "translation_key": "hero_cta_visit",
+      "english_text": "Visit the Expo",
+      "arabic_text": "زر المعرض",
+      "category": "hero"
+    },
+    {
+      "translation_key": "learn_more",
+      "english_text": "Learn More",
+      "arabic_text": "اعرف المزيد",
+      "category": "common"
+    },
+    {
+      "translation_key": "read_more",
+      "english_text": "Read More",
+      "arabic_text": "اقرأ المزيد",
+      "category": "common"
+    },
+    {
+      "translation_key": "get_started",
+      "english_text": "Get Started",
+      "arabic_text": "ابدأ الآن",
+      "category": "common"
+    },
+    {
+      "translation_key": "contact_us",
+      "english_text": "Contact Us",
+      "arabic_text": "اتصل بنا",
+      "category": "common"
+    },
+    {
+      "translation_key": "register_now",
+      "english_text": "Register Now",
+      "arabic_text": "سجل الآن",
+      "category": "common"
+    },
+    {
+      "translation_key": "download",
+      "english_text": "Download",
+      "arabic_text": "تحميل",
+      "category": "common"
+    },
+    {
+      "translation_key": "submit",
+      "english_text": "Submit",
+      "arabic_text": "إرسال",
+      "category": "common"
+    },
+    {
+      "translation_key": "save",
+      "english_text": "Save",
+      "arabic_text": "حفظ",
+      "category": "common"
+    },
+    {
+      "translation_key": "cancel",
+      "english_text": "Cancel",
+      "arabic_text": "إلغاء",
+      "category": "common"
+    },
+    {
+      "translation_key": "close",
+      "english_text": "Close",
+      "arabic_text": "إغلاق",
+      "category": "common"
+    },
+    {
+      "translation_key": "footer_participate",
+      "english_text": "Participate",
+      "arabic_text": "شارك معنا",
+      "category": "footer"
+    },
+    {
+      "translation_key": "footer_explore",
+      "english_text": "Explore",
+      "arabic_text": "استكشف",
+      "category": "footer"
+    },
+    {
+      "translation_key": "footer_get_in_touch",
+      "english_text": "Get in Touch",
+      "arabic_text": "تواصل معنا",
+      "category": "footer"
+    },
+    {
+      "translation_key": "footer_rights",
+      "english_text": "All rights reserved",
+      "arabic_text": "جميع الحقوق محفوظة",
+      "category": "footer"
+    },
+    {
+      "translation_key": "footer_privacy",
+      "english_text": "Privacy Policy",
+      "arabic_text": "سياسة الخصوصية",
+      "category": "footer"
+    },
+    {
+      "translation_key": "footer_terms",
+      "english_text": "Terms of Service",
+      "arabic_text": "شروط الخدمة",
+      "category": "footer"
+    },
+    {
+      "translation_key": "about_title",
+      "english_text": "About Green Life Expo",
+      "arabic_text": "عن معرض الحياة الخضراء",
+      "category": "about"
+    },
+    {
+      "translation_key": "about_vision_title",
+      "english_text": "Our Vision",
+      "arabic_text": "رؤيتنا",
+      "category": "about"
+    },
+    {
+      "translation_key": "about_mission_title",
+      "english_text": "Our Mission",
+      "arabic_text": "مهمتنا",
+      "category": "about"
+    },
+    {
+      "translation_key": "about_values_title",
+      "english_text": "Our Values",
+      "arabic_text": "قيمنا",
+      "category": "about"
+    },
+    {
+      "translation_key": "exhibitors_title",
+      "english_text": "Exhibit With Us",
+      "arabic_text": "اعرض معنا",
+      "category": "exhibitors"
+    },
+    {
+      "translation_key": "exhibitors_subtitle",
+      "english_text": "Showcase your sustainable products and innovations",
+      "arabic_text": "اعرض منتجاتك وابتكاراتك المستدامة",
+      "category": "exhibitors"
+    },
+    {
+      "translation_key": "exhibitors_benefits",
+      "english_text": "Benefits",
+      "arabic_text": "المزايا",
+      "category": "exhibitors"
+    },
+    {
+      "translation_key": "exhibitors_packages",
+      "english_text": "Packages",
+      "arabic_text": "الباقات",
+      "category": "exhibitors"
+    },
+    {
+      "translation_key": "sponsors_title",
+      "english_text": "Become a Sponsor",
+      "arabic_text": "كن راعياً",
+      "category": "sponsors"
+    },
+    {
+      "translation_key": "sponsors_subtitle",
+      "english_text": "Partner with Egypt's premier sustainability event",
+      "arabic_text": "شارك في حدث الاستدامة الأول في مصر",
+      "category": "sponsors"
+    },
+    {
+      "translation_key": "sponsors_benefits",
+      "english_text": "Sponsorship Benefits",
+      "arabic_text": "مزايا الرعاية",
+      "category": "sponsors"
+    },
+    {
+      "translation_key": "visitors_title",
+      "english_text": "Visit the Expo",
+      "arabic_text": "زر المعرض",
+      "category": "visitors"
+    },
+    {
+      "translation_key": "visitors_subtitle",
+      "english_text": "Discover sustainable living solutions",
+      "arabic_text": "اكتشف حلول الحياة المستدامة",
+      "category": "visitors"
+    },
+    {
+      "translation_key": "visitors_register",
+      "english_text": "Register as Visitor",
+      "arabic_text": "سجل كزائر",
+      "category": "visitors"
+    },
+    {
+      "translation_key": "contact_title",
+      "english_text": "Contact Us",
+      "arabic_text": "اتصل بنا",
+      "category": "contact"
+    },
+    {
+      "translation_key": "contact_subtitle",
+      "english_text": "Get in touch with our team",
+      "arabic_text": "تواصل مع فريقنا",
+      "category": "contact"
+    },
+    {
+      "translation_key": "contact_name",
+      "english_text": "Name",
+      "arabic_text": "الاسم",
+      "category": "contact"
+    },
+    {
+      "translation_key": "contact_email",
+      "english_text": "Email",
+      "arabic_text": "البريد الإلكتروني",
+      "category": "contact"
+    },
+    {
+      "translation_key": "contact_phone",
+      "english_text": "Phone",
+      "arabic_text": "الهاتف",
+      "category": "contact"
+    },
+    {
+      "translation_key": "contact_message",
+      "english_text": "Message",
+      "arabic_text": "الرسالة",
+      "category": "contact"
+    },
+    {
+      "translation_key": "contact_send",
+      "english_text": "Send Message",
+      "arabic_text": "إرسال الرسالة",
+      "category": "contact"
+    },
+    {
+      "translation_key": "footer_description",
+      "english_text": "Egypt's leading platform for sustainable living, organic products, and green innovation.",
+      "arabic_text": "المنصة الرائدة في مصر للحياة المستدامة والمنتجات العضوية والابتكار الأخضر.",
+      "category": "footer"
+    }
+  ]
+}

@@ -1,18 +1,19 @@
+import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 // Helper function to validate image URLs
 const isValidImageUrl = (url: string): boolean => {
   if (!url || typeof url !== 'string') return false;
-  
+
   // Check if it's a valid URL format
   try {
     // Handle relative URLs
     if (url.startsWith('/')) return true;
-    
+
     // Handle absolute URLs
     const urlObj = new URL(url);
     return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
@@ -42,19 +43,20 @@ const PremiumFooter = () => {
   const loadSettings = async () => {
     try {
       // Load logo
-      const { data: logoData } = await supabase
-        .from("site_settings_premium_20251225")
-        .select("logo_url")
+      const { data: logoData } = await api
+        .from("site_settings")
+        .select("setting_value")
+      .eq("setting_key", "logo_url")
         .limit(1)
         .single();
 
-      if (logoData?.logo_url) {
-        setLogoUrl(logoData.logo_url);
+      if (logoData?.setting_value) {
+        setLogoUrl(logoData.setting_value);
       }
 
       // Load other settings
-      const { data, error } = await supabase
-        .from("site_settings_premium_20251225")
+      const { data, error } = await api
+        .from("site_settings")
         .select("setting_key, setting_value")
         .in("setting_key", [
           "contact_address",
@@ -76,8 +78,8 @@ const PremiumFooter = () => {
       }
 
       // Load partners
-      const { data: partnersData, error: partnersError } = await supabase
-        .from("partners_premium_20251230")
+      const { data: partnersData, error: partnersError } = await api
+        .from("partners")
         .select("*")
         .eq("is_active", true)
         .order("display_order", { ascending: true });
@@ -101,11 +103,7 @@ const PremiumFooter = () => {
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 ${isRTL ? 'text-right' : 'text-left'}`}>
           {/* Brand Column */}
           <div className="lg:col-span-4 space-y-4">
-            <img
-              src={logoUrl}
-              alt="Green Life Expo"
-              className={`h-40 md:h-48 w-auto max-w-[500px] md:max-w-[700px] object-contain brightness-0 invert ${isRTL ? 'mr-auto' : ''}`}
-            />
+            <BrandLogo src={logoUrl} className="h-32 md:h-40" />
             <p className="text-primary-foreground/80 leading-relaxed max-w-sm">
               {t("footer_description", "Egypt's leading platform for sustainable living, organic products, and green innovation.")}
             </p>

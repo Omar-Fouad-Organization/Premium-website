@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 
 type Language = "en" | "ar";
 
@@ -33,14 +33,14 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const initializeLanguage = async () => {
     // Check localStorage first for user preference
     const savedLang = localStorage.getItem("preferred_language") as Language;
-    
+
     if (savedLang && (savedLang === "en" || savedLang === "ar")) {
       setLanguageState(savedLang);
       applyLanguage(savedLang);
     } else {
       // Load default from database
-      const { data } = await supabase
-        .from("site_settings_premium_20251225")
+      const { data } = await api
+        .from("site_settings")
         .select("setting_value")
         .eq("setting_key", "site_language")
         .single();
@@ -58,8 +58,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const loadTranslations = async () => {
-    const { data } = await supabase
-      .from("translations_premium_20251225")
+    const { data } = await api
+      .from("translations")
       .select("*");
 
     if (data) {

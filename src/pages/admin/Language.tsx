@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Languages, Save, Globe, Plus, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -47,8 +47,8 @@ const AdminLanguage = () => {
     setLoading(true);
 
     // Load site language setting
-    const { data: langData } = await supabase
-      .from("site_settings_premium_20251225")
+    const { data: langData } = await api
+      .from("site_settings")
       .select("setting_value")
       .eq("setting_key", "site_language")
       .single();
@@ -58,8 +58,8 @@ const AdminLanguage = () => {
     }
 
     // Load translations
-    const { data: transData, error } = await supabase
-      .from("translations_premium_20251225")
+    const { data: transData, error } = await api
+      .from("translations")
       .select("*")
       .order("category", { ascending: true })
       .order("translation_key", { ascending: true });
@@ -79,8 +79,8 @@ const AdminLanguage = () => {
   const handleSaveLanguage = async () => {
     setSaving(true);
 
-    const { error } = await supabase
-      .from("site_settings_premium_20251225")
+    const { error } = await api
+      .from("site_settings")
       .update({ setting_value: siteLanguage })
       .eq("setting_key", "site_language");
 
@@ -100,8 +100,8 @@ const AdminLanguage = () => {
   };
 
   const handleUpdateTranslation = async (id: string, field: string, value: string) => {
-    const { error } = await supabase
-      .from("translations_premium_20251225")
+    const { error } = await api
+      .from("translations")
       .update({ [field]: value })
       .eq("id", id);
 
@@ -128,8 +128,8 @@ const AdminLanguage = () => {
       return;
     }
 
-    const { data, error } = await supabase
-      .from("translations_premium_20251225")
+    const { data, error } = await api
+      .from("translations")
       .insert([newTranslation])
       .select()
       .single();
@@ -158,8 +158,8 @@ const AdminLanguage = () => {
   const handleDeleteTranslation = async (id: string) => {
     if (!confirm("Are you sure you want to delete this translation?")) return;
 
-    const { error } = await supabase
-      .from("translations_premium_20251225")
+    const { error } = await api
+      .from("translations")
       .delete()
       .eq("id", id);
 

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { useSEO } from "@/contexts/SEOContext";
 import { Save, Search, Share2 } from "lucide-react";
@@ -29,8 +29,8 @@ const AdminSEO = () => {
   }, []);
 
   const loadSEOSettings = async () => {
-    const { data, error } = await supabase
-      .from("site_settings_premium_20251225")
+    const { data, error } = await api
+      .from("site_settings")
       .select("*")
       .eq("category", "seo")
       .order("setting_key", { ascending: true });
@@ -57,8 +57,8 @@ const AdminSEO = () => {
     setSaving(true);
 
     for (const setting of seoSettings) {
-      const { error } = await supabase
-        .from("site_settings_premium_20251225")
+      const { error } = await api
+        .from("site_settings")
         .update({
           setting_value: setting.setting_value,
           updated_at: new Date().toISOString(),

@@ -6,14 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, Save } from "lucide-react";
 
 interface Package {
   id: string;
   package_type: string;
-  name: string;
+  package_name: string;
   price: string;
   features: string[];
   is_popular: boolean;
@@ -33,8 +33,8 @@ const AdminPackages = () => {
   }, []);
 
   const loadPackages = async () => {
-    const { data, error } = await supabase
-      .from("packages_premium_20251225")
+    const { data, error } = await api
+      .from("packages")
       .select("*")
       .order("display_order", { ascending: true });
 
@@ -58,10 +58,10 @@ const AdminPackages = () => {
   const handleSave = async () => {
     if (!editingPackage) return;
 
-    const { error } = await supabase
-      .from("packages_premium_20251225")
+    const { error } = await api
+      .from("packages")
       .update({
-        name: editingPackage.name,
+        package_name: editingPackage.package_name,
         price: editingPackage.price,
         features: editingPackage.features,
         is_popular: editingPackage.is_popular,
@@ -91,8 +91,8 @@ const AdminPackages = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this package?")) return;
 
-    const { error } = await supabase
-      .from("packages_premium_20251225")
+    const { error } = await api
+      .from("packages")
       .delete()
       .eq("id", id);
 
@@ -168,7 +168,7 @@ const AdminPackages = () => {
                 <Card key={pkg.id} className={pkg.is_popular ? "border-2 border-primary" : ""}>
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
-                      <span>{pkg.name}</span>
+                      <span>{pkg.package_name}</span>
                       {pkg.is_popular && (
                         <span className="text-xs bg-accent text-accent-foreground px-2 py-1 rounded">
                           Popular
@@ -213,7 +213,7 @@ const AdminPackages = () => {
                 <Card key={pkg.id} className={pkg.is_popular ? "border-2 border-primary" : ""}>
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
-                      <span>{pkg.name}</span>
+                      <span>{pkg.package_name}</span>
                       {pkg.is_popular && (
                         <span className="text-xs bg-accent text-accent-foreground px-2 py-1 rounded">
                           Popular
@@ -264,9 +264,9 @@ const AdminPackages = () => {
                 <div className="space-y-2">
                   <Label>Package Name</Label>
                   <Input
-                    value={editingPackage.name}
+                    value={editingPackage.package_name}
                     onChange={(e) =>
-                      setEditingPackage({ ...editingPackage, name: e.target.value })
+                      setEditingPackage({ ...editingPackage, package_name: e.target.value })
                     }
                   />
                 </div>
