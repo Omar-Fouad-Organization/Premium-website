@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
+import DemoLayout from "@/components/admin/DemoLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { Package, HelpCircle, Mail, TrendingUp, Users, Calendar, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-const AdminDashboard = () => {
+const AdminDashboard = ({ demo = false }: { demo?: boolean }) => {
   const [stats, setStats] = useState({
-    packages: 0,
-    faqs: 0,
-    submissions: 0,
-    newSubmissions: 0,
+    packages: demo ? 8 : 0,
+    faqs: demo ? 24 : 0,
+    submissions: demo ? 126 : 0,
+    newSubmissions: demo ? 12 : 0,
   });
 
   useEffect(() => {
-    loadStats();
-  }, []);
+    if (!demo) loadStats();
+  }, [demo]);
 
   const loadStats = async () => {
     const [packagesRes, faqsRes, submissionsRes, newSubmissionsRes] = await Promise.all([
-      supabase.from("packages_premium_20251225").select("id", { count: "exact" }),
-      supabase.from("faqs_premium_20251225").select("id", { count: "exact" }),
-      supabase.from("contact_submissions_premium_20251225").select("id", { count: "exact" }),
-      supabase.from("contact_submissions_premium_20251225").select("id", { count: "exact" }).eq("is_read", false),
+      api.from("packages").select("id", { count: "exact" }),
+      api.from("faqs").select("id", { count: "exact" }),
+      api.from("contact_submissions").select("id", { count: "exact" }),
+      api.from("contact_submissions").select("id", { count: "exact" }).eq("is_read", false),
     ]);
 
     setStats({
@@ -100,8 +101,10 @@ const AdminDashboard = () => {
     },
   ];
 
+  const Layout = demo ? DemoLayout : AdminLayout;
+
   return (
-    <AdminLayout>
+    <Layout>
       <div className="space-y-8">
         {/* Header */}
         <div className="bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-8 text-white shadow-xl">
@@ -139,7 +142,7 @@ const AdminDashboard = () => {
           <h2 className="text-2xl font-bold mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {quickActions.map((action, index) => (
-              <Link key={index} to={action.link}>
+              <Link key={index} to={demo ? "/admin/demo" : action.link} aria-disabled={demo || undefined} onClick={demo ? (event) => event.preventDefault() : undefined}>
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1 cursor-pointer h-full">
                   <CardContent className="p-6">
                     <div className={`${action.color} w-12 h-12 rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
@@ -236,7 +239,7 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
-    </AdminLayout>
+    </Layout>
   );
 };
 

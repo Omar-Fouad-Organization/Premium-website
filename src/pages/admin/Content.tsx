@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Save, FileText, Languages } from "lucide-react";
 
@@ -32,8 +32,8 @@ const AdminContent = () => {
   }, []);
 
   const loadContent = async () => {
-    const { data, error } = await supabase
-      .from("page_content_premium_20251225")
+    const { data, error } = await api
+      .from("page_content")
       .select("*")
       .order("page_name", { ascending: true })
       .order("section_name", { ascending: true })
@@ -63,8 +63,8 @@ const AdminContent = () => {
     setSaving(true);
 
     for (const item of content) {
-      const { error } = await supabase
-        .from("page_content_premium_20251225")
+      const { error } = await api
+        .from("page_content")
         .update({
           content_value: item.content_value,
           content_value_ar: item.content_value_ar,

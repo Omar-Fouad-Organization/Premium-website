@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Users as UsersIcon, UserPlus, Trash2, Mail, Calendar, Shield, AlertCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -34,10 +34,10 @@ const AdminUsers = () => {
 
   const loadUsers = async () => {
     setLoading(true);
-    
+
     // Query the admin_users table
-    const { data, error } = await supabase
-      .from("admin_users_premium_20251225")
+    const { data, error } = await api
+      .from("admin_users")
       .select("*")
       .order("created_at", { ascending: false });
 
@@ -64,10 +64,10 @@ const AdminUsers = () => {
       return;
     }
 
-    if (newUser.password.length < 6) {
+    if (newUser.password.length < 12) {
       toast({
         title: "Password too short",
-        description: "Password must be at least 6 characters",
+        description: "Password must be at least 12 characters",
         variant: "destructive",
       });
       return;
@@ -76,16 +76,11 @@ const AdminUsers = () => {
     setAdding(true);
 
     try {
-      // Use edge function to create user without email verification
-      const { data, error } = await supabase.functions.invoke('create_admin_user_20251230_1605', {
-        body: {
-          email: newUser.email,
-          password: newUser.password
-        }
-      });
+      // Create an administrator through the authenticated Laravel API
+      const { data, error } = await api.users.create({ email: newUser.email, password: newUser.password });
 
       if (error) {
-        console.error('Edge function error:', error);
+        console.error('API error:', error);
         toast({
           title: "Error creating user",
           description: error.message || 'Failed to create user',
@@ -110,7 +105,7 @@ const AdminUsers = () => {
           title: "Success",
           description: data.message || `Admin user ${newUser.email} created successfully and can login immediately`,
         });
-        
+
         if (data.warning) {
           toast({
             title: "Warning",
@@ -118,7 +113,7 @@ const AdminUsers = () => {
             variant: "destructive",
           });
         }
-        
+
         setNewUser({ email: "", password: "" });
         loadUsers();
       } else {
@@ -146,8 +141,8 @@ const AdminUsers = () => {
     }
 
     // Delete from our admin_users table
-    const { error: dbError } = await supabase
-      .from("admin_users_premium_20251225")
+    const { error: dbError } = await api
+      .from("admin_users")
       .delete()
       .eq("id", userId);
 
@@ -290,7 +285,7 @@ const AdminUsers = () => {
                             </div>
                             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                               <Mail className="h-4 w-4" />
-                              <a 
+                              <a
                                 href={`mailto:${user.email}`}
                                 className="hover:text-primary"
                               >

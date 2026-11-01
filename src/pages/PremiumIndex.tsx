@@ -14,14 +14,14 @@ const PremiumIndex = () => {
   const { get: getSetting, loading: settingsLoading } = useSiteSettings();
   const { t } = useLanguage();
   const { getPhotoUrl, getPhotoAlt, loading: photosLoading, refetch: refreshPhotos } = usePhotos('home');
-  
+
   // Apply SEO for homepage
   usePageSEO({
     title: "Green Life Expo - Egypt's Leading Go Green & Healthy Living Expo",
     description: "Egypt's premier exhibition for sustainable living, organic products, and green innovation. Join us for the ultimate green lifestyle experience.",
     keywords: "green life expo, sustainable living, organic products, healthy lifestyle, egypt expo, green innovation"
   });
-  
+
   const sectors = [
     {
       title: "Organic Food & Beverages",
@@ -108,13 +108,13 @@ const PremiumIndex = () => {
             <div className="space-y-8 animate-slide-up">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
                 <Calendar className="h-4 w-4" />
-                <span>{getSetting("hero_date", "March 15-17, 2025")} • {getSetting("hero_location", "Cairo, Egypt")}</span>
+                <span>Dates to be announced • {getSetting("hero_location", "Cairo, Egypt")}</span>
               </div>
-              
+
               <h1 className="text-premium-heading">
                 {getSetting("hero_title", get("hero_title", "Egypt's Leading Go Green & Healthy Living Expo"))}
               </h1>
-              
+
               <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
                 {getSetting("hero_subtitle", get("hero_subtitle", "The premier platform connecting sustainable businesses, eco-conscious consumers, and green innovators across the Middle East."))}
               </p>
@@ -127,7 +127,7 @@ const PremiumIndex = () => {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-                  <Link to="/sponsors">{getSetting("hero_cta_secondary", get("hero_cta_secondary", "Become a Sponsor"))}</Link>
+                  <Link to="/visitors">Plan Your Visit</Link>
                 </Button>
               </div>
 
@@ -150,17 +150,7 @@ const PremiumIndex = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-6 max-w-xs">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                    <CheckCircle className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-foreground">Certified Platform</div>
-                    <div className="text-sm text-muted-foreground">ISO Certified Event</div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -314,7 +304,7 @@ const PremiumIndex = () => {
               <p className="text-lg text-muted-foreground mb-8">
                 Access exclusive content, expert panels, and workshops designed to drive innovation and knowledge sharing in the green economy.
               </p>
-              
+
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 rounded-full bg-primary mt-2" />
@@ -351,7 +341,7 @@ const PremiumIndex = () => {
             <p className="text-xl text-primary-foreground/90 mb-12 max-w-2xl mx-auto">
               Whether you're an exhibitor, sponsor, or visitor, Green Life Expo offers unparalleled opportunities to connect, learn, and grow in the green economy.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button size="lg" variant="secondary" asChild className="btn-premium bg-white text-primary hover:bg-white/90">
                 <Link to="/exhibitors">

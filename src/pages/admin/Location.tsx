@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { MapPin, Save, Info, Map, Navigation } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -31,8 +31,8 @@ const AdminLocation = () => {
 
   const loadSettings = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("site_settings_premium_20251225")
+    const { data, error } = await api
+      .from("site_settings")
       .select("setting_key, setting_value")
       .in("setting_key", [
         "event_location",
@@ -69,8 +69,8 @@ const AdminLocation = () => {
       }));
 
       for (const update of updates) {
-        const { error } = await supabase
-          .from("site_settings_premium_20251225")
+        const { error } = await api
+          .from("site_settings")
           .upsert(
             {
               setting_key: update.setting_key,
@@ -117,22 +117,22 @@ const AdminLocation = () => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    
+
     // Convert click position to approximate coordinates
     // This is a simplified conversion - for production, you'd want a proper map library
     const centerLat = parseFloat(settings.map_latitude) || 30.0444;
     const centerLng = parseFloat(settings.map_longitude) || 31.2357;
     const zoom = parseFloat(settings.map_zoom) || 15;
-    
+
     // Calculate offset from center (simplified)
     const pixelOffsetX = x - rect.width / 2;
     const pixelOffsetY = y - rect.height / 2;
-    
+
     // Convert to degrees (rough approximation)
     const degreesPerPixel = 0.01 / Math.pow(2, zoom - 10);
     const newLng = centerLng + (pixelOffsetX * degreesPerPixel);
     const newLat = centerLat - (pixelOffsetY * degreesPerPixel);
-    
+
     setSettings(prev => ({
       ...prev,
       map_latitude: newLat.toFixed(6),
@@ -241,7 +241,7 @@ const AdminLocation = () => {
 
               {/* Interactive Map Container */}
               <div className="w-full h-64 bg-gray-100 rounded-lg border relative overflow-hidden">
-                <div 
+                <div
                   className="w-full h-full cursor-crosshair relative"
                   onClick={handleMapClick}
                 >
@@ -256,10 +256,10 @@ const AdminLocation = () => {
                     referrerPolicy="no-referrer-when-downgrade"
                     title="Location Map"
                   ></iframe>
-                  
+
                   {/* Transparent clickable overlay */}
                   <div className="absolute inset-0 bg-transparent hover:bg-blue-500 hover:bg-opacity-10 transition-colors" />
-                  
+
                   {/* Center pin indicator */}
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                     <div className="relative">
@@ -267,7 +267,7 @@ const AdminLocation = () => {
                       <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-red-500 rounded-full opacity-30"></div>
                     </div>
                   </div>
-                  
+
                   {/* Coordinates display */}
                   <div className="absolute bottom-2 left-2 bg-white bg-opacity-95 px-3 py-2 rounded-lg shadow-lg border">
                     <p className="text-xs font-medium text-gray-700">
@@ -275,7 +275,7 @@ const AdminLocation = () => {
                       📍 Lng: {parseFloat(settings.map_longitude || '0').toFixed(4)}
                     </p>
                   </div>
-                  
+
                   {/* Click instruction */}
                   <div className="absolute top-2 left-2 bg-blue-500 text-white px-3 py-2 rounded-lg shadow-lg">
                     <p className="text-xs font-medium flex items-center gap-1">
@@ -331,9 +331,9 @@ const AdminLocation = () => {
                 />
               </div>
 
-              <Button 
-                onClick={generateGoogleMapsEmbed} 
-                variant="outline" 
+              <Button
+                onClick={generateGoogleMapsEmbed}
+                variant="outline"
                 className="w-full"
               >
                 <Map className="h-4 w-4 mr-2" />
@@ -363,7 +363,7 @@ const AdminLocation = () => {
                 <MapPin className="h-4 w-4 mr-2" />
                 Cairo Convention Center
               </Button>
-              
+
               <Button
                 variant="outline"
                 onClick={() => setSettings(prev => ({
@@ -377,7 +377,7 @@ const AdminLocation = () => {
                 <MapPin className="h-4 w-4 mr-2" />
                 Downtown Cairo
               </Button>
-              
+
               <Button
                 variant="outline"
                 onClick={() => setSettings(prev => ({
@@ -413,7 +413,7 @@ const AdminLocation = () => {
                 className="min-h-[100px] font-mono text-sm"
               />
             </div>
-            
+
             <Alert>
               <Info className="h-4 w-4" />
               <AlertDescription>

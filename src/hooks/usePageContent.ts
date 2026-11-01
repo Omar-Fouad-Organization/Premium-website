@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface PageContent {
@@ -21,16 +21,16 @@ export const usePageContent = (pageName: string) => {
   }, [pageName, language]);
 
   const loadContent = async () => {
-    const { data, error } = await supabase
-      .from("page_content_premium_20251225")
+    const { data, error } = await api
+      .from("page_content")
       .select("*")
       .eq("page_name", pageName);
 
     if (!error && data) {
       const contentMap: Record<string, string> = {};
       data.forEach((item: PageContent) => {
-        const value = language === "ar" && item.content_value_ar 
-          ? item.content_value_ar 
+        const value = language === "ar" && item.content_value_ar
+          ? item.content_value_ar
           : item.content_value;
         contentMap[item.content_key] = value;
       });

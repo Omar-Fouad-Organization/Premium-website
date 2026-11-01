@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, Save } from "lucide-react";
 
@@ -32,8 +32,8 @@ const AdminFAQs = () => {
   }, []);
 
   const loadFAQs = async () => {
-    const { data, error } = await supabase
-      .from("faqs_premium_20251225")
+    const { data, error } = await api
+      .from("faqs")
       .select("*")
       .order("display_order", { ascending: true });
 
@@ -72,7 +72,7 @@ const AdminFAQs = () => {
     if (!editingFAQ) return;
 
     if (isNew) {
-      const { error } = await supabase.from("faqs_premium_20251225").insert({
+      const { error } = await api.from("faqs").insert({
         question: editingFAQ.question,
         answer: editingFAQ.answer,
         category: editingFAQ.category,
@@ -89,8 +89,8 @@ const AdminFAQs = () => {
         return;
       }
     } else {
-      const { error } = await supabase
-        .from("faqs_premium_20251225")
+      const { error } = await api
+        .from("faqs")
         .update({
           question: editingFAQ.question,
           answer: editingFAQ.answer,
@@ -123,7 +123,7 @@ const AdminFAQs = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this FAQ?")) return;
 
-    const { error } = await supabase.from("faqs_premium_20251225").delete().eq("id", id);
+    const { error } = await api.from("faqs").delete().eq("id", id);
 
     if (error) {
       toast({

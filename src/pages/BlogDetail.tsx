@@ -4,7 +4,7 @@ import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Calendar, User, ArrowLeft, Share2, BookOpen } from "lucide-react";
 
@@ -40,10 +40,10 @@ const BlogDetail = () => {
 
   const loadBlog = async () => {
     setLoading(true);
-    
+
     // Load the main blog
-    const { data: blogData, error: blogError } = await supabase
-      .from("blogs_premium_20251226")
+    const { data: blogData, error: blogError } = await api
+      .from("blogs")
       .select("*")
       .eq("slug", slug)
       .eq("is_published", true)
@@ -59,8 +59,8 @@ const BlogDetail = () => {
 
     // Load related blogs (same category, excluding current blog)
     if (blogData) {
-      const { data: relatedData } = await supabase
-        .from("blogs_premium_20251226")
+      const { data: relatedData } = await api
+        .from("blogs")
         .select("*")
         .eq("category", blogData.category)
         .eq("is_published", true)
@@ -76,16 +76,16 @@ const BlogDetail = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return language === "ar" 
-      ? date.toLocaleDateString("ar-EG", { 
-          year: "numeric", 
-          month: "long", 
-          day: "numeric" 
+    return language === "ar"
+      ? date.toLocaleDateString("ar-EG", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
         })
-      : date.toLocaleDateString("en-US", { 
-          year: "numeric", 
-          month: "long", 
-          day: "numeric" 
+      : date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
         });
   };
 
@@ -209,10 +209,10 @@ const BlogDetail = () => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto">
             <div className="prose prose-lg max-w-none">
-              <div 
+              <div
                 className="text-muted-foreground leading-relaxed"
-                dangerouslySetInnerHTML={{ 
-                  __html: language === "ar" ? blog.content_ar : blog.content 
+                dangerouslySetInnerHTML={{
+                  __html: language === "ar" ? blog.content_ar : blog.content
                 }}
               />
             </div>
@@ -228,7 +228,7 @@ const BlogDetail = () => {
               <h2 className="text-3xl font-bold text-center mb-12">
                 {language === "ar" ? "مقالات ذات صلة" : "Related Articles"}
               </h2>
-              
+
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {relatedBlogs.map((relatedBlog) => (
                   <Link

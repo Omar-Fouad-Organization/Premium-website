@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash2, ExternalLink, Upload, Users } from "lucide-react";
 
@@ -45,8 +45,8 @@ const AdminPartners = () => {
 
   const loadPartners = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("partners_premium_20251230")
+    const { data, error } = await api
+      .from("partners")
       .select("*")
       .order("display_order", { ascending: true });
 
@@ -64,11 +64,11 @@ const AdminPartners = () => {
 
   const validateForm = () => {
     const errors: {[key: string]: string} = {};
-    
+
     if (!formData.name.trim()) {
       errors.name = "Partner name is required";
     }
-    
+
     if (!formData.logo_url.trim()) {
       errors.logo_url = "Partner logo is required";
     } else {
@@ -78,22 +78,22 @@ const AdminPartners = () => {
         errors.logo_url = "Logo URL must be a valid URL or start with /";
       }
     }
-    
+
     if (formData.website_url && !formData.website_url.match(/^https?:\/\/.+/)) {
       errors.website_url = "Please enter a valid URL (starting with http:// or https://)";
     }
-    
+
     if (formData.display_order < 0) {
       errors.display_order = "Display order must be 0 or greater";
     }
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!validateForm()) {
       toast({
@@ -103,14 +103,14 @@ const AdminPartners = () => {
       });
       return;
     }
-    
+
     setSaving(true);
-    
+
     try {
       if (editingPartner) {
         // Update existing partner
-        const { error } = await supabase
-          .from("partners_premium_20251230")
+        const { error } = await api
+          .from("partners")
           .update(formData)
           .eq("id", editingPartner.id);
 
@@ -122,8 +122,8 @@ const AdminPartners = () => {
         });
       } else {
         // Create new partner
-        const { error } = await supabase
-          .from("partners_premium_20251230")
+        const { error } = await api
+          .from("partners")
           .insert([formData]);
 
         if (error) throw error;
@@ -165,8 +165,8 @@ const AdminPartners = () => {
     if (!confirm("Are you sure you want to delete this partner?")) return;
 
     try {
-      const { error } = await supabase
-        .from("partners_premium_20251230")
+      const { error } = await api
+        .from("partners")
         .delete()
         .eq("id", id);
 
@@ -217,13 +217,13 @@ const AdminPartners = () => {
       const fileName = `${Date.now()}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await api.storage
         .from('partner_logos')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
+      const { data: { publicUrl } } = api.storage
         .from('partner_logos')
         .getPublicUrl(filePath);
 
@@ -283,7 +283,7 @@ const AdminPartners = () => {
               Manage partner companies displayed in the website footer
             </p>
           </div>
-          
+
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
               <Button onClick={() => setDialogOpen(true)}>
@@ -297,7 +297,7 @@ const AdminPartners = () => {
                   {editingPartner ? "Edit Partner" : "Add New Partner"}
                 </DialogTitle>
               </DialogHeader>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Partner Name (English)</Label>
@@ -385,9 +385,9 @@ const AdminPartners = () => {
                 </div>
 
                 <div className="flex gap-2 pt-4">
-                  <Button 
-                    type="submit" 
-                    className="flex-1" 
+                  <Button
+                    type="submit"
+                    className="flex-1"
                     disabled={saving || uploading}
                   >
                     {saving ? (
@@ -399,9 +399,9 @@ const AdminPartners = () => {
                       editingPartner ? "Save Changes" : "Add Partner"
                     )}
                   </Button>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
+                  <Button
+                    type="button"
+                    variant="outline"
                     onClick={handleDialogClose}
                     disabled={saving}
                   >
@@ -445,8 +445,8 @@ const AdminPartners = () => {
                         )}
                         <div className="flex items-center gap-2 mt-1">
                           <span className={`text-xs px-2 py-1 rounded ${
-                            partner.is_active 
-                              ? 'bg-green-100 text-green-800' 
+                            partner.is_active
+                              ? 'bg-green-100 text-green-800'
                               : 'bg-gray-100 text-gray-800'
                           }`}>
                             {partner.is_active ? 'Active' : 'Inactive'}
@@ -457,7 +457,7 @@ const AdminPartners = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2">
                       {partner.website_url && (
                         <Button

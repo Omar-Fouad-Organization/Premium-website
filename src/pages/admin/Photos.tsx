@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
 import { Image as ImageIcon, Upload, Trash2, Edit, Eye, EyeOff } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -104,8 +104,8 @@ const AdminPhotos = () => {
 
   const loadPhotos = async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("photos_premium_20251225")
+    const { data, error } = await api
+      .from("photos")
       .select("*")
       .order("page_location", { ascending: true })
       .order("display_order", { ascending: true });
@@ -140,7 +140,7 @@ const AdminPhotos = () => {
     const fileName = `${Math.random()}.${fileExt}`;
     const filePath = `${fileName}`;
 
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError } = await api.storage
       .from("premium_photos")
       .upload(filePath, file);
 
@@ -154,7 +154,7 @@ const AdminPhotos = () => {
       return;
     }
 
-    const { data } = supabase.storage.from("premium_photos").getPublicUrl(filePath);
+    const { data } = api.storage.from("premium_photos").getPublicUrl(filePath);
 
     if (isEdit && editingPhoto) {
       setEditingPhoto({ ...editingPhoto, photo_url: data.publicUrl });
@@ -179,8 +179,8 @@ const AdminPhotos = () => {
       return;
     }
 
-    const { error } = await supabase
-      .from("photos_premium_20251225")
+    const { error } = await api
+      .from("photos")
       .insert([{ ...newPhoto, is_active: true }]);
 
     if (error) {
@@ -210,8 +210,8 @@ const AdminPhotos = () => {
   const handleUpdatePhoto = async () => {
     if (!editingPhoto) return;
 
-    const { error } = await supabase
-      .from("photos_premium_20251225")
+    const { error } = await api
+      .from("photos")
       .update({
         photo_name: editingPhoto.photo_name,
         photo_url: editingPhoto.photo_url,
@@ -242,8 +242,8 @@ const AdminPhotos = () => {
   const handleDeletePhoto = async (id: string) => {
     if (!confirm("Are you sure you want to delete this photo?")) return;
 
-    const { error } = await supabase
-      .from("photos_premium_20251225")
+    const { error } = await api
+      .from("photos")
       .delete()
       .eq("id", id);
 
@@ -263,8 +263,8 @@ const AdminPhotos = () => {
   };
 
   const togglePhotoActive = async (photo: Photo) => {
-    const { error } = await supabase
-      .from("photos_premium_20251225")
+    const { error } = await api
+      .from("photos")
       .update({ is_active: !photo.is_active })
       .eq("id", photo.id);
 

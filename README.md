@@ -1,241 +1,76 @@
-# Premium Green Life Expo Website
+# Green Life Expo
 
-**Premium, Professional, High-Conversion Exhibition Platform**
+React + TypeScript frontend, Laravel 13 PHP backend, and MySQL 8.4 database.
 
-## 🌐 Live Demo
+## Requirements
 
-Coming soon after deployment!
+- Node.js 22+ and npm
+- PHP 8.3+ (8.4 recommended), Composer 2, and PHP extensions: PDO MySQL, mbstring, OpenSSL, fileinfo, cURL, XML, and ZIP
+- MySQL 8.4
 
-## ✨ Features
+## Local setup
 
-### Premium Website (8 Pages)
-- ✅ **Homepage** - Hero, value proposition, sectors, stats, CTAs
-- ✅ **About** - Vision, mission, market gap, regional ambition
-- ✅ **Sectors** - 6 curated sectors with market data
-- ✅ **Exhibitors** - ROI-focused, zone-based participation
-- ✅ **Sponsors** - Executive-level, ESG positioning
-- ✅ **Content & Talks** - Expert sessions, thought leadership
-- ✅ **Visitors** - Event info, schedule, free registration
-- ✅ **Contact** - Professional form, trust signals, map
+1. Clone this repository and run `npm ci` in its root.
+2. Create a MySQL database named `green_life_expo` with `utf8mb4` encoding and a dedicated database user. Grant that user access to this database.
+3. In `backend/`, run:
 
-### Complete Admin Dashboard
-- ✅ **Dashboard** - Overview & statistics
-- ✅ **Site Settings** - General info, hero, stats, contact
-- ✅ **SEO Settings** - Meta tags & Open Graph
-- ✅ **Logo & Branding** - Logo & favicon upload
-- ✅ **Design & Colors** - Brand color customization
-- ✅ **Page Content** - Edit all page content
-- ✅ **Packages** - Exhibitor & sponsor packages
-- ✅ **FAQs** - Manage questions & answers
-- ✅ **Submissions** - View form submissions
+```sh
+composer install
+cp .env.example .env
+```
 
-## 🎨 Design System
+On Windows PowerShell, use `Copy-Item .env.example .env` instead of `cp` if preferred. Set `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` in `backend/.env`. Never commit this file.
 
-### Premium Color Palette
-- **Pure White** (#FFFFFF) - Clean background
-- **Deep Natural Green** (#2D5016) - Primary brand
-- **Soft Light Green** (#A8D5BA) - Secondary accents
-- **Premium Gold** (#C9A961) - Accent highlights
-- **Dark Gray** (#262626) - Professional typography
+```sh
+php artisan key:generate
+php artisan migrate --seed
+php artisan admin:create your-email@example.com
+```
 
-### Key Features
-- Premium, clean design
-- Sticky navigation with CTAs
-- Smooth animations
-- Mobile-first responsive
-- Professional imagery
-- SEO optimized
+The administrator command prompts privately for a password of at least 12 characters. There are no default admin credentials.
 
-## 🚀 Quick Start
+4. Start the backend from `backend/`:
 
-### Prerequisites
-- Node.js 18+ 
-- npm or pnpm
-- Supabase account
+```sh
+php artisan serve --host=127.0.0.1 --port=18000
+```
 
-### Installation
+5. In another terminal at the repository root:
 
-```bash
-# Clone the repository
-git clone https://github.com/omarfouad01/premium-website.git
-cd Premium-website
-
-# Install dependencies
-npm install
-
-# Start development server
+```sh
 npm run dev
 ```
 
-Visit `http://localhost:5173` to see the website!
+Open http://localhost:5173. Vite forwards `/api` and `/storage` to Laravel on port 18000. Keep both servers running.
 
-## 📊 Database Setup
+- Website: http://localhost:5173/#/
+- Administrator login: http://localhost:5173/#/admin/login
+- Read-only local demo: http://localhost:5173/#/admin/demo
 
-The project uses Supabase with separate database tables:
+The demo requires no account, uses sample counts, and disables management actions. It is available only in development on localhost, 127.0.0.1, or ::1. Production admin routes always require login.
 
-### Tables
-- `site_settings_premium_20251225` - Site settings, SEO, branding
-- `page_content_premium_20251225` - All page content
-- `packages_premium_20251225` - Exhibitor & sponsor packages
-- `faqs_premium_20251225` - FAQs
-- `contact_submissions_premium_20251225` - Form submissions
+## Checks
 
-### Storage
-- `premium_logos` - Logo and favicon uploads
-
-### Setup Steps
-
-1. **Create Supabase Project** at https://supabase.com
-2. **Run Migrations** - Execute SQL files in `supabase/migrations/`
-3. **Update Environment** - Add your Supabase credentials to `src/integrations/supabase/client.ts`
-4. **Create Admin User** - Add user in Supabase Authentication
-
-## 🔐 Admin Access
-
-### Create Admin User
-
-1. Go to your Supabase project
-2. Navigate to **Authentication** → **Users**
-3. Click **Add User** → **Create new user**
-4. Enter email and password
-5. Click **Create user**
-
-### Login
-
-Visit `your-domain.com/#/admin/login` and use your credentials.
-
-## 🛠️ Technologies
-
-- **React** - UI framework
-- **TypeScript** - Type safety
-- **Vite** - Build tool
-- **Tailwind CSS** - Styling
-- **Supabase** - Backend & database
-- **React Router** - Navigation
-- **Shadcn/ui** - UI components
-
-## 📁 Project Structure
-
-```
-premium_website/
-├── src/
-│   ├── components/          # Reusable components
-│   │   ├── PremiumHeader.tsx
-│   │   ├── PremiumFooter.tsx
-│   │   └── admin/           # Admin components
-│   ├── pages/               # Page components
-│   │   ├── PremiumIndex.tsx
-│   │   ├── PremiumAbout.tsx
-│   │   ├── PremiumExhibitors.tsx
-│   │   ├── PremiumSponsors.tsx
-│   │   ├── PremiumSectors.tsx
-│   │   ├── PremiumContent.tsx
-│   │   ├── PremiumVisitors.tsx
-│   │   ├── PremiumContact.tsx
-│   │   └── admin/           # Admin pages
-│   ├── integrations/        # Supabase integration
-│   ├── contexts/            # React contexts
-│   └── lib/                 # Utilities
-├── public/                  # Static assets
-└── supabase/               # Database migrations
-```
-
-## 🎯 Key Pages
-
-### Homepage (`/`)
-- Premium hero with event details
-- Value proposition (4 benefits)
-- Curated sectors (6 sectors)
-- Why participate section
-- Content preview
-- Multiple CTAs
-
-### Exhibitors (`/exhibitors`)
-- ROI-focused messaging
-- Zone-based participation
-- Audience quality metrics
-- Early participation benefits
-- Business-focused tone
-
-### Sponsors (`/sponsors`)
-- Executive-level positioning
-- ESG & CSR focus
-- 3-tier packages
-- Custom opportunities
-- Media exposure metrics
-
-## 🎨 Customization
-
-### Update Colors
-
-Edit `src/index.css`:
-
-```css
-:root {
-  --primary: 95 55% 20%;      /* Deep Natural Green */
-  --secondary: 145 35% 75%;   /* Soft Light Green */
-  --accent: 43 45% 58%;       /* Premium Gold */
-  --background: 0 0% 100%;    /* Pure White */
-}
-```
-
-### Update Content
-
-Use the admin dashboard at `/#/admin` to update:
-- Site settings
-- Page content
-- SEO metadata
-- Logos
-- Colors
-- Packages
-- FAQs
-
-## 📱 Mobile Optimization
-
-- Mobile-first design
-- Touch-friendly navigation
-- Responsive layouts
-- Optimized images
-- Fast loading
-
-## 🔍 SEO Features
-
-- Semantic HTML
-- Meta tags management
-- Open Graph tags
-- Proper heading hierarchy
-- Alt texts for images
-- Clean URLs
-
-## 🚀 Deployment
-
-### Build for Production
-
-```bash
+```sh
+npm run typecheck
 npm run build
 ```
 
-### Deploy Options
+Create a separate MySQL database named `green_life_expo_test`, give the test database user access, copy `backend/.env.testing.example` to `backend/.env.testing`, and configure its credentials. From `backend/`:
 
-- **Vercel** - Recommended
-- **Netlify**
-- **GitHub Pages**
-- **Your own hosting**
+```sh
+php artisan key:generate --env=testing
+php artisan test --compact
+```
 
-## 📞 Support
+Tests refresh the test database and refuse database names without the `_test` suffix. GitHub Actions runs the React checks and Laravel tests against MySQL.
 
-For questions or issues:
-- Email: info@greenlifeexpo.com
-- GitHub Issues: [Create an issue](https://github.com/omarfouad01/premium-website/issues)
+## Deployment
 
-## 📄 License
+Nothing is deployed automatically by this repository. Pushing code does not update the live website.
 
-This project is proprietary and confidential.
+Deploy the React `dist/` output and Laravel API on the same HTTPS origin. Forward `/api`, `/storage`, and `/up` to Laravel's `public/` entrypoint; other paths serve the React build. Never expose the backend root, `.env`, or `storage/` directory directly. The supplied Laravel storage route serves approved upload paths without requiring Windows symlink privileges.
 
-## 🎉 Credits
+Install PHP dependencies with `composer install --no-dev --optimize-autoloader`. Configure production MySQL credentials and `APP_KEY`; set `APP_ENV=production`, `APP_DEBUG=false`, `SESSION_SECURE_COOKIE=true`, and `APP_URL` to the public origin. Run `php artisan migrate --force` and the content seeder only when needed. Back up the database and uploaded assets before deployment. Create administrator accounts through the CLI.
 
-Built with ❤️ for Green Life Expo - Egypt's Leading Go Green & Healthy Living Expo
-
----
-
-**Transform your exhibition platform with premium design and professional features!**
+See [the migration notes](docs/MIGRATION.md) for API details and transferring existing hosted data. The previous Supabase implementation and obsolete instructions are archived under `legacy/`; the active app does not use them.

@@ -4,18 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Mail, 
-  Phone, 
-  Calendar, 
-  CheckCircle2, 
-  Users, 
-  Building, 
-  MapPin, 
-  Tag, 
-  ToggleLeft, 
+import {
+  Mail,
+  Phone,
+  Calendar,
+  CheckCircle2,
+  Users,
+  Building,
+  MapPin,
+  Tag,
+  ToggleLeft,
   ToggleRight,
   Download,
   FileSpreadsheet,
@@ -81,8 +81,8 @@ const AdminSubmissions = () => {
     setLoading(true);
     try {
       // Load contact submissions
-      const { data: contactData, error: contactError } = await supabase
-        .from("contact_submissions_premium_20251225")
+      const { data: contactData, error: contactError } = await api
+        .from("contact_submissions")
         .select("*")
         .order("created_at", { ascending: false });
 
@@ -90,8 +90,8 @@ const AdminSubmissions = () => {
       setContactSubmissions(contactData || []);
 
       // Load visitor registrations
-      const { data: visitorData, error: visitorError } = await supabase
-        .from("visitor_registrations_premium_20251225")
+      const { data: visitorData, error: visitorError } = await api
+        .from("visitor_registrations")
         .select("*")
         .order("created_at", { ascending: false });
 
@@ -119,8 +119,8 @@ const AdminSubmissions = () => {
 
   const loadVisitorSettings = async () => {
     try {
-      const { data, error } = await supabase
-        .from("site_settings_premium_20251225")
+      const { data, error } = await api
+        .from("site_settings")
         .select("setting_key, setting_value")
         .in("setting_key", [
           "visitor_registration_enabled",
@@ -145,11 +145,11 @@ const AdminSubmissions = () => {
 
   const toggleReadStatus = async (type: "contact" | "visitor", id: string, currentStatus: boolean) => {
     try {
-      const table = type === "contact" 
-        ? "contact_submissions_premium_20251225" 
-        : "visitor_registrations_premium_20251225";
+      const table = type === "contact"
+        ? "contact_submissions"
+        : "visitor_registrations";
 
-      const { error } = await supabase
+      const { error } = await api
         .from(table)
         .update({ is_read: !currentStatus })
         .eq("id", id);
@@ -271,46 +271,46 @@ const AdminSubmissions = () => {
 
     // Create Excel-compatible CSV with proper formatting
     const headers = Object.keys(data[0]);
-    
+
     // Create CSV content with BOM for proper Excel encoding
     const BOM = "\uFEFF";
     const csvRows = [];
-    
+
     // Add headers
     // Add headers with proper quoting for Excel
     csvRows.push(headers.map(header => `"${header}"`).join(","));
-    
+
     // Add data rows with consistent column separation
     data.forEach(row => {
       const values = headers.map(header => {
         let value = row[header];
-        
+
         // Handle null, undefined, or empty values
         if (value === null || value === undefined) {
           return '""';
         }
-        
+
         // Convert to string and clean
         value = value.toString().trim();
-        
+
         // Escape internal quotes by doubling them
         value = value.replace(/"/g, '""');
-        
+
         // Always wrap in quotes for consistent Excel column separation
         return `"${value}"`;
       });
-      
+
       csvRows.push(values.join(","));
     });
-    
+
     // Use Windows line endings for better Excel compatibility
     const csvContent = BOM + csvRows.join("\r\n");
 
     // Download file with proper MIME type for Excel
-    const blob = new Blob([csvContent], { 
-      type: "text/csv;charset=utf-8;" 
+    const blob = new Blob([csvContent], {
+      type: "text/csv;charset=utf-8;"
     });
-    
+
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
@@ -319,7 +319,7 @@ const AdminSubmissions = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     // Clean up
     URL.revokeObjectURL(url);
 
@@ -356,8 +356,8 @@ const AdminSubmissions = () => {
       ];
 
       for (const update of updates) {
-        const { error } = await supabase
-          .from("site_settings_premium_20251225")
+        const { error } = await api
+          .from("site_settings")
           .upsert(update, { onConflict: "setting_key" });
 
         if (error) throw error;
@@ -480,7 +480,7 @@ const AdminSubmissions = () => {
                             </span>
                           </div>
                         </div>
-                        
+
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                           {submission.phone && (
                             <div className="flex items-center gap-1">
@@ -507,7 +507,7 @@ const AdminSubmissions = () => {
                             </div>
                           )}
                         </div>
-                        
+
                         <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded">
                           {submission.message}
                         </p>
@@ -618,7 +618,7 @@ const AdminSubmissions = () => {
                               </span>
                             </div>
                           </div>
-                          
+
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                             {registration.phone && (
                               <div className="flex items-center gap-1">
@@ -717,7 +717,7 @@ const AdminSubmissions = () => {
                               </span>
                             </div>
                           </div>
-                          
+
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                             {submission.phone && (
                               <div className="flex items-center gap-1">
@@ -744,7 +744,7 @@ const AdminSubmissions = () => {
                               </div>
                             )}
                           </div>
-                          
+
                           <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded">
                             {submission.message}
                           </p>
@@ -807,7 +807,7 @@ const AdminSubmissions = () => {
                               </span>
                             </div>
                           </div>
-                          
+
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-3">
                             {submission.phone && (
                               <div className="flex items-center gap-1">
@@ -834,7 +834,7 @@ const AdminSubmissions = () => {
                               </div>
                             )}
                           </div>
-                          
+
                           <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded">
                             {submission.message}
                           </p>

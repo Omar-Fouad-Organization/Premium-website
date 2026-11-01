@@ -5,7 +5,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
+import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Calendar, User, Search, BookOpen, ArrowRight } from "lucide-react";
 
@@ -43,8 +43,8 @@ const PremiumBlog = () => {
   }, [searchQuery, selectedCategory, blogs, language]);
 
   const loadBlogs = async () => {
-    const { data, error } = await supabase
-      .from("blogs_premium_20251226")
+    const { data, error } = await api
+      .from("blogs")
       .select("*")
       .eq("is_published", true)
       .order("published_date", { ascending: false });
@@ -112,11 +112,11 @@ const PremiumBlog = () => {
               <BookOpen className="h-4 w-4" />
               <span>{t("blog")}</span>
             </div>
-            
+
             <h1 className="text-premium-heading mb-6">
               {language === "ar" ? "مدونة الحياة الخضراء" : "Green Life Blog"}
             </h1>
-            
+
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
               {language === "ar"
                 ? "اكتشف أحدث الأفكار والنصائح والقصص حول الحياة المستدامة والابتكار الأخضر"
