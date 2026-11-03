@@ -79,6 +79,7 @@ const AdminDesign = () => {
   };
 
   const hslToHex = (hsl: string) => {
+    if (/^#[a-f0-9]{3}(?:[a-f0-9]{3})?$/i.test(hsl)) return hsl;
     const [h, s, l] = hsl.split(" ").map((v) => parseFloat(v.replace("%", "")));
     const hDecimal = h / 360;
     const sDecimal = s / 100;

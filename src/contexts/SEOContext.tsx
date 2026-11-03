@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { api } from '@/integrations/api/client';
 import { useLanguage } from './LanguageContext';
 
@@ -59,6 +59,12 @@ export const SEOProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         seoSettings[item.setting_key] = item.setting_value || '';
       });
 
+      // Prefer Arabic values when present, preserving English fallback.
+      if (language === 'ar') {
+        for (const key of Object.keys(defaultSEOData)) {
+          if (seoSettings[key + '_ar']) seoSettings[key] = seoSettings[key + '_ar'];
+        }
+      }
       // Map database settings to SEO data
       const newSeoData: SEOData = {
         meta_title: seoSettings.meta_title || defaultSEOData.meta_title,
@@ -81,11 +87,11 @@ export const SEOProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  const updateMetaTags = (data: Partial<SEOData>) => {
-    const updatedData = { ...seoData, ...data };
-    setSeoData(updatedData);
-    applyMetaTags(updatedData);
-  };
+  const baseSEO = useRef(seoData);
+  baseSEO.current = seoData;
+  const updateMetaTags = useCallback((data: Partial<SEOData>) => {
+    applyMetaTags({ ...baseSEO.current, ...data });
+  }, []);
 
   const applyMetaTags = (data: SEOData) => {
     // Update document title

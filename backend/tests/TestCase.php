@@ -10,8 +10,13 @@ abstract class TestCase extends BaseTestCase
     {
         $app = parent::createApplication();
         $database = config('database.connections.mysql.database');
-        if (config('database.default') !== 'mysql' || ! str_ends_with((string) $database, '_test')) {
-            throw new \RuntimeException('Tests require a dedicated MySQL database whose name ends in _test.');
+        if (! $app->environment('testing') || config('database.default') !== 'mysql' || $database !== 'green_life_expo_test'
+            || ! in_array(config('database.connections.mysql.host'), ['127.0.0.1','localhost'], true)
+            || ! empty(config('database.connections.mysql.url'))) {
+            throw new \RuntimeException('Tests require the dedicated loopback green_life_expo_test database.');
+        }
+        if (\Illuminate\Support\Facades\DB::selectOne('SELECT DATABASE() AS name')->name !== 'green_life_expo_test') {
+            throw new \RuntimeException('Refusing migrations on an unexpected actual database.');
         }
 
         return $app;

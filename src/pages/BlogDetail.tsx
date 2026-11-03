@@ -212,7 +212,7 @@ const BlogDetail = () => {
               <div
                 className="text-muted-foreground leading-relaxed"
                 dangerouslySetInnerHTML={{
-                  __html: language === "ar" ? blog.content_ar : blog.content
+                  __html: language === "ar" && blog.content_ar ? blog.content_ar : blog.content
                 }}
               />
             </div>

@@ -11,6 +11,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import AdminRedirect from "@/components/AdminRedirect";
 import AdminTest from "@/components/AdminTest";
 import LoadingPage from "@/components/LoadingPage";
+import PublicCmsBranding from "@/components/PublicCmsBranding";
 import FaviconLoader from "@/components/FaviconLoader";
 import PremiumIndex from "./pages/PremiumIndex";
 import PremiumAbout from "./pages/PremiumAbout";
@@ -68,6 +69,7 @@ const App = () => {
           <SEOProvider>
             <TooltipProvider>
         <FaviconLoader />
+        <PublicCmsBranding />
         <Toaster />
         <Sonner />
         <HashRouter>

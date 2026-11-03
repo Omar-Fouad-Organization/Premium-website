@@ -47,7 +47,8 @@ class CmsApiTest extends TestCase
         $this->postJson('/api/auth/login', ['email' => $admin->email, 'password' => 'incorrect'])->assertUnprocessable();
         $this->postJson('/api/auth/login', ['email' => $admin->email, 'password' => 'Local-test-password-123'])->assertOk()->assertJsonPath('data.user.role', 'admin');
         $this->getJson('/api/auth/me')->assertJsonPath('data.user.email', $admin->email);
-        $this->getJson('/api/resources/admin_users')->assertOk()->assertJsonMissingPath('data.0.password');
+        $this->getJson('/api/resources/admin_users')->assertForbidden();
+        $this->getJson('/api/admin/resources/admin_users')->assertOk()->assertJsonMissingPath('data.0.password');
         $this->postJson('/api/auth/logout')->assertOk();
         $this->getJson('/api/resources/admin_users')->assertForbidden();
     }
@@ -60,7 +61,7 @@ class CmsApiTest extends TestCase
         $response->assertJsonPath('data.features', ['Space', 'WiFi'])->assertJsonPath('data.is_active', true);
         $url = $this->endpoint('packages', [['column' => 'id', 'operator' => 'eq', 'value' => $id]]);
         $this->patchJson($url, ['records' => ['package_name' => 'Updated booth', 'is_active' => false]])->assertOk();
-        $this->getJson($url)->assertJsonPath('data.0.package_name', 'Updated booth')->assertJsonPath('data.0.is_active', false);
+        $this->getJson(str_replace('/api/resources/', '/api/admin/resources/', $url))->assertJsonPath('data.0.package_name', 'Updated booth')->assertJsonPath('data.0.is_active', false);
         $this->deleteJson($url)->assertOk();
         $this->assertDatabaseMissing('packages', ['id' => $id]);
     }

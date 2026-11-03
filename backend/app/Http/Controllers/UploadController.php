@@ -10,6 +10,7 @@ class UploadController extends Controller
     public function store(Request $request): JsonResponse
     {
         abort_unless($request->user()?->is_admin, 403);
+        abort_if(config('cms_gateway.enabled'), 409, 'Public media is now managed through SPACE ERP.');
         $data = $request->validate([
             'bucket' => 'required|in:premium_logos,premium_photos,partner_logos',
             'file' => 'required|file|mimes:jpg,jpeg,png,webp,gif,ico|max:5120',
