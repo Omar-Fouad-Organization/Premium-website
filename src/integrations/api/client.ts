@@ -19,6 +19,7 @@ async function csrf(): Promise<string> {
 
 export async function request(path: string, method = 'GET', body?: unknown, retry = true): Promise<Result> {
   try {
+    if (method === 'GET' && path.startsWith('/resources/') && window.location.hash.startsWith('#/admin/')) path=path.replace('/resources/','/admin/resources/');
     const headers: Record<string, string> = { Accept: 'application/json' };
     if (method !== 'GET') headers['X-CSRF-TOKEN'] = await csrf();
     if (body && !(body instanceof FormData)) headers['Content-Type'] = 'application/json';

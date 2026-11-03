@@ -32,7 +32,12 @@ export const usePageContent = (pageName: string) => {
         const value = language === "ar" && item.content_value_ar
           ? item.content_value_ar
           : item.content_value;
-        contentMap[item.content_key] = value;
+        contentMap[item.section_name + '.' + item.content_key] = value;
+        contentMap[item.section_name + '_' + item.content_key] = value;
+        // Bare keys are available only when unambiguous within this page.
+        if (data.filter((other: PageContent) => other.content_key === item.content_key).length === 1) {
+          contentMap[item.content_key] = value;
+        }
       });
       setContent(contentMap);
     }

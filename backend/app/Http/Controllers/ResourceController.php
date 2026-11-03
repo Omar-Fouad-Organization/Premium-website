@@ -11,25 +11,42 @@ use Illuminate\Support\Facades\Validator;
 
 class ResourceController extends Controller
 {
+    public function adminRead(Request $request, string $resource): JsonResponse
+    {
+        abort_unless($request->user()?->is_admin, 403);
+        $request->attributes->set('cms_admin_read', true);
+        return $this->handle($request, $resource);
+    }
+
     public function handle(Request $request, string $resource): JsonResponse
     {
-        $admin = (bool) $request->user()?->is_admin;
+        $reading = $request->isMethod('GET');
+        $admin = (bool) $request->user()?->is_admin && (! $reading || $request->attributes->get('cms_admin_read') === true);
         if ($resource === 'admin_users') {
             return $this->users($request, $admin);
         }
         abort_unless(array_key_exists($resource, config('cms.resources')), 404);
         $spec = config("cms.resources.$resource");
-        $reading = $request->isMethod('GET');
         $submission = ! $admin && $request->isMethod('POST') && ($spec['submit'] ?? false);
         abort_unless($admin || ($reading && $spec['public']) || $submission, 403);
+        if ($admin && ! $reading && $spec['public'] && config('cms_gateway.enabled')) {
+            abort(409, 'Website content is now managed through SPACE ERP. Reload it there before editing.');
+        }
         if ($submission && $resource === 'visitor_registrations') {
             $enabled = CmsRecord::forResource('site_settings')->where('setting_key', 'visitor_registration_enabled')->value('setting_value');
             abort_unless($enabled === 'true', 403, 'Visitor registration is closed.');
         }
         $allowed = ['id', 'created_at', 'updated_at', ...array_keys($spec['fields'])];
         $query = CmsRecord::forResource($resource)->newQuery();
+        if (! $admin && $reading && $resource === 'site_settings') {
+            $query->whereIn('setting_key', config('cms_contract.public_setting_keys'));
+            $allowed = array_values(array_diff($allowed, ['description']));
+        }
         if (! $admin && isset($spec['visible'])) {
             $query->where($spec['visible'], true);
+        }
+        if (! $admin && $reading && $resource === 'blogs') {
+            $query->where(fn ($q) => $q->whereNull('published_date')->orWhere('published_date', '<=', now()->toIso8601String()));
         }
         $filters = $this->filters($request, $allowed);
         $this->applyFilters($query, $filters);
@@ -45,8 +62,38 @@ class ResourceController extends Controller
             foreach ($columns as $column) {
                 abort_unless($column === '*' || in_array($column, $allowed, true), 422, 'Invalid column.');
             }
-            $rows = $query->limit(max(1, min((int) $request->query('limit', 1000), 1000)))->get($columns);
+            if (! $admin && $resource === 'site_settings' && $columns === ['*']) {
+                $columns = $allowed;
+            }
+            $rows = $query->offset(max(0, min((int) $request->query('offset', 0), 10000)))->limit(max(1, min((int) $request->query('limit', 1000), 1000)))->get($columns);
+            if ($resource === 'blogs') {
+                foreach ($rows as $row) {
+                    foreach (['content', 'content_ar'] as $field) {
+                        if (array_key_exists($field, $row->getAttributes())) {
+                            $row->$field = \App\Services\CmsHtml::sanitize($row->$field);
+                        }
+                    }
+                }
+            }
 
+            foreach ($rows as $row) {
+                foreach ($row->getAttributes() as $field => $value) {
+                    if (is_string($value) && str_ends_with($field, '_url') && ! \App\Services\CmsHtml::safeUrl($value, true)) {
+                        $row->$field = '';
+                    }
+                }
+                if ($resource === 'site_settings' && isset($row->setting_key, $row->setting_value)
+                    && preg_match('/(_url|^social_)/', $row->setting_key) && ! \App\Services\CmsHtml::safeUrl($row->setting_value)) {
+                    $row->setting_value = '';
+                }
+            }
+            if ($resource === 'site_settings') {
+                foreach ($rows as $row) {
+                    if ($row->setting_key === 'map_embed_url' && ! \App\Services\CmsHtml::safeMapUrl($row->setting_value ?? '')) {
+                        $row->setting_value = '';
+                    }
+                }
+            }
             return response()->json(['data' => $request->boolean('single') ? $rows->first() : $rows, 'count' => $count]);
         }
         if ($request->isMethod('DELETE')) {
@@ -82,6 +129,13 @@ class ResourceController extends Controller
                     $rules['interests.*'] = 'string|max:255';
                 }
                 $validated = Validator::make($record, $rules)->validate();
+                if ($resource === 'blogs') {
+                    foreach (['content','content_ar'] as $field) {
+                        if (array_key_exists($field, $validated)) {
+                            $validated[$field] = \App\Services\CmsHtml::sanitize($validated[$field]);
+                        }
+                    }
+                }
                 foreach ($validated as $field => $value) {
                     if ($value && str_ends_with($field, '_url')) {
                         abort_unless((str_starts_with($value, '/') && ! str_starts_with($value, '//')) || preg_match('#^https?://#i', $value), 422, 'Invalid asset URL.');

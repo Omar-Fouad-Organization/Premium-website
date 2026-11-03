@@ -37,7 +37,7 @@ export const usePageSEO = (props: PageSEOProps) => {
     return () => {
       updateMetaTags(seoData);
     };
-  }, [props, updateMetaTags, seoData]);
+  }, [props.title, props.description, props.keywords, props.ogTitle, props.ogDescription, props.ogImage, props.twitterTitle, props.twitterDescription, props.twitterImage, props.canonicalUrl, updateMetaTags, seoData]);
 };
 
 export default usePageSEO;

@@ -1,41 +1,99 @@
-name: React and Laravel checks
-on: [push, pull_request]
+name: Website isolated MySQL tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, codex/phase-3-cms-gateway]
+  workflow_dispatch:
+
 permissions:
   contents: read
+
+concurrency:
+  group: website-tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  check:
-    runs-on: ubuntu-latest
+  frontend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: node --test scripts/cms-public.test.mjs
+      - run: npx tsc --noEmit -p tsconfig.app.json
+      - run: npm run build
+  laravel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     services:
       mysql:
         image: mysql:8.4
         env:
-          MYSQL_ROOT_PASSWORD: ci-only-password
+          # Public disposable CI credentials. Never repository/environment secrets.
+          MYSQL_ROOT_PASSWORD: disposable_root_only
           MYSQL_DATABASE: green_life_expo_test
-        ports: ['3306:3306']
+          MYSQL_USER: website_ci
+          MYSQL_PASSWORD: disposable_test_only
+        ports:
+          - 3306/tcp
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-only-password"
-          --health-interval=10s --health-timeout=5s --health-retries=10
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      APP_ENV: testing
+      APP_DEBUG: 'false'
+      APP_KEY: base64:AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE=
+      DB_CONNECTION: mysql
+      DB_URL: ''
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: green_life_expo_test
+      DB_USERNAME: erp_ci
+      DB_PASSWORD: disposable_test_only
+      CACHE_STORE: array
+      SESSION_DRIVER: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
+      BCRYPT_ROUNDS: '4'
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npx tsc --noEmit -p tsconfig.app.json
-      - run: npm run build
-      - uses: shivammathur/setup-php@v2
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: shivammathur/setup-php@d52fc211a0436f8839a587b3b5b8efddab4744ea # v2
         with:
           php-version: '8.4'
-          extensions: pdo_mysql, mbstring, fileinfo
+          extensions: pdo_mysql, mbstring, dom, xml, zip, fileinfo
           coverage: none
-      - run: composer install --no-interaction --prefer-dist
-        working-directory: backend
-      - run: |
-          cp .env.testing.example .env.testing
-          php artisan key:generate --env=testing
-          php artisan test --compact
-        working-directory: backend
+          tools: composer:v2
+      - name: Select this job's disposable MySQL port
         env:
-          DB_USERNAME: root
-          DB_PASSWORD: ci-only-password
+          MYSQL_TEST_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: echo "DB_PORT=$MYSQL_TEST_PORT" >> "$GITHUB_ENV"
+      - name: Install locked PHP dependencies
+        # Generated CI-only files prevent suppressed dotenv missing-file warnings.
+        # All connection/key values still come from this job's disposable env.
+        # Never copy an operational .env or use composer setup (which seeds).
+        run: |
+          printf 'APP_ENV=testing\n' > .env
+          cp .env .env.testing
+          composer install --no-interaction --prefer-dist --no-progress
+      - name: Check disposable database boundary
+        run: |
+          php -r '$p = new PDO("mysql:host=".getenv("DB_HOST").";port=".getenv("DB_PORT").";dbname=".getenv("DB_DATABASE"), getenv("DB_USERNAME"), getenv("DB_PASSWORD")); if (getenv("APP_ENV") !== "testing" || getenv("DB_HOST") !== "127.0.0.1" || $p->query("SELECT DATABASE()")->fetchColumn() !== "green_life_expo_test") { exit(1); } echo "Disposable loopback database verified.\n";'
+      - name: Run one sequential Laravel suite with synthetic fixtures
+        # No --parallel, matrix, operational .env, seed command, or deployment step.
+        run: php artisan test --compact --display-warnings --fail-on-warning --log-junit=storage/test-results.xml
