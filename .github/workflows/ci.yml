@@ -61,7 +61,7 @@ jobs:
       DB_URL: ''
       DB_HOST: 127.0.0.1
       DB_DATABASE: green_life_expo_test
-      DB_USERNAME: erp_ci
+      DB_USERNAME: website_ci
       DB_PASSWORD: disposable_test_only
       CACHE_STORE: array
       SESSION_DRIVER: array
