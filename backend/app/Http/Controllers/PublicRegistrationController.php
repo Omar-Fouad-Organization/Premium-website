@@ -89,7 +89,7 @@ class PublicRegistrationController extends Controller
     public function status(Request $request): JsonResponse
     {
         $row=$this->receipt($request);
-        $status=$this->businessStatus($row);
+        $status=$row->type==='visitor' || $row->withdrawn_at?$this->businessStatus($row):'accepted_awaiting_processing';
         if (!$row->withdrawn_at) {
             try {
                 $remote=app(IntakeTransport::class)->send('status',['source_id'=>$row->id])['status']??null;

@@ -158,6 +158,8 @@ class PublicRegistrationTest extends TestCase
         $this->remoteStatus='confirmed';$this->registrationPost('status',['id'=>$receipt['id'],'token'=>$receipt['receipt_token']])->assertOk()->assertJsonPath('data.status','legacy_requires_review');
         $buyer=$this->registrationPost('submit',$this->input('buyer'))->assertCreated()->assertJsonPath('data.status','accepted')->json('data');
         $this->assertDatabaseHas('public_submissions',['id'=>$buyer['id'],'registration_status'=>null,'visitor_registration_version'=>null]);
+        $this->fake(true);
+        $this->registrationPost('status',['id'=>$buyer['id'],'token'=>$buyer['receipt_token']])->assertOk()->assertJsonPath('data.status','accepted_awaiting_processing');
     }
 
 }
