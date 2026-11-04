@@ -14,6 +14,7 @@ class SubmissionOutbox
             'exhibition_id'=>(int)$source->exhibition_id,'source_form'=>$source->source_form,'type'=>$source->type,'event'=>$event,
             'historical'=>(bool)$source->historical,'submitted_at'=>\Carbon\Carbon::parse($source->submitted_at)->utc()->format('Y-m-d\TH:i:s\Z'),
             'payload'=>$payload,'source_hash'=>IntakePayload::hash($payload)];
+        if($source->type==='visitor' && ($source->visitor_registration_version??null)==1){$envelope['visitor_registration_version']=1;}
         abort_if(strlen(json_encode($envelope,JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES))>config('intake.max_bytes'),413,'Submission exceeds the delivery size limit.');
         DB::table('submission_outbox')->insert(['id'=>$id,'submission_id'=>$source->id,'event'=>$event,
             'envelope'=>Crypt::encryptString(json_encode($envelope,JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE)),

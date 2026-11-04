@@ -11,6 +11,7 @@ class PublicRegistrationTest extends TestCase
     use RefreshDatabase;
     private bool $open=true;
     private bool $outage=false;
+    private string $remoteStatus='awaiting_processing';
     protected function setUp(): void
     {
         parent::setUp();config(['intake.enabled'=>true,'intake.exhibition_id'=>42,'intake.key'=>'SyntheticRegistrationServiceKeyForTestsOnly123456789','intake.peer_url'=>'https://erp.example.test']);
@@ -25,6 +26,7 @@ class PublicRegistrationTest extends TestCase
                 return Http::response(['site'=>'green-life-expo','exhibition_id'=>42,'exhibition_name'=>'Synthetic event','controls'=>$controls]);
             }
             if($this->outage){return Http::response([],503);}
+            if(str_ends_with($r->url(),'/status')){return Http::response(['status'=>$this->remoteStatus]);}
             $body=json_decode($r->body(),true);
             return Http::response(['accepted'=>true,'message_id'=>$body['message_id']??null,'source_id'=>$body['source_id']??null]);
         });
@@ -40,7 +42,7 @@ class PublicRegistrationTest extends TestCase
     }
     public function test_all_legitimate_types_persist_source_and_outbox_atomically(): void
     {
-        foreach(['visitor','buyer','speaker','exhibitor','sponsor'] as $type){$this->registrationPost('submit',$this->input($type))->assertCreated()->assertJsonPath('data.status','accepted');}
+        foreach(['visitor','buyer','speaker','exhibitor','sponsor'] as $type){$this->registrationPost('submit',$this->input($type))->assertCreated()->assertJsonPath('data.status',$type==='visitor'?'registered':'accepted');}
         $this->assertDatabaseCount('public_submissions',5);$this->assertDatabaseCount('submission_outbox',5);
         $this->assertDatabaseCount('visitor_registrations',0);$this->assertDatabaseCount('contact_submissions',0);
         $row=DB::table('public_submissions')->first();$this->assertStringNotContainsString('example.test',$row->payload);
@@ -127,4 +129,35 @@ class PublicRegistrationTest extends TestCase
         $this->assertSame(['delivered'=>0,'failed'=>0],app(SubmissionOutbox::class)->deliver());
         $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);app(SubmissionOutbox::class)->replay($id,'erp:1');
     }
+    public function test_visitor_acceptance_is_registered_even_while_delivery_is_pending_or_unavailable(): void
+    {
+        $input=$this->input();$receipt=$this->registrationPost('submit',$input)->assertCreated()->assertJsonPath('data.status','registered')->assertJsonPath('data.delivery_status','pending')->json('data');
+        $this->assertDatabaseHas('public_submissions',['id'=>$receipt['id'],'registration_status'=>'registered','visitor_registration_version'=>1]);
+        $envelope=json_decode(Crypt::decryptString(DB::table('submission_outbox')->value('envelope')),true);
+        $this->assertSame(1,$envelope['visitor_registration_version']);
+        $auth=['id'=>$receipt['id'],'token'=>$receipt['receipt_token']];
+        $this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','registered');
+        $this->fake(true);$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','registered');
+        $this->registrationPost('submit',$input)->assertOk()->assertJsonPath('data.status','registered');
+        $this->registrationPost('withdraw',$auth)->assertOk()->assertJsonPath('data.status','withdrawn');
+        $this->registrationPost('submit',$input)->assertOk()->assertJsonPath('data.status','withdrawn');
+    }
+    public function test_observed_cancellation_never_downgrades_during_outage_or_late_registered_status(): void
+    {
+        $receipt=$this->registrationPost('submit',$this->input())->assertCreated()->json('data');
+        $auth=['id'=>$receipt['id'],'token'=>$receipt['receipt_token']];$this->remoteStatus='cancelled';
+        $this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','cancelled');
+        $this->fake(true);$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','cancelled');
+        $this->fake();$this->remoteStatus='registered';$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','cancelled');
+        $this->assertDatabaseHas('public_submissions',['id'=>$receipt['id'],'registration_status'=>'cancelled']);
+    }
+    public function test_legacy_visitor_receipts_and_buyer_applications_are_not_automatically_verified(): void
+    {
+        $receipt=$this->registrationPost('submit',$this->input())->assertCreated()->json('data');
+        DB::table('public_submissions')->where('id',$receipt['id'])->update(['registration_status'=>null,'visitor_registration_version'=>null]);
+        $this->remoteStatus='confirmed';$this->registrationPost('status',['id'=>$receipt['id'],'token'=>$receipt['receipt_token']])->assertOk()->assertJsonPath('data.status','legacy_requires_review');
+        $buyer=$this->registrationPost('submit',$this->input('buyer'))->assertCreated()->assertJsonPath('data.status','accepted')->json('data');
+        $this->assertDatabaseHas('public_submissions',['id'=>$buyer['id'],'registration_status'=>null,'visitor_registration_version'=>null]);
+    }
+
 }

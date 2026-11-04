@@ -30,7 +30,7 @@ class PublicRegistrationController extends Controller
         $prior=DB::table('public_submissions')->where('idempotency_key',$v['idempotency_key'])->first();
         if ($prior) {
             abort_unless(hash_equals($prior->payload_hash,$inputHash),409,'This submission key was already used with different data.');
-            return response()->json(['data'=>['id'=>$prior->id,'status'=>'accepted','replayed'=>true,'receipt_token'=>null]])->header('Cache-Control','no-store');
+            return response()->json(['data'=>['id'=>$prior->id,'status'=>$this->businessStatus($prior),'delivery_status'=>$this->deliveryStatus($prior),'replayed'=>true,'receipt_token'=>null]])->header('Cache-Control','no-store');
         }
         $controls=$this->controls()->getData(true)['data'];
         $group=in_array($v['type'],['exhibitor','sponsor','buyer','visitor'],true)?$v['type']:'general';
@@ -49,6 +49,7 @@ class PublicRegistrationController extends Controller
                 $id=Str::uuid()->toString();
                 DB::table('public_submissions')->insert(['id'=>$id,'idempotency_key'=>$v['idempotency_key'],'payload_hash'=>$inputHash,
                     'site'=>config('intake.site'),'exhibition_id'=>config('intake.exhibition_id'),'type'=>$v['type'],
+                    'registration_status'=>$v['type']==='visitor'?'registered':null,'visitor_registration_version'=>$v['type']==='visitor'?1:null,
                     'source_form'=>in_array($v['type'],['buyer','visitor'],true)?$v['type']:'contact',
                     'payload'=>Crypt::encryptString(json_encode($payload,JSON_THROW_ON_ERROR|JSON_UNESCAPED_UNICODE)),
                     'submitted_at'=>now(),'receipt_hash'=>hash('sha256',$token),'receipt_expires_at'=>now()->addDays(90),'created_at'=>now(),'updated_at'=>now()]);
@@ -60,8 +61,8 @@ class PublicRegistrationController extends Controller
             abort_unless($prior && hash_equals($prior->payload_hash,$inputHash),409);
             return response()->json(['data'=>['id'=>$prior->id,'status'=>'accepted','replayed'=>true,'receipt_token'=>null]])->header('Cache-Control','no-store');
         }
-        return response()->json(['data'=>['id'=>$id,'status'=>'accepted','receipt_token'=>$token,
-            'message'=>'Submission saved for review. No email has been sent. This is not confirmation of attendance or buyer verification.']],201)->header('Cache-Control','no-store');
+        return response()->json(['data'=>['id'=>$id,'status'=>$v['type']==='visitor'?'registered':'accepted','delivery_status'=>'pending','receipt_token'=>$token,
+            'message'=>$v['type']==='visitor'?'Your registration has been completed successfully. No email or QR ticket has been issued. Registration is not venue check-in.':'Submission saved for review. No email has been sent. This is not confirmation of attendance or buyer verification.']],201)->header('Cache-Control','no-store');
     }
 
     private function receipt(Request $request): object
@@ -73,15 +74,35 @@ class PublicRegistrationController extends Controller
         return $row;
     }
 
+    private function businessStatus(object $row): string
+    {
+        if($row->withdrawn_at){return 'withdrawn';}
+        if($row->type!=='visitor'){return 'accepted';}
+        return (int)$row->visitor_registration_version===1?($row->registration_status??'legacy_requires_review'):'legacy_requires_review';
+    }
+
+    private function deliveryStatus(object $row): string
+    {
+        return DB::table('submission_outbox')->where('submission_id',$row->id)->where('event',$row->withdrawn_at?'withdrawn':'submitted')->value('status')??'not_queued';
+    }
+
     public function status(Request $request): JsonResponse
     {
         $row=$this->receipt($request);
-        $status=$row->withdrawn_at?'withdrawn':'accepted_awaiting_processing';
+        $status=$this->businessStatus($row);
         if (!$row->withdrawn_at) {
-            try { $status=app(IntakeTransport::class)->send('status',['source_id'=>$row->id])['status']??$status; }
-            catch (\Throwable) { /* Durable receipt remains available during ERP outages. */ }
+            try {
+                $remote=app(IntakeTransport::class)->send('status',['source_id'=>$row->id])['status']??null;
+                if($row->type==='visitor') {
+                    if((int)$row->visitor_registration_version===1 && in_array($remote,['cancelled','duplicate','withdrawn'],true)) {
+                        DB::table('public_submissions')->where('id',$row->id)->whereNull('withdrawn_at')->where('registration_status','registered')->update(['registration_status'=>$remote,'updated_at'=>now()]);
+                    }
+                } elseif($remote){$status=$remote;}
+            } catch (\Throwable) { /* Acceptance survives delivery delays and ERP outages. */ }
         }
-        return response()->json(['data'=>['id'=>$row->id,'status'=>$status]])->header('Cache-Control','no-store');
+        $row=DB::table('public_submissions')->find($row->id);
+        if($row->type==='visitor' || $row->withdrawn_at){$status=$this->businessStatus($row);}
+        return response()->json(['data'=>['id'=>$row->id,'status'=>$status,'delivery_status'=>$this->deliveryStatus($row)]])->header('Cache-Control','no-store');
     }
 
     public function withdraw(Request $request): JsonResponse
@@ -90,7 +111,7 @@ class PublicRegistrationController extends Controller
         DB::transaction(function()use($row){
             $locked=DB::table('public_submissions')->where('id',$row->id)->lockForUpdate()->first();
             if (!$locked->withdrawn_at) {
-                DB::table('public_submissions')->where('id',$row->id)->update(['withdrawn_at'=>now(),'updated_at'=>now()]);
+                DB::table('public_submissions')->where('id',$row->id)->update(['withdrawn_at'=>now(),'registration_status'=>$locked->type==='visitor'?'withdrawn':null,'updated_at'=>now()]);
                 app(SubmissionOutbox::class)->enqueue($locked,'withdrawn');
             }
         });
