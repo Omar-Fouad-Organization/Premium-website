@@ -70,7 +70,7 @@ const PremiumIndex = () => {
   const benefits = [
     {
       icon: Users,
-      title: "10,000+ Qualified Visitors",
+      title: "Visitor Community",
       description: "Connect with decision-makers, buyers, and sustainability advocates",
     },
     {
@@ -91,10 +91,10 @@ const PremiumIndex = () => {
   ];
 
   const stats = [
-    { number: getSetting("stats_exhibitors", "500+"), label: "Exhibitors" },
-    { number: getSetting("stats_visitors", "25,000+"), label: "Visitors" },
-    { number: getSetting("stats_speakers", "50+"), label: "Expert Speakers" },
-    { number: getSetting("stats_countries", "15+"), label: "Countries" },
+    { number: "TBA", label: "Exhibitors" },
+    { number: "TBA", label: "Visitors" },
+    { number: "TBA", label: "Expert Speakers" },
+    { number: "TBA", label: "Countries" },
   ];
 
   return (

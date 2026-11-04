@@ -24,7 +24,7 @@ const PremiumSponsors = () => {
     {
       icon: Camera,
       title: "Premium Media Exposure",
-      description: "Gain visibility across 50+ media partners, digital platforms, and industry publications reaching millions of stakeholders.",
+      description: "Gain visibility across  media partners, digital platforms, and industry publications reaching millions of stakeholders.",
     },
     {
       icon: Users,
@@ -152,9 +152,9 @@ const PremiumSponsors = () => {
 
   const stats = [
     { number: "50M+", label: "Media Impressions", sublabel: "Across all channels" },
-    { number: "10,000+", label: "Engaged Attendees", sublabel: "Quality over quantity" },
-    { number: "500+", label: "Media Mentions", sublabel: "Regional & international" },
-    { number: "85%", label: "C-Suite Attendance", sublabel: "Decision-maker access" },
+    { number: "TBA", label: "Engaged Attendees", sublabel: "Quality over quantity" },
+    { number: "TBA", label: "Media Mentions", sublabel: "Regional & international" },
+    { number: "TBA", label: "C-Suite Attendance", sublabel: "Decision-maker access" },
   ];
 
   return (
@@ -180,7 +180,7 @@ const PremiumSponsors = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-                <Link to="/contact?scrollToForm=true">
+                <Link to="/contact?type=sponsor&scrollToForm=true">
                   Explore Partnership
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -283,7 +283,7 @@ const PremiumSponsors = () => {
                       : "bg-primary/10 text-primary hover:bg-primary hover:text-white"
                   }`}
                 >
-                  <Link to="/contact?scrollToForm=true">Request Proposal</Link>
+                  <Link to="/contact?type=sponsor&scrollToForm=true">Request Proposal</Link>
                 </Button>
               </div>
             ))}
@@ -294,7 +294,7 @@ const PremiumSponsors = () => {
               All packages are customizable to meet your specific objectives
             </p>
             <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-              <Link to="/contact?scrollToForm=true">
+              <Link to="/contact?type=sponsor&scrollToForm=true">
                 Discuss Custom Package
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
@@ -418,7 +418,7 @@ const PremiumSponsors = () => {
                     <Camera className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold mb-1">50+ Media Partners</h3>
+                    <h3 className="font-semibold mb-1"> Media Partners</h3>
                     <p className="text-sm text-muted-foreground">Regional and international press, TV, radio, and digital media</p>
                   </div>
                 </div>
@@ -461,7 +461,7 @@ const PremiumSponsors = () => {
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button size="lg" variant="secondary" asChild className="btn-premium bg-white text-primary hover:bg-white/90">
-                <Link to="/contact?scrollToForm=true">
+                <Link to="/contact?type=sponsor&scrollToForm=true">
                   Request Partnership Proposal
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

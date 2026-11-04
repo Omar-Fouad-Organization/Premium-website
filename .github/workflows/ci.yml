@@ -2,9 +2,9 @@ name: Website isolated MySQL tests
 
 on:
   pull_request:
-    branches: [main]
-  push:
     branches: [main, codex/phase-3-cms-gateway]
+  push:
+    branches: [main, codex/phase-3-cms-gateway, codex/phase-4-public-intake]
   workflow_dispatch:
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: node --test scripts/cms-public.test.mjs
+      - run: node --test scripts/cms-public.test.mjs scripts/registration-ui.test.mjs
       - run: npx tsc --noEmit -p tsconfig.app.json
       - run: npm run build
   laravel:

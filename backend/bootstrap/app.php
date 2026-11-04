@@ -14,9 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->prepend(\App\Http\Middleware\LimitIntakeRequest::class);
         $middleware->prepend(\App\Http\Middleware\LimitCmsRequest::class);
-        $middleware->trimStrings(except: [fn (Request $request): bool => $request->is('api/internal/cms/*')]);
-        $middleware->convertEmptyStringsToNull(except: [fn (Request $request): bool => $request->is('api/internal/cms/*')]);
+        $middleware->trimStrings(except: [fn (Request $request): bool => $request->is('api/internal/cms/*','api/internal/intake/*','api/registrations/*')]);
+        $middleware->convertEmptyStringsToNull(except: [fn (Request $request): bool => $request->is('api/internal/cms/*','api/internal/intake/*','api/registrations/*')]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (UniqueConstraintViolationException $exception, Request $request) {

@@ -77,10 +77,10 @@ const PremiumExhibitors = () => {
   ];
 
   const stats = [
-    { number: "10,000+", label: "Qualified Visitors", sublabel: "Decision-makers & buyers" },
-    { number: "85%", label: "Purchase Intent", sublabel: "Visitors ready to buy" },
-    { number: "500+", label: "Business Meetings", sublabel: "Pre-scheduled connections" },
-    { number: "50+", label: "Media Partners", sublabel: "Regional & international" },
+    { number: "TBA", label: "Qualified Visitors", sublabel: "Decision-makers & buyers" },
+    { number: "TBA", label: "Purchase Intent", sublabel: "Visitors ready to buy" },
+    { number: "TBA", label: "Business Meetings", sublabel: "Meeting opportunities subject to confirmation" },
+    { number: "TBA", label: "Media Partners", sublabel: "Regional & international" },
   ];
 
   return (
@@ -106,7 +106,7 @@ const PremiumExhibitors = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-                <Link to="/contact?scrollToForm=true">
+                <Link to="/contact?type=exhibitor&scrollToForm=true">
                   Reserve Your Space
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -221,7 +221,7 @@ const PremiumExhibitors = () => {
               <div className="mt-10 p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
                 <div className="text-sm font-semibold mb-2">Limited Time Offer</div>
                 <div className="text-2xl font-bold mb-1">Save up to 25%</div>
-                <div className="text-primary-foreground/80">Book before January 31, 2025</div>
+                <div className="text-primary-foreground/80">Offer details subject to organizer confirmation</div>
               </div>
             </div>
 
@@ -304,12 +304,12 @@ const PremiumExhibitors = () => {
               Secure Your Exhibition Space Today
             </h2>
             <p className="text-xl text-primary-foreground/90 mb-12 max-w-2xl mx-auto">
-              Join 500+ leading brands showcasing sustainable solutions at Egypt's premier green living platform.
+              Join  leading brands showcasing sustainable solutions at Egypt's premier green living platform.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button size="lg" variant="secondary" asChild className="btn-premium bg-white text-primary hover:bg-white/90">
-                <Link to="/contact?scrollToForm=true">
+                <Link to="/contact?type=exhibitor&scrollToForm=true">
                   Reserve Your Space
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

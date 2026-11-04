@@ -42,3 +42,14 @@ Artisan::command('admin:create {email}', function () {
 
     return 0;
 })->purpose('Create an administrator securely without a default password');
+
+
+Artisan::command('intake:deliver {--limit=50}', function(): int {
+    $result=app(\App\Services\SubmissionOutbox::class)->deliver((int)$this->option('limit'));
+    $this->info(json_encode($result));return $result['failed']?1:0;
+})->purpose('Deliver a bounded batch from the durable registration outbox');
+
+Artisan::command('intake:prune-nonces',function(): int {
+    $count=DB::table('intake_nonces')->where('expires_at','<',now()->subMinutes(5))->limit(5000)->delete();
+    $this->info('Expired replay nonces: '.$count);return 0;
+})->purpose('Prune expired service replay nonces only; preserve inbox, outbox and audit history');
