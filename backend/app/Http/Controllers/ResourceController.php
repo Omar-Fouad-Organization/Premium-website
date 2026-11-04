@@ -27,6 +27,9 @@ class ResourceController extends Controller
         }
         abort_unless(array_key_exists($resource, config('cms.resources')), 404);
         $spec = config("cms.resources.$resource");
+        if (config('intake.enabled') && ($spec['submit'] ?? false) && !$reading) {
+            abort(409, 'Use the dedicated registration form or SPACE ERP processing workflow.');
+        }
         $submission = ! $admin && $request->isMethod('POST') && ($spec['submit'] ?? false);
         abort_unless($admin || ($reading && $spec['public']) || $submission, 403);
         if ($admin && ! $reading && $spec['public'] && config('cms_gateway.enabled')) {

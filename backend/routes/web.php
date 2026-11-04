@@ -28,3 +28,11 @@ Route::get('/storage/{path}', function (string $path) {
 
     return $disk->response($path, headers: ['X-Content-Type-Options' => 'nosniff']);
 })->where('path', '.*');
+
+Route::prefix('api/registrations')->group(function(){
+    $c=\App\Http\Controllers\PublicRegistrationController::class;
+    Route::get('controls',[$c,'controls'])->middleware('throttle:60,1,registration-controls');
+    Route::post('submit',[$c,'submit'])->middleware('throttle:5,1,public-registration');
+    Route::post('status',[$c,'status'])->middleware('throttle:20,1,registration-receipt');
+    Route::post('withdraw',[$c,'withdraw'])->middleware('throttle:5,1,registration-withdraw');
+});

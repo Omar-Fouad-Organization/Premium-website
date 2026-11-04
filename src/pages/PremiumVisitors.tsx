@@ -4,13 +4,15 @@ import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, MapPin, Clock, Ticket, Users, Mic, ShoppingBag, CheckCircle, XCircle } from "lucide-react";
+import { request } from "@/integrations/api/client";
 import { api } from "@/integrations/api/client";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 
 const PremiumVisitors = () => {
   const { language } = useLanguage();
-  const [registrationEnabled, setRegistrationEnabled] = useState(true);
+  const [registrationEnabled, setRegistrationEnabled] = useState(false);
+  const [approvedDates, setApprovedDates] = useState<string[]>([]);
   const [closedMessage, setClosedMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -19,31 +21,22 @@ const PremiumVisitors = () => {
   }, [language]);
 
   const loadRegistrationSettings = async () => {
-    const { data, error } = await api
-      .from("site_settings")
-      .select("setting_key, setting_value")
-      .in("setting_key", ["visitor_registration_enabled", "visitor_registration_closed_message", "visitor_registration_closed_message_ar"]);
-
-    if (data) {
-      const settings = Object.fromEntries(data.map((item) => [item.setting_key, item.setting_value]));
-      setRegistrationEnabled(settings.visitor_registration_enabled === "true");
-      const message = language === "ar"
-        ? settings.visitor_registration_closed_message_ar
-        : settings.visitor_registration_closed_message;
-      setClosedMessage(message || "Visitor registration is currently closed. Please check back later.");
-    }
+    const {data,error}=await request('/registrations/controls');
+    setRegistrationEnabled(!error && data?.controls?.visitor?.open===true);
+    setApprovedDates(data?.controls?.visitor?.dates||[]);
+    setClosedMessage(language==='ar'?'التسجيل مغلق أو لم يفتح بعد. يرجى العودة لاحقاً.':'Visitor registration is closed or not yet open. Please check back later.');
     setLoading(false);
   };
 
   const highlights = [
     {
       icon: ShoppingBag,
-      title: "500+ Exhibitors",
+      title: "Exhibitor Showcase",
       description: "Discover sustainable products and services from leading green businesses",
     },
     {
       icon: Mic,
-      title: "50+ Expert Sessions",
+      title: "Expert Sessions",
       description: "Learn from industry leaders through keynotes, panels, and workshops",
     },
     {
@@ -61,7 +54,7 @@ const PremiumVisitors = () => {
   const schedule = [
     {
       day: "Day 1",
-      date: "March 15, 2025",
+      date: approvedDates[0] || "Date to be announced",
       highlights: [
         "Opening Ceremony & Keynote",
         "Exhibition Floor Opens",
@@ -71,7 +64,7 @@ const PremiumVisitors = () => {
     },
     {
       day: "Day 2",
-      date: "March 16, 2025",
+      date: approvedDates[1] || "Date to be announced",
       highlights: [
         "Expert Workshops",
         "Innovation Showcases",
@@ -81,7 +74,7 @@ const PremiumVisitors = () => {
     },
     {
       day: "Day 3",
-      date: "March 17, 2025",
+      date: approvedDates[2] || "Date to be announced",
       highlights: [
         "Final Day Exhibitions",
         "Closing Keynote",
@@ -104,7 +97,7 @@ const PremiumVisitors = () => {
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
-              Join thousands of sustainability enthusiasts, business professionals, and conscious consumers for three days of discovery, learning, and connection.
+              Join sustainability enthusiasts, business professionals, and conscious consumers for discovery, learning, and connection.
             </p>
 
             {/* Registration Status */}
@@ -113,7 +106,7 @@ const PremiumVisitors = () => {
                 {registrationEnabled ? (
                   <div className="flex flex-col sm:flex-row gap-6 justify-center">
                     <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-                      <Link to="/contact?scrollToForm=true">
+                      <Link to="/register/visitor">
                         Register Now
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </Link>
@@ -143,7 +136,7 @@ const PremiumVisitors = () => {
               <div className="card-premium text-center">
                 <Calendar className="h-8 w-8 text-primary mx-auto mb-3" />
                 <div className="font-semibold mb-1">Dates</div>
-                <div className="text-sm text-muted-foreground">March 15-17, 2025</div>
+                <div className="text-sm text-muted-foreground">{approvedDates.length?approvedDates.join(' / '):'Dates to be announced'}</div>
               </div>
               <div className="card-premium text-center">
                 <MapPin className="h-8 w-8 text-primary mx-auto mb-3" />
@@ -153,7 +146,7 @@ const PremiumVisitors = () => {
               <div className="card-premium text-center">
                 <Clock className="h-8 w-8 text-primary mx-auto mb-3" />
                 <div className="font-semibold mb-1">Hours</div>
-                <div className="text-sm text-muted-foreground">10:00 AM - 8:00 PM</div>
+                <div className="text-sm text-muted-foreground">Hours to be announced</div>
               </div>
             </div>
           </div>
@@ -191,7 +184,7 @@ const PremiumVisitors = () => {
         <div className="container-premium">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-premium-heading mb-6">
-              Three Days of Green Innovation
+              Green Innovation Program
             </h2>
             <p className="text-lg text-muted-foreground">
               Each day offers unique experiences, learning opportunities, and networking events.
@@ -231,7 +224,7 @@ const PremiumVisitors = () => {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Discover Sustainable Solutions</h3>
                     <p className="text-primary-foreground/80">
-                      Explore 500+ exhibitors showcasing the latest in organic products, green technologies, and sustainable living solutions.
+                      Explore exhibitors showcasing the latest in organic products, green technologies, and sustainable living solutions.
                     </p>
                   </div>
                 </div>
@@ -240,7 +233,7 @@ const PremiumVisitors = () => {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Learn from Experts</h3>
                     <p className="text-primary-foreground/80">
-                      Attend 50+ sessions led by industry leaders, sustainability experts, and green innovators.
+                      Attend sessions led by industry leaders, sustainability experts, and green innovators.
                     </p>
                   </div>
                 </div>
@@ -286,12 +279,12 @@ const PremiumVisitors = () => {
               Ready to Experience Green Life Expo?
             </h2>
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
-              Register now and be part of Egypt's premier green living event. Entry is free for all visitors.
+              Check registration availability and approved event details before planning your visit.
             </p>
 
             <Button size="lg" asChild className="btn-premium btn-premium-primary group">
-              <Link to="/contact?scrollToForm=true">
-                Register for Free
+              <Link to="/register/visitor">
+                Visitor Registration
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
@@ -299,7 +292,7 @@ const PremiumVisitors = () => {
             <div className="mt-12 flex items-center justify-center gap-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-primary" />
-                <span>Free Entry</span>
+                <span>Entry details to be announced</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-primary" />

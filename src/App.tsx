@@ -22,6 +22,7 @@ import PremiumContent from "./pages/PremiumContent";
 import PremiumBlog from "./pages/PremiumBlog";
 import BlogDetail from "./pages/BlogDetail";
 import PremiumVisitors from "./pages/PremiumVisitors";
+import PremiumRegistration from "./pages/PremiumRegistration";
 import PremiumContact from "./pages/PremiumContact";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -84,6 +85,9 @@ const App = () => {
             <Route path="/blog" element={<PremiumBlog />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/visitors" element={<PremiumVisitors />} />
+            <Route path="/register/buyer" element={<PremiumRegistration kind="buyer"/>}/>
+            <Route path="/register/visitor" element={<PremiumRegistration kind="visitor"/>}/>
+            <Route path="/registration-status" element={<PremiumRegistration kind="status"/>}/>
             <Route path="/contact" element={<PremiumContact />} />
 
             {/* Admin Routes */}
