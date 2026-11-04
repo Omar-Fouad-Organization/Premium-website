@@ -5,10 +5,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class IntakeDeliveryController extends Controller
 {
+    private function deliveries(): \Illuminate\Database\Query\Builder
+    {
+        return DB::table('submission_outbox')->whereIn('submission_id',DB::table('public_submissions')->where('site',config('intake.site'))->where('exhibition_id',config('intake.exhibition_id'))->select('id'));
+    }
     public function monitor(): array
     {
-        return ['counts'=>DB::table('submission_outbox')->selectRaw('status, count(*) as count')->groupBy('status')->get(),
-            'data'=>DB::table('submission_outbox')->where('status','!=','delivered')->orderBy('created_at')->limit(100)->get(['id','submission_id','event','status','attempts','last_error','next_attempt_at','created_at'])];
+        return ['counts'=>$this->deliveries()->selectRaw('status, count(*) as count')->groupBy('status')->get(),
+            'data'=>$this->deliveries()->where('status','!=','delivered')->orderBy('created_at')->limit(100)->get(['id','submission_id','event','status','attempts','last_error','next_attempt_at','created_at'])];
     }
     public function replay(Request $request): array
     {

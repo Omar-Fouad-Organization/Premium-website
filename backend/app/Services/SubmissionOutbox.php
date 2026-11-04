@@ -27,6 +27,7 @@ class SubmissionOutbox
         for($i=0;$i<min(max($limit,1),100);$i++) {
             $row=DB::transaction(function(){
                 $row=DB::table('submission_outbox')->whereIn('status',['pending','retry'])
+                    ->whereIn('submission_id',DB::table('public_submissions')->where('site',config('intake.site'))->where('exhibition_id',config('intake.exhibition_id'))->select('id'))
                     ->where('next_attempt_at','<=',now())->where(fn($q)=>$q->whereNull('lease_until')->orWhere('lease_until','<',now()))
                     ->orderBy('created_at')->lock('for update skip locked')->first();
                 if (!$row) { return null; }
@@ -57,6 +58,7 @@ class SubmissionOutbox
         DB::transaction(function()use($id,$actor){
             $row=DB::table('submission_outbox')->where('id',$id)->lockForUpdate()->first();
             abort_unless($row,404);
+            abort_unless(DB::table('public_submissions')->where('id',$row->submission_id)->where('site',config('intake.site'))->where('exhibition_id',config('intake.exhibition_id'))->exists(),404);
             abort_if($row->lease_until && now()->lt($row->lease_until),409,'Delivery is in progress.');
             DB::table('submission_outbox')->where('id',$id)->update(['status'=>'pending','next_attempt_at'=>now(),'lease_token'=>null,'lease_until'=>null,'updated_at'=>now()]);
             DB::table('submission_delivery_audits')->insert(['message_id'=>$id,'action'=>'replay_requested','actor'=>$actor,'created_at'=>now()]);

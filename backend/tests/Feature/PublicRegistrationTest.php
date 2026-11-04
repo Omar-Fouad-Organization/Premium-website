@@ -80,6 +80,19 @@ class PublicRegistrationTest extends TestCase
         $this->app->instance(SubmissionOutbox::class,$mock);$this->registrationPost('submit',$this->input())->assertStatus(500);
         $this->assertDatabaseCount('public_submissions',0);
     }
+    public function test_delivery_monitor_worker_and_replay_are_bound_to_the_configured_exhibition(): void
+    {
+        $this->registrationPost('submit',$this->input())->assertCreated();
+        $id=DB::table('submission_outbox')->value('id');
+        config(['intake.exhibition_id'=>43]);
+        $this->assertSame(['delivered'=>0,'failed'=>0],app(SubmissionOutbox::class)->deliver());
+        $monitor=app(\App\Http\Controllers\IntakeDeliveryController::class)->monitor();
+        $this->assertCount(0,$monitor['data']);$this->assertCount(0,$monitor['counts']);
+        try {app(SubmissionOutbox::class)->replay($id,'erp:1');$this->fail('Cross-event replay was accepted.');}
+        catch(\Symfony\Component\HttpKernel\Exception\HttpException $exception){$this->assertSame(404,$exception->getStatusCode());}
+        $this->assertDatabaseHas('submission_outbox',['id'=>$id,'status'=>'pending','attempts'=>0]);
+        $this->assertDatabaseCount('submission_delivery_audits',0);
+    }
     public function test_receipt_is_required_and_withdrawal_is_idempotent(): void
     {
         $receipt=$this->registrationPost('submit',$this->input())->assertCreated()->json('data');
