@@ -95,7 +95,8 @@ class PublicRegistrationController extends Controller
                 $remote=app(IntakeTransport::class)->send('status',['source_id'=>$row->id])['status']??null;
                 if($row->type==='visitor') {
                     if((int)$row->visitor_registration_version===1 && in_array($remote,['cancelled','duplicate','withdrawn'],true)) {
-                        DB::table('public_submissions')->where('id',$row->id)->whereNull('withdrawn_at')->where('registration_status','registered')->update(['registration_status'=>$remote,'updated_at'=>now()]);
+                        $previous=match($remote){'withdrawn'=>['registered','duplicate','cancelled'],'cancelled'=>['registered','duplicate'],default=>['registered']};
+                        DB::table('public_submissions')->where('id',$row->id)->whereNull('withdrawn_at')->whereIn('registration_status',$previous)->update(['registration_status'=>$remote,'updated_at'=>now()]);
                     }
                 } elseif($remote){$status=$remote;}
             } catch (\Throwable) { /* Acceptance survives delivery delays and ERP outages. */ }

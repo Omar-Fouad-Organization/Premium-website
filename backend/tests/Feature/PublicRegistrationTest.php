@@ -150,6 +150,8 @@ class PublicRegistrationTest extends TestCase
         $this->fake(true);$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','cancelled');
         $this->fake();$this->remoteStatus='registered';$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','cancelled');
         $this->assertDatabaseHas('public_submissions',['id'=>$receipt['id'],'registration_status'=>'cancelled']);
+        $this->remoteStatus='withdrawn';$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','withdrawn');
+        $this->remoteStatus='registered';$this->registrationPost('status',$auth)->assertOk()->assertJsonPath('data.status','withdrawn');
     }
     public function test_legacy_visitor_receipts_and_buyer_applications_are_not_automatically_verified(): void
     {
