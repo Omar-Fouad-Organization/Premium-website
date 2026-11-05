@@ -5,6 +5,8 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__.'/portal.php';
+
 // Web middleware provides session cookies and CSRF protection for the React SPA.
 Route::prefix('api')->group(function () {
     Route::get('/cms-public-config', fn () => response()->json(['branding_enabled' => (bool) config('cms_gateway.public_bindings_enabled')])->header('Cache-Control', 'no-store'));

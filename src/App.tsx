@@ -23,6 +23,7 @@ import PremiumBlog from "./pages/PremiumBlog";
 import BlogDetail from "./pages/BlogDetail";
 import PremiumVisitors from "./pages/PremiumVisitors";
 import PremiumRegistration from "./pages/PremiumRegistration";
+import ParticipantPortal from "./pages/ParticipantPortal";
 import PremiumContact from "./pages/PremiumContact";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -76,6 +77,7 @@ const App = () => {
         <HashRouter>
           <Routes>
             {/* Public Routes */}
+            <Route path="/portal/*" element={<ParticipantPortal />} />
             <Route path="/" element={<PremiumIndex />} />
             <Route path="/about" element={<PremiumAbout />} />
             <Route path="/exhibitors" element={<PremiumExhibitors />} />
