@@ -38,6 +38,7 @@ return [
     */
 
     'guards' => [
+        'portal' => ['driver'=>'session','provider'=>'portal_users'],
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -62,6 +63,7 @@ return [
     */
 
     'providers' => [
+        'portal_users' => ['driver'=>'eloquent','model'=>\App\Models\PortalUser::class],
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
@@ -93,6 +95,7 @@ return [
     */
 
     'passwords' => [
+        'portal_users' => ['provider'=>'portal_users','table'=>'portal_password_reset_tokens','expire'=>30,'throttle'=>60],
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),

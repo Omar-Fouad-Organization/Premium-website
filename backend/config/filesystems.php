@@ -29,6 +29,7 @@ return [
     */
 
     'disks' => [
+        'participant_portal' => ['driver'=>'local','root'=>env('PARTICIPANT_PORTAL_MEDIA_ROOT',storage_path('app/participant-private')),'throw'=>true,'serve'=>false],
 
         'local' => [
             'driver' => 'local',
