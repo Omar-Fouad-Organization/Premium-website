@@ -4,6 +4,8 @@ use App\Http\Controllers\PortalController;
 Route::prefix('api/portal')->middleware('throttle:120,1,portal')->group(function(){
     $c=PortalController::class;
     Route::get('csrf',[$c,'csrf']);Route::post('login',[$c,'login'])->middleware('throttle:5,1,portal-login');
+    Route::post('invitations/preview',[$c,'invitation'])->middleware('throttle:10,1,portal-preview');
+    Route::post('activate/reconcile',[$c,'reconcileActivation'])->middleware('throttle:5,1,portal-reconcile');
     Route::post('activate',[$c,'activate'])->middleware('throttle:5,1,portal-activate');
     Route::post('forgot-password',[$c,'forgot'])->middleware('throttle:3,1,portal-recovery');Route::post('reset-password',[$c,'reset'])->middleware('throttle:5,1,portal-reset');
     Route::middleware(\App\Http\Middleware\PortalAuthenticated::class)->group(function()use($c){

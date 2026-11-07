@@ -53,3 +53,9 @@ Artisan::command('intake:prune-nonces',function(): int {
     $count=DB::table('intake_nonces')->where('expires_at','<',now()->subMinutes(5))->limit(5000)->delete();
     $this->info('Expired replay nonces: '.$count);return 0;
 })->purpose('Prune expired service replay nonces only; preserve inbox, outbox and audit history');
+
+// Phase 6.1: each worker has an independent release gate and bounded claim lease.
+\Illuminate\Support\Facades\Schedule::command('portal:deliver-recovery --limit=25')->everyMinute()->onOneServer()->withoutOverlapping(5)->when(fn()=>config('participant_portal.enabled') && config('participant_onboarding.recovery_enabled'));
+\Illuminate\Support\Facades\Schedule::command('portal:scan-evidence --limit=25')->everyMinute()->onOneServer()->withoutOverlapping(5)->when(fn()=>config('participant_portal.enabled') && config('participant_scanning.enabled') && config('participant_scanning.scanner_verified'));
+
+\Illuminate\Support\Facades\Schedule::command('portal:purge-delivery-secrets')->everyTenMinutes()->onOneServer()->withoutOverlapping(5)->when(fn()=>config('participant_portal.enabled'));

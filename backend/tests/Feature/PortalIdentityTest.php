@@ -9,7 +9,7 @@ use Tests\TestCase;
 class PortalIdentityTest extends TestCase
 {
     use RefreshDatabase;
-    private function enable():void{$this->withCredentials();Http::fake(['http://127.0.0.1:9999/api/internal/participant-portal/identity-status'=>fn()=>Http::response(['active'=>true])]);config(['participant_portal.enabled'=>true,'participant_portal.key'=>str_repeat('p',40),'participant_portal.peer_url'=>'http://127.0.0.1:9999']);}
+    private function enable():void{$this->withCredentials();Http::fake(['http://127.0.0.1:9999/api/internal/participant-portal/identity-status'=>fn()=>Http::response(['active'=>true])]);config(['participant_portal.enabled'=>true,'participant_onboarding.test_invites'=>true,'participant_portal.key'=>str_repeat('p',40),'participant_portal.peer_url'=>'http://127.0.0.1:9999']);}
     private function user():PortalUser{$u=new PortalUser(['name'=>'SYNTHETIC participant','email'=>'participant@example.test','password'=>'SyntheticPortal!2026']);$u->id=(string)Str::uuid();$u->active=true;$u->email_verified_at=now();$u->save();return $u;}
     public function test_portal_disabled_and_cms_session_does_not_authorize_participant():void
     {
@@ -87,5 +87,11 @@ class PortalIdentityTest extends TestCase
   DB::table('portal_devices')->insert(['id'=>$device,'identity_id'=>$u->id,'session_hash'=>hash('sha256',$device),'auth_version'=>1,'expires_at'=>now()->addHour(),'last_seen_at'=>now(),'revoked_at'=>now()]);
   DB::table('portal_outbox')->insert(['id'=>$id,'identity_id'=>$u->id,'membership_id'=>(string)Str::uuid(),'exhibition_id'=>1,'operation'=>'invitation.respond','payload'=>Crypt::encryptString('{}'),'actor_device_id'=>$device,'actor_auth_version'=>1,'created_at'=>now(),'updated_at'=>now()]);
   Http::fake();$this->assertSame('review_required',app(PortalOutbox::class)->deliver($id,$u->id)['state']);Http::assertNothingSent();$this->assertSame(0,DB::table('portal_outbox')->where('id',$id)->value('attempts'));
+ }
+
+ public function test_environment_name_alone_cannot_disable_secure_participant_cookies(): void
+ {
+  $this->enable();$response=$this->getJson('/api/portal/csrf')->assertOk();$this->assertFalse($response->getCookie('green_life_participant_session',false)->isSecure());
+  $this->app->instance('env','local');$response=$this->getJson('/api/portal/csrf')->assertOk();$this->assertTrue($response->getCookie('green_life_participant_session',false)->isSecure());
  }
 }

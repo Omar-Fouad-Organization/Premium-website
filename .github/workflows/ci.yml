@@ -28,7 +28,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: node --test scripts/cms-public.test.mjs scripts/registration-ui.test.mjs scripts/portal-ui.test.mjs
+      - run: node --test scripts/cms-public.test.mjs scripts/registration-ui.test.mjs scripts/portal-ui.test.mjs scripts/portal-entry-proof.test.mjs
       - run: npx tsc --noEmit -p tsconfig.app.json
       - run: npm run build
   laravel:

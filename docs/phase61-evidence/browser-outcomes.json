@@ -1,0 +1,40 @@
+{
+  "scope": "Isolated synthetic MySQL and non-network mail only",
+  "viewportChecks": 196,
+  "routeAndMarkerAssertions": true,
+  "cssWidths": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    768,
+    1280
+  ],
+  "languages": [
+    "en",
+    "ar"
+  ],
+  "browserVerified": [
+    "exhibitor activation and safe acknowledgment reconciliation",
+    "buyer activation and sign-in",
+    "authenticated linking of second buyer organization; both contexts preserved",
+    "token removed from navigation before rendering",
+    "new verified_email_sandbox proof crosses real isolated gateway and cannot redeem by GET",
+    "PDF upload rejected while required scanner is disabled; no media row created",
+    "employee Finance remains behind sign-in after staff logout",
+    "CMS resource read returns no business records for participant",
+    "original held introduction and scheduled meeting history retained"
+  ],
+  "automatedOnly": [
+    "password reset consumption and all-device revocation",
+    "concurrent redemption and scheduler races",
+    "SMTP rejection/timeout fault injection",
+    "malware scan outcome injection and unreachable-scanner refusal",
+    "full record/exhibition permission matrix"
+  ],
+  "realEmailProviderVerified": false,
+  "realMalwareEngineVerified": false,
+  "stagingVerified": false,
+  "productionActivated": false
+}

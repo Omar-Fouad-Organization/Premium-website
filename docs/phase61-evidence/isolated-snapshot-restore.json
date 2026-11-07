@@ -1,0 +1,24 @@
+{
+  "databases": [
+    {
+      "source": "space_crm_phase6_ui_test",
+      "target": "space_phase61_restore_ad1b4d6dc6",
+      "port": 23307,
+      "tables": 73,
+      "all_table_checksums_equal": true,
+      "dump_sha256": "be21fb95837112f8b6e965c5145c7526cfe21361fa7061dd428d5c052ef78124"
+    },
+    {
+      "source": "green_life_expo_phase6_ui_test",
+      "target": "green_phase61_restore_580887f2bc",
+      "port": 23307,
+      "tables": 36,
+      "all_table_checksums_equal": true,
+      "dump_sha256": "0e8f4d82e63b001fc1c40e58dbfaa08ad936685408a21f6d4360caaf71a3e839"
+    }
+  ],
+  "encrypted_configuration_round_trip": true,
+  "private_files_round_tripped": 1,
+  "operational_databases_accessed": false,
+  "private_file_source": "New synthetic backup-only fixture; application private-media directory was empty"
+}

@@ -15,8 +15,13 @@ class PortalTransport
         $target='/api/internal/participant-portal/'.$operation;
         $claims=['version'=>1,'purpose'=>'SPACE-PARTICIPANT-V1','issuer'=>'green-life-portal','audience'=>'space-participant-api','key_id'=>config('participant_portal.key_id'),'issued_at'=>time(),'expires_at'=>time()+30,'nonce'=>(string)Str::uuid(),'method'=>'POST','target'=>$target,'body_sha256'=>hash('sha256',$body)];
         $encoded=rtrim(strtr(base64_encode(json_encode($claims,JSON_THROW_ON_ERROR)),'+/','-_'),'=');
-        $response=Http::connectTimeout(3)->timeout(10)->withoutRedirecting()->withOptions(['verify'=>true,'stream'=>true])->acceptJson()->withHeaders(['X-Space-Portal'=>$encoded,'X-Space-Portal-Signature'=>hash_hmac('sha256',$encoded,$key)])->withBody($body,'application/json')->post($origin.$target);
-        $stream=$response->toPsrResponse()->getBody();$raw=$stream->read(262145);abort_if(strlen($raw)>262144 || !$stream->eof(),502);
+        $response=Http::connectTimeout(3)->timeout(10)->withoutRedirecting()->withOptions(['verify'=>true,'stream'=>true,'read_timeout'=>10])->acceptJson()->withHeaders(['X-Space-Portal'=>$encoded,'X-Space-Portal-Signature'=>hash_hmac('sha256',$encoded,$key)])->withBody($body,'application/json')->post($origin.$target);
+        $stream=$response->toPsrResponse()->getBody();$raw='';
+        while(!$stream->eof()){
+            $chunk=$stream->read(min(16384,262145-strlen($raw)));
+            abort_if($chunk==='' && !$stream->eof(),502,'Portal authority stream was interrupted.');
+            $raw.=$chunk;abort_if(strlen($raw)>262144,502,'Portal authority response exceeds the safe limit.');
+        }
         if(!$response->successful()){
             $status=in_array($response->status(),[403,404,409,422,429],true)?$response->status():503;$message='The portal authority could not confirm this request. Refresh or retry safely.';
             if(in_array($status,[409,422,429],true)){try{$error=json_decode($raw,true,16,JSON_THROW_ON_ERROR);if(is_string($error['message']??null))$message=mb_substr($error['message'],0,500);}catch(\JsonException){}}

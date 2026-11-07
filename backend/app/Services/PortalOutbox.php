@@ -54,6 +54,6 @@ class PortalOutbox
         $current=app(PortalTransport::class)->send('command',['identity_id'=>$row->identity_id,'membership_id'=>$row->membership_id,'exhibition_id'=>$row->exhibition_id,'operation'=>'profile','payload'=>[]]);abort_unless(is_int($current['participant_id']??null)&&is_array($current['capabilities']??null)&&is_array($current['profile']??null)&&is_int($current['version']??null),502);abort_unless(in_array('profile.submit',$current['capabilities'],true),403);abort_unless($payload['profile_version']==$current['version'],409);
         $approved=$current['profile']??[];$old=[...array_column($approved['products']??[],'media_id'),...array_column($approved['certifications']??[],'media_id'),$approved['logo_media_id']??null];
         $files=DB::table('portal_media')->whereIn('id',array_keys($expected))->where('exhibition_id',$row->exhibition_id)->where('participant_id',$current['participant_id'])->get()->keyBy('id');
-        foreach($expected as $id=>$kind){$file=$files->get($id);abort_unless($file && $file->kind===$kind && (!$file->archived_at||in_array($id,$old,true)),422,'Media must belong to the authorized organization and exhibition.');}
+        foreach($expected as $id=>$kind){$file=$files->get($id);abort_unless($file && $file->kind===$kind && (!$file->archived_at||in_array($id,$old,true)),422,'Media must belong to the authorized organization and exhibition.');if($kind==='evidence'){app(PortalEvidence::class)->assertReleased($file);}}
     }
 }

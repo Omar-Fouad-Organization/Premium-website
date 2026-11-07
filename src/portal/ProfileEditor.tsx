@@ -16,9 +16,9 @@ export default function PortalProfileEditor({value:p,onChange,kind,mode,categori
  const paragraph=(key:keyof Profile,en:string,ar:string,max=4000)=><div className="space-y-2" key={key}><Label htmlFor={'profile-'+key}>{tr(en,ar)}</Label><Textarea id={'profile-'+key} maxLength={max} value={String(p[key]??'')} onChange={e=>set(key,e.target.value)}/></div>;
  const list=(key:keyof Profile,en:string,ar:string)=><div className="space-y-2" key={key}><Label htmlFor={'profile-'+key}>{tr(en,ar)}</Label><Textarea id={'profile-'+key} value={((p[key]||[])as string[]).join(', ')} onChange={e=>set(key,terms(e.target.value))}/></div>;
  const upload=(id:string,en:string,ar:string,kind:'image'|'evidence',saved:(id:string)=>void)=><div className="space-y-2"><Label htmlFor={id}>{tr(en,ar)}</Label><Input id={id} type="file" accept={kind==='image'?'image/jpeg,image/png,image/webp':'application/pdf'} disabled={busy||!editable} onChange={e=>{const file=e.target.files?.[0];if(file)onUpload(file,kind,saved);}}/></div>;
- return <form className="card-premium space-y-6" onSubmit={e=>{e.preventDefault();onSave('submit');}}>
+ return <form className="card-premium space-y-6 [&_button]:max-w-full [&_button]:whitespace-normal [&_button]:h-auto [&_button]:min-h-10" onSubmit={e=>{e.preventDefault();onSave('submit');}}>
   <p>{tr('Edit a private draft. Saving or submitting never replaces approved information; only the organizer can approve facts or publish them.','عدّل مسودة خاصة. الحفظ أو الإرسال لا يستبدل المعلومات المعتمدة؛ المنظم وحده يعتمد البيانات وينشرها.')}</p>
-  <fieldset disabled={busy||!editable} className="space-y-5">
+  <fieldset disabled={busy||!editable} className="space-y-5 min-w-0">
   {mode==='company'?<>
    {text('name_en','Company display name — English','اسم المؤسسة للعرض بالإنجليزية',255,true)}
    {text('name_ar','Company display name — Arabic','اسم المؤسسة للعرض بالعربية',255,true)}

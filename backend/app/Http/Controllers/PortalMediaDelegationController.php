@@ -15,6 +15,7 @@ class PortalMediaDelegationController extends Controller
   try{DB::table('portal_media_nonces')->insert(['id'=>hash('sha256',$c['nonce']),'expires_at'=>date('Y-m-d H:i:s',$c['expires_at'])]);}catch(UniqueConstraintViolationException){abort(409);}
   $v=$r->validate(['file_id'=>'required|uuid','membership_id'=>'required|uuid','participant_id'=>'required|integer','exhibition_id'=>'required|integer','employee_id'=>'required|integer']);
   $file=DB::table('portal_media')->where('id',$v['file_id'])->where('participant_id',$v['participant_id'])->where('exhibition_id',$v['exhibition_id'])->first();abort_unless($file,404);
+  app(\App\Services\PortalEvidence::class)->assertReleased($file);
   return Storage::disk('participant_portal')->download($file->path,$file->kind==='image'?'image.png':'evidence.pdf',['Content-Type'=>$file->mime,'Cache-Control'=>'no-store, private','X-Content-Type-Options'=>'nosniff','Content-Security-Policy'=>"default-src 'none'; sandbox"]);
  }
 }
