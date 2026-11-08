@@ -1,0 +1,26 @@
+✔ public styles, layout components and design configuration remain identical to main baseline (3590.8746ms)
+✔ CMS content binds qualified keys without silently selecting a duplicate bare key (1.9179ms)
+✔ page SEO changes metadata without mutating the configured defaults or rendering in a loop (7.557ms)
+✔ optional branding is a public-site-only opt-in with no application key or service token (6.4644ms)
+✔ branding accepts historical HSL and hex values while rejecting unsafe CSS (313.5703ms)
+✔ activate secret is captured in memory and synchronously stripped from navigation (1.3226ms)
+✔ reset-password secret is captured in memory and synchronously stripped from navigation (0.1578ms)
+✔ malformed secrets are stripped and never retained (0.1229ms)
+✔ ordinary public routes are untouched (0.1016ms)
+✔ reduced dashboard and discovery profiles never enter the amendment editor (0.7844ms)
+✔ complete sourcing drafts preserve explicit unknown answers and isolate edits from approved data (6.9588ms)
+✔ context and page changes never share a screen identity (0.1648ms)
+✔ pending delivery and both-party acceptance never imply a confirmed booking in either language (0.2986ms)
+✔ existing sourcing requirements remain applicable unless explicitly answered unknown or not applicable (0.177ms)
+✔ public design tokens, shared UI, header and footer remain unchanged (3501.5876ms)
+✔ buyer and visitor journeys have independent routes and use existing public components (6.1755ms)
+✔ public and server inquiry types include speaker without converting visitor interest (2.3108ms)
+✔ visitor page publishes no hard-coded obsolete dates or attendance counts (0.994ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4027.3302
