@@ -1,0 +1,799 @@
+{
+  "recorded_at_utc": "2026-11-08T16:43:24.337Z",
+  "source": "npm registry bulk advisory API for existing lockfile versions",
+  "scope": "Confirmed locked-version advisory matches; exploitability/application reachability not established",
+  "packages": 412,
+  "matched_advisories": [
+    {
+      "package": "@humanfs/node",
+      "severity": "moderate",
+      "title": "humanfs: Recursive copy follows symlinked files and copies data from outside the source tree",
+      "url": "https://github.com/advisories/GHSA-p498-v437-472g",
+      "vulnerable_versions": "<0.16.8",
+      "locked_versions": [
+        "0.16.6"
+      ],
+      "affected_locked_versions": [
+        "0.16.6"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "@remix-run/router",
+      "severity": "high",
+      "title": "React Router vulnerable to XSS via Open Redirects",
+      "url": "https://github.com/advisories/GHSA-2w69-qvjg-hvjx",
+      "vulnerable_versions": "<=1.23.1",
+      "locked_versions": [
+        "1.23.0"
+      ],
+      "affected_locked_versions": [
+        "1.23.0"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "@remix-run/router",
+      "severity": "moderate",
+      "title": "React Router's same-origin redirect with path starting // causes open redirect via protocol-relative URL reinterpretation",
+      "url": "https://github.com/advisories/GHSA-2j2x-hqr9-3h42",
+      "vulnerable_versions": ">=1.3.0 <1.23.3",
+      "locked_versions": [
+        "1.23.0"
+      ],
+      "affected_locked_versions": [
+        "1.23.0"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "high",
+      "title": "brace-expansion: DoS via unbounded expansion length causing an out-of-memory process crash",
+      "url": "https://github.com/advisories/GHSA-mh99-v99m-4gvg",
+      "vulnerable_versions": ">=2.0.0 <2.1.3",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "1.1.12",
+        "2.0.2"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "high",
+      "title": "brace-expansion: DoS via unbounded intermediate arrays, bypassing the CVE-2026-14257 mitigation",
+      "url": "https://github.com/advisories/GHSA-rgw5-rvv9-x895",
+      "vulnerable_versions": "<1.1.18",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "moderate",
+      "title": "brace-expansion: Zero-step sequence causes process hang and memory exhaustion",
+      "url": "https://github.com/advisories/GHSA-f886-m6hf-6m8v",
+      "vulnerable_versions": ">=2.0.0 <2.0.3",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "1.1.12",
+        "2.0.2"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "high",
+      "title": "brace-expansion: DoS via exponential-time expansion of consecutive non-expanding {} groups",
+      "url": "https://github.com/advisories/GHSA-3jxr-9vmj-r5cp",
+      "vulnerable_versions": "<1.1.16",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "high",
+      "title": "brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion",
+      "url": "https://github.com/advisories/GHSA-6j4f-fj2g-mc7p",
+      "vulnerable_versions": ">=2.0.0 <2.1.5",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "1.1.12",
+        "2.0.2"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "moderate",
+      "title": "brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service",
+      "url": "https://github.com/advisories/GHSA-q2hr-2g5m-vwhr",
+      "vulnerable_versions": ">=2.0.0 <2.1.7",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "1.1.12",
+        "2.0.2"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "brace-expansion",
+      "severity": "high",
+      "title": "brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion",
+      "url": "https://github.com/advisories/GHSA-qhr7-859c-m2p7",
+      "vulnerable_versions": ">=2.0.0 <2.1.6",
+      "locked_versions": [
+        "2.0.2",
+        "1.1.12"
+      ],
+      "affected_locked_versions": [
+        "1.1.12",
+        "2.0.2"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "minimatch",
+      "severity": "high",
+      "title": "minimatch has a ReDoS via repeated wildcards with non-matching literal in pattern",
+      "url": "https://github.com/advisories/GHSA-3ppc-4f35-3m26",
+      "vulnerable_versions": ">=9.0.0 <9.0.6",
+      "locked_versions": [
+        "9.0.5",
+        "3.1.2"
+      ],
+      "affected_locked_versions": [
+        "3.1.2",
+        "9.0.5"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "minimatch",
+      "severity": "high",
+      "title": "minimatch has ReDoS: matchOne() combinatorial backtracking via multiple non-adjacent GLOBSTAR segments",
+      "url": "https://github.com/advisories/GHSA-7r86-cg39-jmmj",
+      "vulnerable_versions": ">=9.0.0 <9.0.7",
+      "locked_versions": [
+        "9.0.5",
+        "3.1.2"
+      ],
+      "affected_locked_versions": [
+        "3.1.2",
+        "9.0.5"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "minimatch",
+      "severity": "high",
+      "title": "minimatch ReDoS: nested *() extglobs generate catastrophically backtracking regular expressions",
+      "url": "https://github.com/advisories/GHSA-23c5-xmqv-rm74",
+      "vulnerable_versions": ">=9.0.0 <9.0.7",
+      "locked_versions": [
+        "9.0.5",
+        "3.1.2"
+      ],
+      "affected_locked_versions": [
+        "3.1.2",
+        "9.0.5"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "minimatch",
+      "severity": "moderate",
+      "title": "minimatch has potential denial of service via globparts amplification",
+      "url": "https://github.com/advisories/GHSA-g3hv-75wg-m249",
+      "vulnerable_versions": ">=7.0.0 <11.0.1",
+      "locked_versions": [
+        "9.0.5",
+        "3.1.2"
+      ],
+      "affected_locked_versions": [
+        "9.0.5"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "ajv",
+      "severity": "moderate",
+      "title": "ajv has ReDoS when using `$data` option",
+      "url": "https://github.com/advisories/GHSA-2g4f-4pwh-qvx6",
+      "vulnerable_versions": "<6.14.0",
+      "locked_versions": [
+        "6.12.6"
+      ],
+      "affected_locked_versions": [
+        "6.12.6"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "browserslist",
+      "severity": "high",
+      "title": "Browserslist: Unbounded memory growth (no cache eviction) via distinct query results, leading to eventual OOM",
+      "url": "https://github.com/advisories/GHSA-c83g-rgw3-j3cx",
+      "vulnerable_versions": "<=4.28.6",
+      "locked_versions": [
+        "4.25.1"
+      ],
+      "affected_locked_versions": [
+        "4.25.1"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "browserslist",
+      "severity": "high",
+      "title": "Browserslist: Uncaught crash / prototype write via untrusted browserslist-stats.json custom stats (normalizeStats)",
+      "url": "https://github.com/advisories/GHSA-73wf-gq98-2v4g",
+      "vulnerable_versions": "<=4.28.6",
+      "locked_versions": [
+        "4.25.1"
+      ],
+      "affected_locked_versions": [
+        "4.25.1"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "esbuild",
+      "severity": "moderate",
+      "title": "esbuild enables any website to send any requests to the development server and read the response",
+      "url": "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+      "vulnerable_versions": "<=0.24.2",
+      "locked_versions": [
+        "0.21.5",
+        "0.25.9"
+      ],
+      "affected_locked_versions": [
+        "0.21.5"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "flatted",
+      "severity": "high",
+      "title": "flatted vulnerable to unbounded recursion DoS in parse() revive phase",
+      "url": "https://github.com/advisories/GHSA-25h7-pfq9-p65f",
+      "vulnerable_versions": "<3.4.0",
+      "locked_versions": [
+        "3.3.3"
+      ],
+      "affected_locked_versions": [
+        "3.3.3"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "flatted",
+      "severity": "high",
+      "title": "Prototype Pollution via parse() in NodeJS flatted",
+      "url": "https://github.com/advisories/GHSA-rf6f-7fwh-wjgh",
+      "vulnerable_versions": "<=3.4.1",
+      "locked_versions": [
+        "3.3.3"
+      ],
+      "affected_locked_versions": [
+        "3.3.3"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "glob",
+      "severity": "moderate",
+      "title": "Glob: AbortSignal cancellation bypass allows post-timeout filesystem traversal",
+      "url": "https://github.com/advisories/GHSA-3g3m-2fjr-6pw4",
+      "vulnerable_versions": ">=9.0.0 <=14.0.1",
+      "locked_versions": [
+        "10.5.0"
+      ],
+      "affected_locked_versions": [
+        "10.5.0"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "js-yaml",
+      "severity": "moderate",
+      "title": "JS-YAML: Quadratic-complexity DoS in merge key handling via repeated aliases",
+      "url": "https://github.com/advisories/GHSA-h67p-54hq-rp68",
+      "vulnerable_versions": ">=4.0.0 <=4.1.1",
+      "locked_versions": [
+        "4.1.1"
+      ],
+      "affected_locked_versions": [
+        "4.1.1"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "js-yaml",
+      "severity": "high",
+      "title": "js-yaml: YAML merge-key chains can force quadratic CPU consumption",
+      "url": "https://github.com/advisories/GHSA-52cp-r559-cp3m",
+      "vulnerable_versions": ">=4.0.0 <4.3.0",
+      "locked_versions": [
+        "4.1.1"
+      ],
+      "affected_locked_versions": [
+        "4.1.1"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "js-yaml",
+      "severity": "high",
+      "title": "JS-YAML: Quadratic CPU consumption in !!omap resolution (3.x and 4.x) — CVE-2026-59870 fix not backported",
+      "url": "https://github.com/advisories/GHSA-5p4m-2wfm-xmqj",
+      "vulnerable_versions": ">=4.0.0 <4.3.1",
+      "locked_versions": [
+        "4.1.1"
+      ],
+      "affected_locked_versions": [
+        "4.1.1"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "js-yaml",
+      "severity": "high",
+      "title": "js-yaml: maxTotalMergeKeys does not limit CPU use for empty merge sources",
+      "url": "https://github.com/advisories/GHSA-2883-xcg3-v3hh",
+      "vulnerable_versions": ">=4.0.0 <4.3.2",
+      "locked_versions": [
+        "4.1.1"
+      ],
+      "affected_locked_versions": [
+        "4.1.1"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "lodash",
+      "severity": "high",
+      "title": "lodash vulnerable to Code Injection via `_.template` imports key names",
+      "url": "https://github.com/advisories/GHSA-r5fr-rjxr-66jc",
+      "vulnerable_versions": ">=4.0.0 <=4.17.23",
+      "locked_versions": [
+        "4.17.21"
+      ],
+      "affected_locked_versions": [
+        "4.17.21"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "lodash",
+      "severity": "moderate",
+      "title": "Lodash has Prototype Pollution Vulnerability in `_.unset`, `_.omit`, and `_.pullAt` functions",
+      "url": "https://github.com/advisories/GHSA-xxjr-mmjv-4gpg",
+      "vulnerable_versions": ">=4.0.0 <=4.17.22",
+      "locked_versions": [
+        "4.17.21"
+      ],
+      "affected_locked_versions": [
+        "4.17.21"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "nanoid",
+      "severity": "high",
+      "title": "nanoid: non-secure generators can loop indefinitely with negative size",
+      "url": "https://github.com/advisories/GHSA-28wg-ghj8-5hjv",
+      "vulnerable_versions": "<3.3.16",
+      "locked_versions": [
+        "3.3.11"
+      ],
+      "affected_locked_versions": [
+        "3.3.11"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "nanoid",
+      "severity": "high",
+      "title": "nanoid: custom generators can loop indefinitely when size is zero",
+      "url": "https://github.com/advisories/GHSA-2v37-7h3g-55p8",
+      "vulnerable_versions": "<3.3.18",
+      "locked_versions": [
+        "3.3.11"
+      ],
+      "affected_locked_versions": [
+        "3.3.11"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "nanoid",
+      "severity": "high",
+      "title": "nanoid: Integer Overflow or Wraparound",
+      "url": "https://github.com/advisories/GHSA-xwg4-73v4-xw9w",
+      "vulnerable_versions": "<3.3.12",
+      "locked_versions": [
+        "3.3.11"
+      ],
+      "affected_locked_versions": [
+        "3.3.11"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "picomatch",
+      "severity": "moderate",
+      "title": "Picomatch: Method Injection in POSIX Character Classes causes incorrect Glob Matching",
+      "url": "https://github.com/advisories/GHSA-3v7f-55p6-f55p",
+      "vulnerable_versions": "<2.3.2",
+      "locked_versions": [
+        "2.3.1"
+      ],
+      "affected_locked_versions": [
+        "2.3.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "picomatch",
+      "severity": "high",
+      "title": "Picomatch has a ReDoS vulnerability via extglob quantifiers",
+      "url": "https://github.com/advisories/GHSA-c2c7-rcm5-vvqj",
+      "vulnerable_versions": "<2.3.2",
+      "locked_versions": [
+        "2.3.1"
+      ],
+      "affected_locked_versions": [
+        "2.3.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "postcss",
+      "severity": "moderate",
+      "title": "PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+      "url": "https://github.com/advisories/GHSA-fxqj-rqcc-2cmp",
+      "vulnerable_versions": "<=8.5.22",
+      "locked_versions": [
+        "8.5.6"
+      ],
+      "affected_locked_versions": [
+        "8.5.6"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "postcss",
+      "severity": "moderate",
+      "title": "PostCSS has XSS via Unescaped </style> in its CSS Stringify Output",
+      "url": "https://github.com/advisories/GHSA-qx2v-qp2m-jg93",
+      "vulnerable_versions": "<8.5.10",
+      "locked_versions": [
+        "8.5.6"
+      ],
+      "affected_locked_versions": [
+        "8.5.6"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "postcss",
+      "severity": "high",
+      "title": "PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments",
+      "url": "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+      "vulnerable_versions": "<=8.5.11",
+      "locked_versions": [
+        "8.5.6"
+      ],
+      "affected_locked_versions": [
+        "8.5.6"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "postcss",
+      "severity": "high",
+      "title": "PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+      "url": "https://github.com/advisories/GHSA-r28c-9q8g-f849",
+      "vulnerable_versions": "<=8.5.17",
+      "locked_versions": [
+        "8.5.6"
+      ],
+      "affected_locked_versions": [
+        "8.5.6"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "postcss-selector-parser",
+      "severity": "low",
+      "title": "postcss-selector-parser allows denial of service through uncontrolled AST recursion",
+      "url": "https://github.com/advisories/GHSA-w9m9-85wc-3x92",
+      "vulnerable_versions": ">=6.1.0 <6.1.3",
+      "locked_versions": [
+        "6.1.2",
+        "6.0.10"
+      ],
+      "affected_locked_versions": [
+        "6.1.2"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "postcss-selector-parser",
+      "severity": "moderate",
+      "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+      "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+      "vulnerable_versions": "<6.1.5",
+      "locked_versions": [
+        "6.1.2",
+        "6.0.10"
+      ],
+      "affected_locked_versions": [
+        "6.1.2",
+        "6.0.10"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "react-router",
+      "severity": "moderate",
+      "title": "React Router has unexpected external redirect via untrusted paths",
+      "url": "https://github.com/advisories/GHSA-9jcx-v3wj-wh4m",
+      "vulnerable_versions": ">=6.0.0 <6.30.2",
+      "locked_versions": [
+        "6.30.1"
+      ],
+      "affected_locked_versions": [
+        "6.30.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "react-router",
+      "severity": "moderate",
+      "title": "React Router: Open redirect via backslash in <Link> and useNavigate (CVE-2025-68470 bypass)",
+      "url": "https://github.com/advisories/GHSA-wrjc-x8rr-h8h6",
+      "vulnerable_versions": ">=6.0.0 <7.18.0",
+      "locked_versions": [
+        "6.30.1"
+      ],
+      "affected_locked_versions": [
+        "6.30.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "react-router",
+      "severity": "moderate",
+      "title": "React Router: Arbitrary Constructor Injection via deserializeErrors() in React Router SSR Hydration",
+      "url": "https://github.com/advisories/GHSA-337j-9hxr-rhxg",
+      "vulnerable_versions": ">=6.4.0 <7.18.0",
+      "locked_versions": [
+        "6.30.1"
+      ],
+      "affected_locked_versions": [
+        "6.30.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "react-router",
+      "severity": "moderate",
+      "title": "React Router's same-origin redirect with path starting // causes open redirect via protocol-relative URL reinterpretation",
+      "url": "https://github.com/advisories/GHSA-2j2x-hqr9-3h42",
+      "vulnerable_versions": ">=6.7.0 <6.30.4",
+      "locked_versions": [
+        "6.30.1"
+      ],
+      "affected_locked_versions": [
+        "6.30.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "rollup",
+      "severity": "high",
+      "title": "Rollup 4 has Arbitrary File Write via Path Traversal",
+      "url": "https://github.com/advisories/GHSA-mw96-cpmx-2vgc",
+      "vulnerable_versions": ">=4.0.0 <4.59.0",
+      "locked_versions": [
+        "4.46.2"
+      ],
+      "affected_locked_versions": [
+        "4.46.2"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "source-map-js",
+      "severity": "high",
+      "title": "source-map-js allows event-loop denial of service through indexed source-map section offsets",
+      "url": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q",
+      "vulnerable_versions": ">=1.0.0 <1.2.2",
+      "locked_versions": [
+        "1.2.1"
+      ],
+      "affected_locked_versions": [
+        "1.2.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "vite",
+      "severity": "moderate",
+      "title": "launch-editor: NTLMv2 hash disclosure via UNC path handling on Windows",
+      "url": "https://github.com/advisories/GHSA-v6wh-96g9-6wx3",
+      "vulnerable_versions": "<=6.4.2",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "moderate",
+      "title": "Vite Vulnerable to Path Traversal in Optimized Deps `.map` Handling",
+      "url": "https://github.com/advisories/GHSA-4w7w-66w2-5vf9",
+      "vulnerable_versions": "<=6.4.1",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "low",
+      "title": "Vite: Cross origin script execution through Vite custom middleware",
+      "url": "https://github.com/advisories/GHSA-9jrq-w75r-8gcw",
+      "vulnerable_versions": "<=6.4.3",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "moderate",
+      "title": "Vite: Files outside `server.fs.allow` could be served when project paths match system paths on non-Windows machine",
+      "url": "https://github.com/advisories/GHSA-rq7h-c2jc-7f22",
+      "vulnerable_versions": "<=6.4.3",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "moderate",
+      "title": "launch-editor: escapeCmdArgs() omits % escaping on Windows",
+      "url": "https://github.com/advisories/GHSA-698v-4r3x-3vcv",
+      "vulnerable_versions": "<=6.4.3",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "moderate",
+      "title": "launch-editor: Editor CLI flag misinterpretation causing arbitrary command execution for some editors",
+      "url": "https://github.com/advisories/GHSA-r825-w8mm-5pxw",
+      "vulnerable_versions": "<=6.4.3",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "high",
+      "title": "launch-editor: `fs.existsSync()` existence check can be bypassed on Windows",
+      "url": "https://github.com/advisories/GHSA-587h-7wmj-h5pm",
+      "vulnerable_versions": "<=6.4.3",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "vite",
+      "severity": "moderate",
+      "title": "vite: `server.fs.deny` bypass on Windows alternate paths",
+      "url": "https://github.com/advisories/GHSA-fx2h-pf6j-xcff",
+      "vulnerable_versions": "<=6.4.2",
+      "locked_versions": [
+        "5.4.21"
+      ],
+      "affected_locked_versions": [
+        "5.4.21"
+      ],
+      "runtime_lock_entry": false
+    },
+    {
+      "package": "yaml",
+      "severity": "moderate",
+      "title": "yaml is vulnerable to Stack Overflow via deeply nested YAML collections",
+      "url": "https://github.com/advisories/GHSA-48c2-rrv3-qjmp",
+      "vulnerable_versions": ">=2.0.0 <2.8.3",
+      "locked_versions": [
+        "2.8.1"
+      ],
+      "affected_locked_versions": [
+        "2.8.1"
+      ],
+      "runtime_lock_entry": true
+    },
+    {
+      "package": "zod",
+      "severity": "high",
+      "title": "Zod can exhaust memory while validating oversized constrained collections",
+      "url": "https://github.com/advisories/GHSA-mrhx-c7xc-m3w5",
+      "vulnerable_versions": "<4.6.6",
+      "locked_versions": [
+        "3.25.76"
+      ],
+      "affected_locked_versions": [
+        "3.25.76"
+      ],
+      "runtime_lock_entry": true
+    }
+  ],
+  "severity_counts": {
+    "moderate": 25,
+    "high": 27,
+    "low": 2
+  },
+  "runtime_severity_counts": {
+    "high": 16,
+    "moderate": 15,
+    "low": 1
+  }
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "forms": 0,
+    "heading": "Egypt's Leading Go Green & Healthy Living Expo",
+    "mainLandmarks": 0,
+    "path": "#/",
+    "visibleError": false
+  },
+  {
+    "forms": 0,
+    "heading": "Exhibit at Egypt's Premier Green Living Platform",
+    "mainLandmarks": 0,
+    "path": "#/exhibitors",
+    "visibleError": false
+  },
+  {
+    "forms": 0,
+    "heading": "Partner with Egypt's Leading Sustainability Platform",
+    "mainLandmarks": 0,
+    "path": "#/sponsors",
+    "visibleError": false
+  },
+  {
+    "forms": 0,
+    "heading": "Plan Your Visit to Green Life Expo",
+    "mainLandmarks": 0,
+    "path": "#/visitors",
+    "visibleError": false
+  },
+  {
+    "forms": 1,
+    "heading": "Buyer Registration",
+    "mainLandmarks": 0,
+    "path": "#/register/buyer",
+    "visibleError": false
+  },
+  {
+    "forms": 1,
+    "heading": "Visitor Registration",
+    "mainLandmarks": 0,
+    "path": "#/register/visitor",
+    "visibleError": false
+  }
+]
