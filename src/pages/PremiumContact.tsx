@@ -130,11 +130,11 @@ useEffect(() => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-premium-heading mb-6">
-              Let's Start a Conversation
+              {get("contact_page_title", "Let's Start a Conversation")}
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Whether you're interested in exhibiting, sponsoring, or visiting, our team is here to help you make the most of Green Life Expo.
+              {get("contact_page_subtitle", "Whether you're interested in exhibiting, sponsoring, or visiting, our team is here to help you make the most of Green Life Expo.")}
             </p>
           </div>
         </div>
@@ -147,7 +147,7 @@ useEffect(() => {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <div className="card-premium">
-                <h2 className="text-2xl font-semibold mb-6">Send Us a Message</h2>
+                <h2 className="text-2xl font-semibold mb-6">{get("form_title", "Send Us a Message")}</h2>
 
                 <RegistrationForm kind="contact"/>
               </div>

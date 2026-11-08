@@ -161,10 +161,10 @@ const PremiumIndex = () => {
         <div className="container-premium">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-premium-heading mb-6">
-              Where Green Living Meets Business Growth
+              {get("value_prop.title", "Where Green Living Meets Business Growth")}
             </h2>
             <p className="text-lg text-muted-foreground">
-              Green Life Expo is not just an event—it's the definitive platform for sustainable businesses to connect, grow, and lead the green economy transformation in Egypt and beyond.
+              {get("value_prop.description", "Green Life Expo is not just an event—it's the definitive platform for sustainable businesses to connect, grow, and lead the green economy transformation in Egypt and beyond.")}
             </p>
           </div>
 

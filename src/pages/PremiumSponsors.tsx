@@ -1,3 +1,7 @@
+import {useEffect, useState} from 'react';
+import {api} from '@/integrations/api/client';
+import {sponsorCards, type SponsorCard} from '@/lib/sponsorCards';
+import {usePageContent} from '@/hooks/usePageContent';
 import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
@@ -5,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Award, Globe, TrendingUp, Users, Mic, Camera, CheckCircle, Star, BookOpen, Trophy, Sparkles, Lightbulb, Monitor, Smartphone } from "lucide-react";
 
 const PremiumSponsors = () => {
+  const {get} = usePageContent("sponsors");
   const scrollToPackages = () => {
     const packagesSection = document.getElementById('packages');
     if (packagesSection) {
@@ -48,62 +53,14 @@ const PremiumSponsors = () => {
     },
   ];
 
-  const sponsorshipLevels = [
-    {
-      tier: "Platinum Partner",
-      tagline: "Ultimate Brand Dominance",
-      price: "Custom",
-      features: [
-        "Exclusive naming rights for main stage",
-        "Prime logo placement across all materials",
-        "30-minute keynote speaking slot",
-        "VIP hospitality suite for 50 guests",
-        "Dedicated brand activation zone (100 sqm)",
-        "Full-page feature in event magazine",
-        "Premium digital advertising package",
-        "Post-event attendee database access",
-        "Custom brand integration opportunities",
-        "Year-round partnership benefits",
-      ],
-      highlight: true,
-    },
-    {
-      tier: "Gold Partner",
-      tagline: "Premium Visibility",
-      price: "Custom",
-      features: [
-        "Zone naming rights (your choice)",
-        "Prominent logo placement",
-        "20-minute speaking opportunity",
-        "VIP hospitality area for 30 guests",
-        "Brand activation space (50 sqm)",
-        "Half-page feature in event magazine",
-        "Enhanced digital presence",
-        "Networking event sponsorship",
-        "Media interview opportunities",
-        "Quarterly partnership touchpoints",
-      ],
-      highlight: false,
-    },
-    {
-      tier: "Silver Partner",
-      tagline: "Strategic Presence",
-      price: "Custom",
-      features: [
-        "Session sponsorship rights",
-        "Logo placement on key materials",
-        "Panel participation opportunity",
-        "VIP lounge access for 15 guests",
-        "Brand activation space (25 sqm)",
-        "Quarter-page feature in magazine",
-        "Standard digital package",
-        "Networking reception sponsorship",
-        "Press release distribution",
-        "Bi-annual partnership updates",
-      ],
-      highlight: false,
-    },
-  ];
+  const [sponsorshipLevels, setSponsorshipLevels] = useState<SponsorCard[]>([]);
+  useEffect(() => {
+    let current = true;
+    api.from('packages').select('*').eq('package_type','sponsor').eq('is_active',true).order('display_order').then(({data,error}) => {
+      if(current) setSponsorshipLevels(error ? [] : sponsorCards(data || []));
+    });
+    return () => {current=false;};
+  }, []);
 
   const customOpportunities = [
     {
@@ -171,11 +128,11 @@ const PremiumSponsors = () => {
             </div>
             
             <h1 className="text-premium-heading mb-6">
-              Partner with Egypt's Leading Sustainability Platform
+              {get("sponsors_page_title", "Partner with Egypt's Leading Sustainability Platform")}
             </h1>
             
             <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
-              Align your brand with the green economy movement. Demonstrate leadership, enhance ESG credentials, and connect with millions of sustainability-conscious stakeholders.
+              {get("sponsors_page_subtitle", "Align your brand with the green economy movement. Demonstrate leadership, enhance ESG credentials, and connect with millions of sustainability-conscious stakeholders.")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -214,7 +171,7 @@ const PremiumSponsors = () => {
         <div className="container-premium">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-premium-heading mb-6">
-              Strategic Partnership Benefits
+              {get("why_sponsor_title", "Strategic Partnership Benefits")}
             </h2>
             <p className="text-lg text-muted-foreground">
               Our sponsorship packages deliver measurable brand value, executive access, and authentic sustainability positioning.
@@ -227,8 +184,8 @@ const PremiumSponsors = () => {
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                   <benefit.icon className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
+                <h3 className="text-xl font-semibold mb-3">{get(`sponsor_benefit_${index+1}_title`, benefit.title)}</h3>
+                <p className="text-muted-foreground leading-relaxed">{get(`sponsor_benefit_${index+1}_desc`, benefit.description)}</p>
               </div>
             ))}
           </div>
