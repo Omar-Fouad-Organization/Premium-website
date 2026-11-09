@@ -1,3 +1,4 @@
+import {useSiteSettings} from '@/hooks/useSiteSettings';
 import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -25,14 +26,16 @@ const isValidImageUrl = (url: string): boolean => {
 const PremiumFooter = () => {
   const { t, isRTL } = useLanguage();
   const [logoUrl, setLogoUrl] = useState("/images/green_life_expo_logo_variations_20251225134629_1.webp");
-  const [settings, setSettings] = useState({
+  const {get:getSetting}=useSiteSettings();
+  const defaults = {
     contact_address: "Cairo International Exhibition Center, El Nasr Road, Nasr City, Cairo, Egypt",
     contact_phone: "+20 123 456 7890",
     contact_email: "info@greenlifeexpo.com",
     social_facebook: "",
     social_instagram: "",
     social_linkedin: "",
-  });
+  };
+  const settings=Object.fromEntries(Object.entries(defaults).map(([key,fallback])=>[key,getSetting(key,fallback)]));
   const [partners, setPartners] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,29 +55,6 @@ const PremiumFooter = () => {
 
       if (logoData?.setting_value) {
         setLogoUrl(logoData.setting_value);
-      }
-
-      // Load other settings
-      const { data, error } = await api
-        .from("site_settings")
-        .select("setting_key, setting_value")
-        .in("setting_key", [
-          "contact_address",
-          "contact_phone",
-          "contact_email",
-          "social_facebook",
-          "social_instagram",
-          "social_linkedin",
-        ]);
-
-      if (error) {
-        console.error("Error loading footer settings:", error);
-      } else if (data) {
-        const settingsObj: any = {};
-        data.forEach((item) => {
-          settingsObj[item.setting_key] = item.setting_value || "";
-        });
-        setSettings((prev) => ({ ...prev, ...settingsObj }));
       }
 
       // Load partners
@@ -239,11 +219,11 @@ const PremiumFooter = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block hover:opacity-80 transition-opacity"
-                        title={partner.name}
+                        title={isRTL && partner.name_ar ? partner.name_ar : partner.name}
                       >
                         <img
                           src={partner.logo_url}
-                          alt={partner.name}
+                          alt={isRTL && partner.name_ar ? partner.name_ar : partner.name}
                           className="h-12 w-auto max-w-[120px] object-contain filter brightness-0 invert opacity-70 hover:opacity-90 transition-opacity"
                           onError={(e) => {
                             console.error('Failed to load partner logo:', partner.logo_url);
@@ -254,7 +234,7 @@ const PremiumFooter = () => {
                     ) : (
                       <img
                         src={partner.logo_url}
-                        alt={partner.name}
+                        alt={isRTL && partner.name_ar ? partner.name_ar : partner.name}
                         className="h-12 w-auto max-w-[120px] object-contain filter brightness-0 invert opacity-70"
                         onError={(e) => {
                           console.error('Failed to load partner logo:', partner.logo_url);

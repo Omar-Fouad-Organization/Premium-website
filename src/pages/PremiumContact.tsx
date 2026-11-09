@@ -1,3 +1,4 @@
+import {useSiteSettings} from '@/hooks/useSiteSettings';
 import RegistrationForm from "@/components/RegistrationForm";
 import { useState, useEffect } from "react";
 import PremiumHeader from "@/components/PremiumHeader";
@@ -40,61 +41,9 @@ const PremiumContact = () => {
     }
   }, []);
 
-  const [contactSettings, setContactSettings] = useState({
-    contact_email: "info@greenlifeexpo.com",
-    contact_phone: "+20 123 456 7890",
-    contact_address: "Cairo International Convention Center, El Nasr Road, Nasr City, Cairo, Egypt",
-  });
-
-  const [mapSettings, setMapSettings] = useState({
-    map_embed_url: "",
-    event_location: "Cairo International Convention Center",
-    map_latitude: "30.0444",
-    map_longitude: "31.2357",
-    map_zoom: "15",
-  });
-
-useEffect(() => {
-    loadContactSettings();
-  }, []);
-
-  const loadContactSettings = async () => {
-    try {
-      // Load contact settings
-      const { data, error } = await api
-        .from("site_settings")
-        .select("setting_key, setting_value")
-        .in("setting_key", ["contact_email", "contact_phone", "contact_address"]);
-
-      if (error) {
-        console.error("Error loading contact settings:", error);
-      } else if (data) {
-        const settingsObj: any = {};
-        data.forEach((item) => {
-          settingsObj[item.setting_key] = item.setting_value || "";
-        });
-        setContactSettings((prev) => ({ ...prev, ...settingsObj }));
-      }
-
-      // Load map settings
-      const { data: mapData, error: mapError } = await api
-        .from("site_settings")
-        .select("setting_key, setting_value")
-        .in("setting_key", ["map_embed_url", "event_location", "map_latitude", "map_longitude", "map_zoom"]);
-
-      if (mapError) {
-        console.error("Error loading map settings:", mapError);
-      } else if (mapData) {
-        const mapSettingsObj: any = {};
-        mapData.forEach((item) => {
-          mapSettingsObj[item.setting_key] = item.setting_value || "";
-        });
-        setMapSettings((prev) => ({ ...prev, ...mapSettingsObj }));
-      }
-    } catch (err) {
-      console.error("Error in loadContactSettings:", err);
-    }
-  };
+  const {get:getSetting}=useSiteSettings();
+  const contactSettings={contact_email:getSetting("contact_email","info@greenlifeexpo.com"),contact_phone:getSetting("contact_phone","+20 123 456 7890"),contact_address:getSetting("contact_address","Cairo International Convention Center, El Nasr Road, Nasr City, Cairo, Egypt")};
+  const mapSettings={map_embed_url:getSetting("map_embed_url",""),event_location:getSetting("event_location","Cairo International Convention Center"),map_latitude:getSetting("map_latitude","30.0444"),map_longitude:getSetting("map_longitude","31.2357"),map_zoom:getSetting("map_zoom","15")};
 
   const contactInfo = [
     {

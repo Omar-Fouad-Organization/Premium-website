@@ -127,7 +127,7 @@ const PremiumIndex = () => {
                   </Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="btn-premium btn-premium-outline">
-                  <Link to="/visitors">Plan Your Visit</Link>
+                  <Link to="/visitors">{getSetting("hero_cta_secondary", get("hero_cta_secondary", "Plan Your Visit"))}</Link>
                 </Button>
               </div>
 

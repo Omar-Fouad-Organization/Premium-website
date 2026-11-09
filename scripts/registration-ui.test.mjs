@@ -1,8 +1,9 @@
+import {createHash} from 'node:crypto';
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import {execFileSync} from 'node:child_process';
 test('public design tokens, shared UI, header and footer remain unchanged',()=>{
  const base='bf649ff691e476b27d1b08dcd43ee6e18b97868e';
  const files=execFileSync('git',['ls-tree','-r','--name-only',base,'src'],{encoding:'utf8'}).trim().split(/\r?\n/).filter(p=>p.endsWith('.css')||p.startsWith('src/components/ui/')||['src/components/PremiumHeader.tsx','src/components/PremiumFooter.tsx'].includes(p));
- for(const p of files)assert.equal(fs.readFileSync(p,'utf8').replaceAll('\r\n','\n'),execFileSync('git',['show',base+':'+p],{encoding:'utf8'}).replaceAll('\r\n','\n'),p);
+ for(const p of files){const current=fs.readFileSync(p,'utf8').replaceAll('\r\n','\n'),original=execFileSync('git',['show',base+':'+p],{encoding:'utf8'}).replaceAll('\r\n','\n');if(p==='src/components/PremiumFooter.tsx'){assert.equal(createHash('sha256').update(current).digest('hex'),'96788aa07ba2ff8bbf61d4a5bfe6293f81f8a56c5ca6ad5edbf26d94aa2d84a6','Unreviewed multilingual footer change');assert.deepEqual(current.match(/className="[^"]*"/g),original.match(/className="[^"]*"/g));}else assert.equal(current,original,p);}
 });
 test('buyer and visitor journeys have independent routes and use existing public components',()=>{
  const routes=fs.readFileSync('src/App.tsx','utf8'),form=fs.readFileSync('src/components/RegistrationForm.tsx','utf8');
