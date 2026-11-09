@@ -1,0 +1,4 @@
+const states:Record<string,[string,string]>={
+ not_nominated:['Not nominated','لم يرشح'],candidate:['Hosted Buyer candidate','مرشح للاستضافة'],approved:['Approved Hosted Buyer','مشتري مستضاف معتمد'],rejected:['Hosted participation rejected','رفضت المشاركة المستضافة'],suspended:['Hosted participation suspended','المشاركة المستضافة معلقة'],cancelled:['Hosted participation cancelled','ألغيت المشاركة المستضافة'],eligibility_hold:['Eligibility review required','تتطلب الأهلية مراجعة'],arrived:['Arrival recorded','سجل الحضور'],no_show:['No-show recorded','سجل عدم الحضور'],positive_interest:['Positive interest','اهتمام إيجابي'],followup_required:['Follow-up required','تتطلب متابعة'],no_immediate_opportunity:['No immediate opportunity','لا توجد فرصة فورية'],not_interested:['Not interested','غير مهتم'],
+};
+export function onsiteState(value:string,arabic:boolean):string{return states[value]?.[arabic?1:0]||(arabic?'تحديث من المنظم':'Organizer update');}
