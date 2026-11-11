@@ -48,7 +48,7 @@ const Exhibitors = () => {
       name: "Standard Booth",
       price: "Starting from $2,500",
       features: [
-        "9 sqm booth space",
+        "12 sqm booth space (minimum 3 × 4 m)",
         "Basic booth setup",
         "Company listing in catalog",
         "2 exhibitor passes",

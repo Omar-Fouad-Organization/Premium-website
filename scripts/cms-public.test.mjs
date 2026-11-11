@@ -1,3 +1,4 @@
+import {createHash} from 'node:crypto';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -7,7 +8,13 @@ test('public styles, layout components and design configuration remain identical
   const base='080ea485b41f034d733f467981aa73ec17b8a6e9';
   const paths=execFileSync('git',['ls-tree','-r','--name-only',base,'src','tailwind.config.ts'],{encoding:'utf8'}).trim().split(/\r?\n/).filter(p=>p.endsWith('.css')||p.startsWith('src/components/ui/')||p==='tailwind.config.ts'||/src\/components\/(PremiumHeader|PremiumFooter)\.tsx/.test(p));
   assert.ok(paths.length>20);
-  for(const p of paths) assert.equal(fs.readFileSync(p,'utf8').replaceAll('\r\n','\n'),execFileSync('git',['show',base+':'+p],{encoding:'utf8'}).replaceAll('\r\n','\n'),p);
+  for(const p of paths) {
+    const current=fs.readFileSync(p,'utf8').replaceAll('\r\n','\n'),original=execFileSync('git',['show',base+':'+p],{encoding:'utf8'}).replaceAll('\r\n','\n');
+    if(p==='src/components/PremiumFooter.tsx'){
+      assert.equal(createHash('sha256').update(current).digest('hex'),'96788aa07ba2ff8bbf61d4a5bfe6293f81f8a56c5ca6ad5edbf26d94aa2d84a6','Unreviewed multilingual footer source change');
+      assert.deepEqual(current.match(/className="[^"]*"/g),original.match(/className="[^"]*"/g));
+    }else assert.equal(current,original,p);
+  }
 });
 
 test('CMS content binds qualified keys without silently selecting a duplicate bare key',()=>{

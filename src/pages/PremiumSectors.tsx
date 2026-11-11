@@ -1,3 +1,4 @@
+import {usePageContent} from '@/hooks/usePageContent';
 import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, TrendingUp, Building, Leaf, Heart, Home, Sparkles, Zap, Shirt } from "lucide-react";
 
 const PremiumSectors = () => {
+  const {get} = usePageContent("sectors");
   const sectors = [
     {
       icon: Leaf,
@@ -83,11 +85,11 @@ const PremiumSectors = () => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-premium-heading mb-6">
-              Curated Sectors for Maximum Impact
+              {get("sectors_page_title", "Curated Sectors for Maximum Impact")}
             </h1>
             
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Each sector is strategically designed to create meaningful connections between exhibitors and their target audiences, ensuring quality interactions and measurable business results.
+              {get("sectors_page_subtitle", "Each sector is strategically designed to create meaningful connections between exhibitors and their target audiences, ensuring quality interactions and measurable business results.")}
             </p>
           </div>
         </div>

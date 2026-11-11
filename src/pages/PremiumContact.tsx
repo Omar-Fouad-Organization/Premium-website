@@ -1,3 +1,4 @@
+import {useSiteSettings} from '@/hooks/useSiteSettings';
 import RegistrationForm from "@/components/RegistrationForm";
 import { useState, useEffect } from "react";
 import PremiumHeader from "@/components/PremiumHeader";
@@ -40,61 +41,9 @@ const PremiumContact = () => {
     }
   }, []);
 
-  const [contactSettings, setContactSettings] = useState({
-    contact_email: "info@greenlifeexpo.com",
-    contact_phone: "+20 123 456 7890",
-    contact_address: "Cairo International Convention Center, El Nasr Road, Nasr City, Cairo, Egypt",
-  });
-
-  const [mapSettings, setMapSettings] = useState({
-    map_embed_url: "",
-    event_location: "Cairo International Convention Center",
-    map_latitude: "30.0444",
-    map_longitude: "31.2357",
-    map_zoom: "15",
-  });
-
-useEffect(() => {
-    loadContactSettings();
-  }, []);
-
-  const loadContactSettings = async () => {
-    try {
-      // Load contact settings
-      const { data, error } = await api
-        .from("site_settings")
-        .select("setting_key, setting_value")
-        .in("setting_key", ["contact_email", "contact_phone", "contact_address"]);
-
-      if (error) {
-        console.error("Error loading contact settings:", error);
-      } else if (data) {
-        const settingsObj: any = {};
-        data.forEach((item) => {
-          settingsObj[item.setting_key] = item.setting_value || "";
-        });
-        setContactSettings((prev) => ({ ...prev, ...settingsObj }));
-      }
-
-      // Load map settings
-      const { data: mapData, error: mapError } = await api
-        .from("site_settings")
-        .select("setting_key, setting_value")
-        .in("setting_key", ["map_embed_url", "event_location", "map_latitude", "map_longitude", "map_zoom"]);
-
-      if (mapError) {
-        console.error("Error loading map settings:", mapError);
-      } else if (mapData) {
-        const mapSettingsObj: any = {};
-        mapData.forEach((item) => {
-          mapSettingsObj[item.setting_key] = item.setting_value || "";
-        });
-        setMapSettings((prev) => ({ ...prev, ...mapSettingsObj }));
-      }
-    } catch (err) {
-      console.error("Error in loadContactSettings:", err);
-    }
-  };
+  const {get:getSetting}=useSiteSettings();
+  const contactSettings={contact_email:getSetting("contact_email","info@greenlifeexpo.com"),contact_phone:getSetting("contact_phone","+20 123 456 7890"),contact_address:getSetting("contact_address","Cairo International Convention Center, El Nasr Road, Nasr City, Cairo, Egypt")};
+  const mapSettings={map_embed_url:getSetting("map_embed_url",""),event_location:getSetting("event_location","Cairo International Convention Center"),map_latitude:getSetting("map_latitude","30.0444"),map_longitude:getSetting("map_longitude","31.2357"),map_zoom:getSetting("map_zoom","15")};
 
   const contactInfo = [
     {
@@ -130,11 +79,11 @@ useEffect(() => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-premium-heading mb-6">
-              Let's Start a Conversation
+              {get("contact_page_title", "Let's Start a Conversation")}
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Whether you're interested in exhibiting, sponsoring, or visiting, our team is here to help you make the most of Green Life Expo.
+              {get("contact_page_subtitle", "Whether you're interested in exhibiting, sponsoring, or visiting, our team is here to help you make the most of Green Life Expo.")}
             </p>
           </div>
         </div>
@@ -147,7 +96,7 @@ useEffect(() => {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <div className="card-premium">
-                <h2 className="text-2xl font-semibold mb-6">Send Us a Message</h2>
+                <h2 className="text-2xl font-semibold mb-6">{get("form_title", "Send Us a Message")}</h2>
 
                 <RegistrationForm kind="contact"/>
               </div>

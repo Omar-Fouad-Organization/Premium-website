@@ -1,3 +1,4 @@
+import {usePageContent} from '@/hooks/usePageContent';
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
@@ -10,6 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 
 const PremiumVisitors = () => {
+  const {get} = usePageContent("visitors");
   const { language } = useLanguage();
   const [registrationEnabled, setRegistrationEnabled] = useState(false);
   const [approvedDates, setApprovedDates] = useState<string[]>([]);
@@ -93,11 +95,11 @@ const PremiumVisitors = () => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-premium-heading mb-6">
-              Plan Your Visit to Green Life Expo
+              {get("visitors_page_title", "Plan Your Visit to Green Life Expo")}
             </h1>
 
             <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
-              Join sustainability enthusiasts, business professionals, and conscious consumers for discovery, learning, and connection.
+              {get("visitors_page_subtitle", "Join sustainability enthusiasts, business professionals, and conscious consumers for discovery, learning, and connection.")}
             </p>
 
             {/* Registration Status */}
@@ -158,7 +160,7 @@ const PremiumVisitors = () => {
         <div className="container-premium">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-premium-heading mb-6">
-              What to Expect
+              {get("what_to_expect_title", "What to Expect")}
             </h2>
             <p className="text-lg text-muted-foreground">
               An immersive experience designed to inspire, educate, and connect you with the green economy.
@@ -276,7 +278,7 @@ const PremiumVisitors = () => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-premium-heading mb-6">
-              Ready to Experience Green Life Expo?
+              {get("register_title", "Ready to Experience Green Life Expo?")}
             </h2>
             <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
               Check registration availability and approved event details before planning your visit.

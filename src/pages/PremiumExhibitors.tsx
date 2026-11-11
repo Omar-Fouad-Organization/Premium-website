@@ -1,3 +1,4 @@
+import {usePageContent} from '@/hooks/usePageContent';
 import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
@@ -6,6 +7,7 @@ import { ArrowRight, Target, TrendingUp, Users, Award, Globe, Zap, CheckCircle, 
 import { usePhotos } from "@/hooks/usePhotos";
 
 const PremiumExhibitors = () => {
+  const {get} = usePageContent("exhibitors");
   const { getPhotoUrl, getPhotoAlt } = usePhotos('exhibitors');
   const benefits = [
     {
@@ -97,17 +99,17 @@ const PremiumExhibitors = () => {
             </div>
             
             <h1 className="text-premium-heading mb-6">
-              Exhibit at Egypt's Premier Green Living Platform
+              {get("exhibitors_page_title", "Exhibit at Egypt's Premier Green Living Platform")}
             </h1>
             
             <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-3xl mx-auto">
-              Position your brand at the forefront of Egypt's green economy. Connect with qualified buyers, generate high-value leads, and establish your market leadership.
+              {get("exhibitors_page_subtitle", "Position your brand at the forefront of Egypt's green economy. Connect with qualified buyers, generate high-value leads, and establish your market leadership.")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" asChild className="btn-premium btn-premium-primary group">
                 <Link to="/contact?type=exhibitor&scrollToForm=true">
-                  Reserve Your Space
+                  {get("exhibitors_cta_button", "Reserve Your Space")}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
@@ -135,7 +137,7 @@ const PremiumExhibitors = () => {
         <div className="container-premium">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-premium-heading mb-6">
-              Why Leading Brands Exhibit With Us
+              {get("why_exhibit_title", "Why Leading Brands Exhibit With Us")}
             </h2>
             <p className="text-lg text-muted-foreground">
               Green Life Expo delivers measurable ROI through qualified leads, strategic partnerships, and premium brand positioning in Egypt's fastest-growing market.
@@ -148,8 +150,8 @@ const PremiumExhibitors = () => {
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                   <benefit.icon className="h-7 w-7 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
+                <h3 className="text-xl font-semibold mb-3">{get(`benefit_${index+1}_title`, benefit.title)}</h3>
+                <p className="text-muted-foreground leading-relaxed">{get(`benefit_${index+1}_description`, benefit.description)}</p>
               </div>
             ))}
           </div>
@@ -301,7 +303,7 @@ const PremiumExhibitors = () => {
         <div className="container-premium">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-4xl lg:text-5xl font-semibold mb-6">
-              Secure Your Exhibition Space Today
+              {get("exhibitors_cta_title", "Secure Your Exhibition Space Today")}
             </h2>
             <p className="text-xl text-primary-foreground/90 mb-12 max-w-2xl mx-auto">
               Join  leading brands showcasing sustainable solutions at Egypt's premier green living platform.
@@ -310,7 +312,7 @@ const PremiumExhibitors = () => {
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Button size="lg" variant="secondary" asChild className="btn-premium bg-white text-primary hover:bg-white/90">
                 <Link to="/contact?type=exhibitor&scrollToForm=true">
-                  Reserve Your Space
+                  {get("exhibitors_cta_button", "Reserve Your Space")}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>

@@ -1,3 +1,4 @@
+import {usePageContent} from '@/hooks/usePageContent';
 import { Link } from "react-router-dom";
 import PremiumHeader from "@/components/PremiumHeader";
 import PremiumFooter from "@/components/PremiumFooter";
@@ -5,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Mic, Users, BookOpen, Award, Calendar, Clock } from "lucide-react";
 
 const PremiumContent = () => {
+  const {get} = usePageContent("content");
   const contentTypes = [
     {
       icon: Mic,
@@ -80,11 +82,11 @@ const PremiumContent = () => {
             </div>
             
             <h1 className="text-premium-heading mb-6">
-              Learn from Industry Leaders & Innovators
+              {get("content_page_title", "Learn from Industry Leaders & Innovators")}
             </h1>
             
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              Access exclusive content, expert insights, and practical knowledge designed to drive innovation and accelerate your success in the green economy.
+              {get("content_page_subtitle", "Access exclusive content, expert insights, and practical knowledge designed to drive innovation and accelerate your success in the green economy.")}
             </p>
           </div>
         </div>
@@ -95,10 +97,10 @@ const PremiumContent = () => {
         <div className="container-premium">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-premium-heading mb-6">
-              Diverse Learning Formats
+              {get("program_title", "Diverse Learning Formats")}
             </h2>
             <p className="text-lg text-muted-foreground">
-              From keynotes to workshops, we offer multiple formats to suit different learning styles and business needs.
+              {get("program_desc", "From keynotes to workshops, we offer multiple formats to suit different learning styles and business needs.")}
             </p>
           </div>
 
@@ -126,7 +128,7 @@ const PremiumContent = () => {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-premium-heading mb-6">
-                Critical Topics for Green Business Success
+                {get("topics_title", "Critical Topics for Green Business Success")}
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Our content program addresses the most pressing challenges and opportunities in Egypt's green economy, providing actionable insights you can implement immediately.

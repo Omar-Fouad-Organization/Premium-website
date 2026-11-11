@@ -3,6 +3,7 @@
 use App\Http\Controllers\CmsGatewayController;
 use App\Http\Middleware\AuthenticateCmsDelegation;
 use Illuminate\Support\Facades\Route;
+Route::post('internal/participant-portal/media/read',[\App\Http\Controllers\PortalMediaDelegationController::class,'read'])->middleware('throttle:30,1,portal-media-delegation');
 
 Route::post('internal/cms/{site}/{resource}', [CmsGatewayController::class, 'handle'])
     ->middleware([AuthenticateCmsDelegation::class, 'throttle:900,1,cms-delegation']);
