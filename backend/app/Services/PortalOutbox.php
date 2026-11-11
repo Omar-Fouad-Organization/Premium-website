@@ -36,6 +36,7 @@ class PortalOutbox
         $uuid=is_string($result['id']??null)&&\Illuminate\Support\Str::isUuid($result['id']);
         $version=is_int($result['version']??null)&&$result['version']>0;
         $valid=match($row->operation){
+            'readiness.submit'=>is_int($result['id']??null) && $result['id']>0 && $version && $result['version']===($payload['version']??-2)+1 && ($result['status']??null)==='submitted',
             'profile.submit'=>$uuid&&$version&&in_array($result['status']??null,['draft','submitted','approved','changes_requested','rejected'],true),
             'invitation.respond'=>is_int($result['id']??null)&&$result['id']===($payload['match_id']??null)&&$version&&$result['version']>($payload['version']??PHP_INT_MAX)&&in_array($result['status']??null,['invitation_pending','mutually_accepted','declined'],true),
             'request.submit'=>$uuid&&($result['status']??null)==='submitted',

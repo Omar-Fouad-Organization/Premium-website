@@ -114,7 +114,7 @@ class PortalController extends Controller
     public function retry(Request $r,string $id){return app(\App\Services\PortalOutbox::class)->deliver($id,$r->attributes->get('portal_identity')->id);}
     public function read(Request $r,PortalTransport $t)
     {
-        $v=$r->validate(['membership_id'=>'required|uuid','exhibition_id'=>'required|integer','operation'=>'required|in:overview,profile,categories,matches,meetings,discover,team,activity,requests','page'=>'sometimes|integer|min:1|max:10000','filters'=>'sometimes|array:search,country,sector,category','filters.search'=>'nullable|string|max:100','filters.country'=>'nullable|string|max:100','filters.sector'=>'nullable|string|max:150','filters.category'=>'nullable|integer|min:1']);
+        $v=$r->validate(['membership_id'=>'required|uuid','exhibition_id'=>'required|integer','operation'=>'required|in:overview,profile,categories,matches,meetings,discover,team,activity,requests,readiness','page'=>'sometimes|integer|min:1|max:10000','filters'=>'sometimes|array:search,country,sector,category','filters.search'=>'nullable|string|max:100','filters.country'=>'nullable|string|max:100','filters.sector'=>'nullable|string|max:150','filters.category'=>'nullable|integer|min:1']);
         $identity=$r->attributes->get('portal_identity')->id;$filters=$v['filters']??[];unset($v['filters']);$result=$t->send('command',[...$v,'identity_id'=>$identity,'payload'=>$filters]);
         if($v['operation']==='activity'){
             $result['items']=$result['items']??[];
@@ -128,7 +128,7 @@ class PortalController extends Controller
     }
     public function submit(Request $r,PortalTransport $t)
     {
-        $v=$r->validate(['id'=>'required|uuid','membership_id'=>'required|uuid','exhibition_id'=>'required|integer','operation'=>'required|in:profile.submit,invitation.respond,request.submit,team.revoke,participation.withdraw,membership.leave','payload'=>'present|array']);
+        $v=$r->validate(['id'=>'required|uuid','membership_id'=>'required|uuid','exhibition_id'=>'required|integer','operation'=>'required|in:readiness.submit,profile.submit,invitation.respond,request.submit,team.revoke,participation.withdraw,membership.leave','payload'=>'present|array']);
         $identity=$r->attributes->get('portal_identity')->id;
         $device=$r->session()->get('portal_device');$authVersion=$r->attributes->get('portal_identity')->auth_version;
         $command=DB::transaction(function()use($v,$identity,$device,$authVersion){

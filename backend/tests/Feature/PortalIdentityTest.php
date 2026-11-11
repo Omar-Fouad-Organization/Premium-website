@@ -11,6 +11,31 @@ class PortalIdentityTest extends TestCase
     use RefreshDatabase;
     private function enable():void{$this->withCredentials();Http::fake(['http://127.0.0.1:9999/api/internal/participant-portal/identity-status'=>fn()=>Http::response(['active'=>true])]);config(['participant_portal.enabled'=>true,'participant_onboarding.test_invites'=>true,'participant_portal.key'=>str_repeat('p',40),'participant_portal.peer_url'=>'http://127.0.0.1:9999']);}
     private function user():PortalUser{$u=new PortalUser(['name'=>'SYNTHETIC participant','email'=>'participant@example.test','password'=>'SyntheticPortal!2026']);$u->id=(string)Str::uuid();$u->active=true;$u->email_verified_at=now();$u->save();return $u;}
+    public function test_readiness_uses_authenticated_outbox_and_requires_authoritative_acknowledgment(): void
+    {
+        $this->enable();
+        $user = $this->user();
+        $login = $this->postJson('/api/portal/login', ['email' => $user->email, 'password' => 'SyntheticPortal!2026'])->assertOk();
+        $this->withUnencryptedCookie('green_life_participant_session', $login->getCookie('green_life_participant_session', false)->getValue());
+        $target = 'http://127.0.0.1:9999/api/internal/participant-portal/command';
+        Http::fake([$target => Http::sequence()
+            ->push(['readiness' => ['status' => 'pending', 'items' => []]])
+            ->push(['id' => 17, 'version' => 1, 'status' => 'approved'])
+            ->push(['id' => 17, 'version' => 1, 'status' => 'submitted'])]);
+        $context = ['membership_id' => (string) Str::uuid(), 'exhibition_id' => 8];
+        $this->postJson('/api/portal/read', [...$context, 'operation' => 'readiness'])->assertOk()->assertJsonPath('readiness.status', 'pending');
+        $command = [...$context, 'id' => (string) Str::uuid(), 'operation' => 'readiness.submit',
+            'payload' => ['requirement_id' => 7, 'requirement_version' => 1, 'version' => 0, 'response' => 'Synthetic confirmation']];
+        $this->postJson('/api/portal/commands', $command)->assertOk()->assertJsonPath('state', 'pending');
+        DB::table('portal_outbox')->where('id', $command['id'])->update(['next_attempt_at' => now()->subSecond()]);
+        $this->postJson('/api/portal/commands', $command)->assertOk()->assertJsonPath('state', 'confirmed')->assertJsonPath('result.status', 'submitted');
+        $this->postJson('/api/portal/commands', $command)->assertOk()->assertJsonPath('state', 'confirmed');
+        $this->assertDatabaseCount('portal_outbox', 1);
+        Http::assertSent(fn ($request) => $request->url() === $target && $request->hasHeader('X-Space-Portal-Signature')
+            && $request['operation'] === 'readiness.submit' && $request['identity_id'] === $user->id
+            && $request['command_id'] === $command['id']);
+    }
+
     public function test_portal_disabled_and_cms_session_does_not_authorize_participant():void
     {
         $this->getJson('/api/portal/me')->assertStatus(503);$this->enable();
